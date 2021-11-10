@@ -1,0 +1,15 @@
+{
+    "name": "Outline",
+    "references": [
+        "GUID:5676f9d2f2ec58247a6464265fde5182"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
