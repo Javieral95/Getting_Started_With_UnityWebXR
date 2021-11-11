@@ -713,10 +713,10 @@ RectTransform:
   m_Father: {fileID: 259715464}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1.714386, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1.714386, y: -0.7688714}
+  m_SizeDelta: {x: 0, y: 1.5377429}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &165585585
 MonoBehaviour:
@@ -2354,6 +2354,11 @@ PrefabInstance:
     - target: {fileID: 8921795627169359123, guid: 49c6231375a91de49a7a5d8f69d5b142,
         type: 3}
       propertyPath: ForceXR_VR
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8921795627169359123, guid: 49c6231375a91de49a7a5d8f69d5b142,
+        type: 3}
+      propertyPath: isNonXR_Forced
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -4892,7 +4897,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 6.143158, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1114040582

@@ -1,6 +1,6 @@
 ﻿//==================================================================================================================
 //
-// WebXRGrabManager.cs
+// ControllerInteraction.cs
 // Controls the process of grabbing things reading the input button from WebXRInputManager
 // and firing the "grab" process when detecting a trigger.
 //

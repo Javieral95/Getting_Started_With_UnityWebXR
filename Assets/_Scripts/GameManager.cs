@@ -62,7 +62,9 @@ public class GameManager : MonoBehaviour
     #region Properties
     [Header("Gameobjects")]
     public GameObject Player;
-    public GameObject StartPoint;
+    public Transform StartPoint;
+
+    private Transform playerTransform;
 
     public const string INTERACTABLE_TAG = "Interactable";
     public const string INTERACTABLE_TRIGGER_TAG = "InteractableTrigger";
@@ -72,6 +74,11 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         EnsureSingleton();
+    }
+
+    private void Start()
+    {
+        playerTransform = Player.GetComponent<Transform>();
     }
 
     /// <summary>
@@ -97,9 +104,6 @@ public class GameManager : MonoBehaviour
     {
         //TO-DO: Is not working!
         if (StartPoint != null)
-        {
-            Player.transform.position = StartPoint.transform.position;
-            Player.GetComponent<CharacterController>().transform.position = StartPoint.transform.position;
-        }
+            playerTransform.position = StartPoint.position;
     }
 }

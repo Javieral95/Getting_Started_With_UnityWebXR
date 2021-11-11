@@ -22,8 +22,14 @@ public class PlayerController : MonoBehaviour
     private static NonXRInteraction _nonXR_interactor;
 
     [Header("Player movement (Only Unity Editor)")]
-    [SerializeField, Tooltip("Enable/disable rotation control like use VR hardware. For use in Unity editor only.")]
-    private bool ForceXR_VR = false;
+    [SerializeField, Tooltip("Enable/disable rotation and movement control using VR hardware. For use in Unity editor only (Authomatic set to true when dettect hardware).")]
+    private bool isXREnabled = false;
+
+    [SerializeField, Tooltip("Disable rotation and movement using VR hardware, only be able to use mouse and Keyborad. For use in Unity editor only.")]
+    private bool isNonXR_Forced = false;
+
+    [SerializeField, Tooltip("Enable/disable rotation control using VR hardware's sticks (Non Up down, only LR). For use in Unity editor only.")]
+    private bool canRotateWithSticks = true;
 
     [Header("WebXR objects")]
     public WebXRInputManager inputManagerLeftHand;
@@ -37,7 +43,6 @@ public class PlayerController : MonoBehaviour
 
     [Header("Player settings"), Tooltip("Movement Speed")]
     public float speed = 5f;
-    public bool canStrafe = true;
 
     [SerializeField, Range(6, 30)] private float gravity = 20.0f;
     [SerializeField, Range(0, 10)] private float jumpSpeed = 6.0f;
@@ -73,33 +78,39 @@ public class PlayerController : MonoBehaviour
     public CharacterController controller { get; private set; }
     private CollisionFlags flags;
 
-
-    private bool XRMoveEnabledPrev = false;
-
     private Vector3 moveDirection = Vector3.zero;
+
+    //Preview
+    private bool XRMoveEnabledPrev = false;
+    private Vector3 positionPrev;
+    private Quaternion rotationPrev;
 
     #endregion
 
     #region Unity Functions
-    private void Awake()
+    void Awake()
     {
         _nonXR_interactor = this.GetComponent<NonXRInteraction>();
-        _nonXR_interactor.InitCamera(myCamera);
 
+        this.positionPrev = this.transform.position;
+        this.rotationPrev = this.transform.rotation;
     }
-
     private IEnumerator Start()
     {
+        ChangeXRStatus(isXREnabled);
+
         myTransform = transform;
         myCamera = cameraMainTransform.GetComponent<Camera>();
 
         originalRotation = transform.localRotation;
         controller = GetComponent<CharacterController>();
 
-        XRMoveEnabledPrev = ForceXR_VR;
+
+        _nonXR_interactor.InitCamera(myCamera);
+
+        XRMoveEnabledPrev = isXREnabled;
 
         yield return new WaitForSeconds(0.5f);
-
 
         capabilities = new WebXRDisplayCapabilities();
         //capabilities = WebXRManager.Instance.GetWebXRDisplayCapabilities();
@@ -110,17 +121,19 @@ public class PlayerController : MonoBehaviour
     {
         // if (!XRDevice.isPresent && XRMoveEnabled) { EnableXRMove(false); }
 
-        if (ForceXR_VR)
+        Debug.Log("CAMERA ROTATION: " + cameraMainTransform.rotation);
+
+        if (isXREnabled)
             MoveXR();
         else
             MoveNonXR();
 
         //Only in Unity editor:
-        if (XRMoveEnabledPrev != ForceXR_VR)
+        if (XRMoveEnabledPrev != isXREnabled)
         {
-            Debug.Log("Update -> XRMoveEnabled: " + ForceXR_VR);
-            EnableXRMove(ForceXR_VR);
-            XRMoveEnabledPrev = ForceXR_VR;
+            Debug.Log("Update -> XRMoveEnabled: " + isXREnabled);
+            ChangeXRStatus(isXREnabled);
+            XRMoveEnabledPrev = isXREnabled;
         }
         //Debug.Log("Update -> Left Stick: " + inputManagerLeftHand.stick + " - Right Stick: " + inputManagerRightHand.stick);
     }
@@ -135,11 +148,11 @@ public class PlayerController : MonoBehaviour
         Debug.Log("onXRChange:: state: " + state.ToString());
         if (state == WebXRState.VR)
         {
-            EnableXRMove(true);
+            ChangeXRStatus(true);
         }
         else
         {
-            EnableXRMove(false);
+            ChangeXRStatus(false);
         }
     }
 
@@ -156,7 +169,6 @@ public class PlayerController : MonoBehaviour
         WebXRManager.OnXRChange += onXRChange;
         WebXRManager.OnXRCapabilitiesUpdate += onXRCapabilitiesUpdate;
 
-        ChangeXRStatus(true);
     }
 
     void OnDisable()
@@ -164,16 +176,13 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Disable event!");
         WebXRManager.OnXRChange -= onXRChange;
         WebXRManager.OnXRCapabilitiesUpdate -= onXRCapabilitiesUpdate;
-
-        ChangeXRStatus(false);
     }
 
     //Enable and disable
     private void EnableXRMove(bool _enable)
     {
-        ForceXR_VR = _enable;
         ChangeXRStatus(_enable);
-        Debug.Log("EnableXRMove:: XRMoveEnabled: " + ForceXR_VR);
+        Debug.Log("EnableXRMove:: XRMoveEnabled: " + isXREnabled);
     }
 
     /// Enables rotation and translation control for desktop environments.
@@ -181,9 +190,9 @@ public class PlayerController : MonoBehaviour
     /// the device capabilities.
     private void EnableAccordingToPlatform()
     {
-        ForceXR_VR = capabilities.canPresentVR;
-        ChangeXRStatus(ForceXR_VR);
-        Debug.Log("EnableAccordingToPlatform:: XRMoveEnabled: " + ForceXR_VR);
+        isXREnabled = capabilities.canPresentVR;
+        ChangeXRStatus(isXREnabled);
+        Debug.Log("EnableAccordingToPlatform:: XRMoveEnabled: " + isXREnabled);
     }
     #endregion
 
@@ -195,13 +204,11 @@ public class PlayerController : MonoBehaviour
     {
         //if (XRTeleporterController.Instance.IsTeleporterActive()) return;
 
-        // Traslation (Only translation forward, no sideways)
+        // Traslation
         if (inputManagerLeftHand != null)
         {
-            //float moveX = canStrafe ? inputManagerLeftHand.stick.x : 0;
-            //float moveZ = -inputManagerLeftHand.stick.y;
             float moveX = inputManagerLeftHand.stick.x;
-            float moveZ = inputManagerLeftHand.stick.y * (-1);
+            float moveZ = inputManagerLeftHand.stick.y /** (-1)*/;
 
             Quaternion cameraDirection = GetCameraRotation();
 
@@ -210,10 +217,8 @@ public class PlayerController : MonoBehaviour
         }
 
         // Rotation (No rotation on Y -> Up/Down)
-        if (inputManagerRightHand != null)
-        {
+        if (canRotateWithSticks && inputManagerRightHand != null)
             TickXRRotation();
-        }
 
         // Write the values in the UI text in game screen
         if (stickText != null)
@@ -232,10 +237,8 @@ public class PlayerController : MonoBehaviour
         {
             float angle = rotationAngle;
             if (inputManagerRightHand.stick.x < 0)
-            {
                 angle = -angle;
-            }
-
+            
             rotationX += angle;
             rotationX = ClampAngle(rotationX, minimumX, maximumX);
             Quaternion xQuaternion = Quaternion.AngleAxis(rotationX, Vector3.up);
@@ -279,11 +282,53 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+    #region Change XR Status methods
+    //Change XR Status
+    private void ChangeXRStatus(bool setActive)
+    {
+        isXREnabled = setActive;
+        ChangeShowCursor(!setActive);
+        ChangeNotXRInteraction(!setActive);
+        ChaneXRHandStatus(setActive);
+
+        ResetPlayerTransform();
+    }
+
+    private void ChangeShowCursor(bool setActive)
+    {
+        Debug.Log("Cursor set visible to: " + setActive);
+        Cursor.visible = setActive;
+        if (setActive)
+            Cursor.lockState = CursorLockMode.Locked;
+        else
+            Cursor.lockState = CursorLockMode.None;
+    }
+
+    private void ChaneXRHandStatus(bool setActive)
+    {
+        inputManagerRightHand.gameObject.SetActive(setActive);
+        inputManagerLeftHand.gameObject.SetActive(setActive);
+    }
+
+    private void ChangeNotXRInteraction(bool setActive)
+    {
+        _nonXR_interactor.enabled = setActive;
+    }
+
+    #endregion
+
     #region Auxiliar methods
 
     private Quaternion GetCameraRotation()
     {
-        return cameraMainTransform.rotation;
+        //TO-DO: IS NOT WORKING AFTER BUILD! In WebGL App the MainCamera Rotation is always the same.
+        return Quaternion.LookRotation(cameraMainTransform.forward, cameraMainTransform.up); //cameraMainTransform.rotation;
+    }
+
+    private void ResetPlayerTransform()
+    {
+        this.transform.position = positionPrev;
+        this.transform.rotation = rotationPrev;
     }
 
     void MoveCharacterController(Vector3 direction)
@@ -315,38 +360,6 @@ public class PlayerController : MonoBehaviour
             angle -= 360f;
         return Mathf.Clamp(angle, min, max);
     }
-    #endregion
-
-    #region Change XR Status methods
-    //Change XR Status
-    private void ChangeXRStatus(bool setActive)
-    {
-        ChangeShowCursor(!setActive);
-        ChangeNotXRInteraction(!setActive);
-        ChaneXRHandStatus(setActive);
-    }
-
-    private void ChangeShowCursor(bool setActive)
-    {
-        Debug.Log("Cursor set visible to: " + setActive);
-        Cursor.visible = setActive;
-        if (setActive)
-            Cursor.lockState = CursorLockMode.Locked;
-        else
-            Cursor.lockState = CursorLockMode.None;
-    }
-
-    private void ChaneXRHandStatus(bool setActive)
-    {
-        inputManagerRightHand.gameObject.SetActive(setActive);
-        inputManagerLeftHand.gameObject.SetActive(setActive);
-    }
-
-    private void ChangeNotXRInteraction(bool setActive)
-    {
-        _nonXR_interactor.enabled = setActive;
-    }
-
     #endregion
 
     #endregion

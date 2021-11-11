@@ -21,6 +21,10 @@ public class NonXRInteraction : MonoBehaviour
     GameObject NonXR_selectedObject;
     Rigidbody NonXR_selectedObject_rb;
     Ray NonXR_ray;
+    private Plane plane = new Plane(Vector3.up, Vector3.zero);
+
+    private Vector3 mousePos = Vector3.zero;
+    private float z_GrabObjectPosition = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -80,41 +84,50 @@ public class NonXRInteraction : MonoBehaviour
         //Move Grabbed object
         if (NonXR_isDragging)
         {
-            Vector3 pos = getMousePosition(NonXR_selectedObject);
-            NonXR_selectedObject.transform.position = pos;
+            mousePos = GetMousePosition(NonXR_selectedObject);
+            NonXR_selectedObject.transform.position = mousePos;
         }
 
         //Drop Grabbed object
         if (Input.GetMouseButtonUp(0))
-        {
-            NonXR_isDragging = false;
-            NonXR_selectedObject = null;
-            NonXR_selectedObject_rb = null;
-        }
+            DropObject();
 
         //Throw Grabbed object
         if (NonXR_isDragging && Input.GetMouseButtonDown(1) && NonXR_selectedObject_rb != null)
         {
-            NonXR_selectedObject_rb.AddForce(myCamera.transform.forward * NonXR_throwForce, ForceMode.Impulse);
-
-            NonXR_isDragging = false;
-            NonXR_selectedObject = null;
-            NonXR_selectedObject_rb = null;
+            ThrowObject(NonXR_selectedObject_rb);
+            DropObject();
         }
     }
 
     #region Auxiliar Methods
 
-    Vector3 getMousePosition(GameObject target)
+    private Vector3 GetMousePosition(GameObject target)
     {
         Vector3 screenPoint = Vector3.negativeInfinity;
         if (target != null)
             screenPoint = myCamera.WorldToScreenPoint(target.transform.position);
 
         float zPosition = (screenPoint.z != float.NegativeInfinity) ? screenPoint.z : 1f;
-        zPosition = Math.Min(1f, zPosition);
+        //zPosition = Math.Min(1f, zPosition);
+        zPosition = z_GrabObjectPosition;
         return myCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, zPosition));
     }
 
+    private void ThrowObject(Rigidbody object_rb)
+    {
+        Vector3 screenPoint = Camera.main.WorldToScreenPoint(transform.position);
+        Vector3 direction = (Input.mousePosition - screenPoint);
+        direction.Normalize();
+        object_rb.AddForce(direction * NonXR_throwForce, ForceMode.Impulse);
+
+    }
+
+    private void DropObject()
+    {
+        NonXR_isDragging = false;
+        NonXR_selectedObject = null;
+        NonXR_selectedObject_rb = null;
+    }
     #endregion
 }
