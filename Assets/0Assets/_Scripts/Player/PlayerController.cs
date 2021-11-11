@@ -25,9 +25,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Tooltip("Enable/disable rotation and movement control using VR hardware. For use in Unity editor only (Authomatic set to true when dettect hardware).")]
     private bool isXREnabled = false;
 
-    [SerializeField, Tooltip("Disable rotation and movement using VR hardware, only be able to use mouse and Keyborad. For use in Unity editor only.")]
-    private bool isNonXR_Forced = false;
-
     [SerializeField, Tooltip("Enable/disable rotation control using VR hardware's sticks (Non Up down, only LR). For use in Unity editor only.")]
     private bool canRotateWithSticks = true;
 
@@ -105,7 +102,6 @@ public class PlayerController : MonoBehaviour
         originalRotation = transform.localRotation;
         controller = GetComponent<CharacterController>();
 
-
         _nonXR_interactor.InitCamera(myCamera);
 
         XRMoveEnabledPrev = isXREnabled;
@@ -113,14 +109,10 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         capabilities = new WebXRDisplayCapabilities();
-        //capabilities = WebXRManager.Instance.GetWebXRDisplayCapabilities();
-        //Debug.Log("WebXRMove->Start:: vrCapabilities VR: " + capabilities.supportsImmersiveVR.ToString());
     }
 
     void Update()
     {
-        // if (!XRDevice.isPresent && XRMoveEnabled) { EnableXRMove(false); }
-
         Debug.Log("CAMERA ROTATION: " + cameraMainTransform.rotation);
 
         if (isXREnabled)
@@ -134,8 +126,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Update -> XRMoveEnabled: " + isXREnabled);
             ChangeXRStatus(isXREnabled);
             XRMoveEnabledPrev = isXREnabled;
-        }
-        //Debug.Log("Update -> Left Stick: " + inputManagerLeftHand.stick + " - Right Stick: " + inputManagerRightHand.stick);
+        }       
     }
 
     #endregion
@@ -208,7 +199,11 @@ public class PlayerController : MonoBehaviour
         if (inputManagerLeftHand != null)
         {
             float moveX = inputManagerLeftHand.stick.x;
-            float moveZ = inputManagerLeftHand.stick.y /** (-1)*/;
+            float moveZ = inputManagerLeftHand.stick.y;
+
+            #if UNITY_EDITOR
+                moveZ = moveZ * (-1);
+            #endif
 
             Quaternion cameraDirection = GetCameraRotation();
 
@@ -250,8 +245,6 @@ public class PlayerController : MonoBehaviour
 
     private void PlainXRRotation()
     {
-        //if (XRTeleporterController.Instance.IsTeleporterActive()) return;
-
         rotationX += inputManagerRightHand.stick.x * mouseSensitivity;
         rotationX = ClampAngle(rotationX, minimumX, maximumX);
         Quaternion xQuaternion = Quaternion.AngleAxis(rotationX, Vector3.up);
