@@ -1,12 +1,12 @@
+<!-- omit in toc -->
 # Getting_Started_With_UnityWebXR
 
 El presente proyecto busca realizar una pequeña prueba de concepto sobre el nuevo estándar [WebXR](https://www.w3.org/TR/webxr/), que permite hacer accesible realidad virtual y aumentada en aplicaciones Web, integrandolo con el motor gráfico **Unity**. La idea es permitir el uso e interacción de la aplicación inmersiva a través de Web tanto si se dispone  de Hardware especifico como si no.
 
 Esta investigación se ha llevado a cabo para desarrollar el Trabajo de Fin de Máster de la titulación [Máster universitario en Ingeniería informática](https://masterinformatica.uniovi.es/) por la [Universidad de Oviedo](https://www.uniovi.es/) y para recabar información que podrá ser utilizado para proyectos propiedad de [Fundación CTIC](https://www.fundacionctic.org/es/home).
 
+<!-- omit in toc -->
 ## Tabla de contenido
-- [Getting_Started_With_UnityWebXR](#getting_started_with_unitywebxr)
-  - [Tabla de contenido](#tabla-de-contenido)
 - [Pre-requisitos](#pre-requisitos)
 - [Comenzando](#comenzando)
   - [Importando los paquetes](#importando-los-paquetes)
@@ -21,8 +21,8 @@ Esta investigación se ha llevado a cabo para desarrollar el Trabajo de Fin de M
   - [Cameras](#cameras)
 - [TO-DO:](#to-do)
 - [Fin](#fin)
-  - [Autores ✒️](#autores-️)
-  - [Licencia 📄](#licencia-)
+  - [Autores](#autores)
+  - [Licencia](#licencia)
 
 
 _________________
@@ -158,11 +158,11 @@ Hay varios **errores** o mejoras pendientes:
 - La interacción sin XR no funciona de forma correcta (mala posición de mouse y de la dirección al lanzar los objetos).
 
 # Fin
-## Autores ✒️
+## Autores
 
 * **Javier Álvarez de la Fuente** - *Investigación inicial* para TFM y Fundación CTIC - [JavierAl95](https://github.com/javieral95)
 
 
-## Licencia 📄
+## Licencia
 
 Este proyecto ha sido realizado para uso propio y para la Fundación CTIC, su uso es libre y no es necesarío ningún crédito en su uso (Revisar las licencia de las librerias y paquetes utilizados).
