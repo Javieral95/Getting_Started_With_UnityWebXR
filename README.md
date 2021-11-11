@@ -12,6 +12,7 @@ Esta investigación se ha llevado a cabo para desarrollar el Trabajo de Fin de M
   - [Importando los paquetes](#importando-los-paquetes)
     - [WebXR Exporter](#webxr-exporter)
     - [WebXR Exporter Advance](#webxr-exporter-advance)
+    - [InputManager](#inputmanager)
   - [Probando y exportando el proyecto](#probando-y-exportando-el-proyecto)
     - [Controles de la escena](#controles-de-la-escena)
 - [Scripts del proyecto y funcionamiento](#scripts-del-proyecto-y-funcionamiento)
@@ -74,6 +75,10 @@ En el presente repositorio se han desarrollado los scripts de la siguiente maner
 - **PlayerController**: Para el movimiento, basado en WebXRMovev2 (que hace uso de CharacterController en vez de un collider).
 - **ControllerInteraction**: Para interaccionar con objetos, basado en WebXRGrabManager. 
 - **WebXRInputManager**: Ha sido modificado para añadir funcionalidad a los botones A, B, X e Y de los controladores VR.
+
+### InputManager
+
+Este paso no será necesario para exportar el proyecto correctamente, pero es recomendado por Mozilla. Modifica el contenido de ``ProjectsSettings/InputManager.asset`` (deberás hacerlo desde fuera del editor de Unity) y añade el conteniedo del siguiente [fichero](https://github.com/MozillaReality/unity-webxr-export/blob/master/ProjectSettings/InputManager.asset).
 
 ## Probando y exportando el proyecto
 
