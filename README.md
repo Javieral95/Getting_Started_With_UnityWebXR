@@ -15,11 +15,10 @@ Esta investigación se ha llevado a cabo para desarrollar el Trabajo de Fin de M
   - [Probando y exportando el proyecto](#probando-y-exportando-el-proyecto)
     - [Controles de la escena](#controles-de-la-escena)
 - [Scripts del proyecto y funcionamiento](#scripts-del-proyecto-y-funcionamiento)
-  - [Objetos](#objetos)
-    - [Interaccionables](#interaccionables)
-    - [WebXRCameraSet](#webxrcameraset)
-    - [HandL y HandR](#handl-y-handr)
-    - [Cameras](#cameras)
+  - [Interaccionables](#interaccionables)
+  - [WebXRCameraSet](#webxrcameraset)
+  - [HandL y HandR](#handl-y-handr)
+  - [Cameras](#cameras)
 - [TO-DO:](#to-do)
 - [Fin](#fin)
   - [Autores ✒️](#autores-️)
@@ -119,12 +118,11 @@ ____________________
 
 Para **evitar errores** en el editor se ha tenido que añadir una *Assembly Definition Reference* que apunte a *WebXR* de los paquetes importados.
 
-## Objetos
-### Interaccionables
+## Interaccionables
 
 Antes de nada, cabe destacar que los objetos con los cuales puede interaccionar el usuario deben tener la etiqueta **Interactable** (si se le permite agarrarlo y lanzarlo) o **InteractableTrigger** si se le permite interactuar con él de otra forma (un botón, por ejemplo).
 
-### WebXRCameraSet
+## WebXRCameraSet
 El objeto principal de la escena es el usuario o jugador, este será el objeto **WebXRCameraSet**, puedes ver el prefab en ``Assets/0Assets/MainScene/Prefabs/Player``.
 
 Este objeto contiene en su interior las manos del usuario y las cámaras, además de los scripts mas importantes de la escena:
@@ -137,7 +135,7 @@ Este objeto contiene en su interior las manos del usuario y las cámaras, ademá
 - **NonXRInteraction**: Permite al usuario interaccionar con los objetos de la escena cuando no dispone de hardware de realidad virtual.
   - Se detecta los objetos para interaccionar haciendo uso de Raycast.
 
-### HandL y HandR
+## HandL y HandR
 
 Dentro de **WebXRCameraSet** nos encontramos con las dos manos del jugador, contiene los siguientes scripts:
 - **WebXRController**: Añadido directamente del paquete WebXR Exporter, para detectar los movimientos y pulsaciones (inputs) del usuario.
@@ -148,7 +146,7 @@ Dentro de **WebXRCameraSet** nos encontramos con las dos manos del jugador, cont
 - **ControllerInteraction**: Permite al usuario interaccionar con el entorno usando sus manos o agarrar objetos.
   - Se ha modificado para permitir también lanzar objetos.
 
-### Cameras
+## Cameras
 
 Este objeto contiene en su interior un total de 5 camaras y el script **WebXRCamera** (desde paquete WebXR Exporter) para acceder a ellas.
 
