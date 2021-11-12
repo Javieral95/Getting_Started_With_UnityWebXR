@@ -158,9 +158,11 @@ Este objeto contiene en su interior un total de 5 camaras y el script **WebXRCam
 # TO-DO:
 
 Hay varios **errores** o mejoras pendientes:
-- El jugador debe moverse en la dirección *forward* de la cámara principal, esto no se da en la aplicación WebXR una vez exportada utilizando hardware de realidad virtual (pero si en el editor).
+- **Corregido** El jugador debe moverse en la dirección *forward* de la cámara principal, esto no se da en la aplicación WebXR una vez exportada utilizando hardware de realidad virtual (pero si en el editor).
+  - Pero si puede girarse la cámara utilizando el stick del controlador.
 - La posición del jugador debería ser reiniciada una vez entra en contacto con la Killzone (cuando cae al vacio), se detecta la colisión pero el jugador no se teletransportar.
-- La interacción sin XR no funciona de forma correcta (mala posición de mouse y de la dirección al lanzar los objetos).
+- **Corregido** La interacción sin XR no funciona de forma correcta (mala posición de mouse y de la dirección al lanzar los objetos).
+- Una vez exportado el proyecto, si se accede a este desde el navegador Oculus Browser no se detecta el hardware VR y no es posible la navegación inmersiva.
 
 # Fin
 ## Autores

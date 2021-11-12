@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour
         //Components
         myCamera = cameraMainTransform.GetComponent<Camera>();
         controller = GetComponent<CharacterController>();
-        
+
         //Preview
         myTransform = transform;
         originalRotation = transform.localRotation;
@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("CAMERA ROTATION: " + cameraMainTransform.rotation);
+        //Debug.Log("CAMERA ROTATION: " + cameraMainTransform.rotation);
 
         if (isXREnabled)
             MoveXR();
@@ -206,19 +206,19 @@ public class PlayerController : MonoBehaviour
             float moveX = inputManagerLeftHand.stick.x;
             float moveZ = inputManagerLeftHand.stick.y;
 
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             moveZ = moveZ * (-1);
-            #endif
+#endif
 
             Quaternion cameraDirection = GetCameraRotation();
-
+            Debug.Log("THE CAMERA: " + cameraDirection);
             var dir = GetCameraRotation() * new Vector3(moveX, 0, moveZ);
             MoveCharacterController(dir);
         }
 
         // Rotation (No rotation on Y -> Up/Down)
         if (canRotateWithSticks && inputManagerRightHand != null)
-            TickXRRotation();
+            PlainXRRotation();
 
         // Write the values in the UI text in game screen
         if (stickText != null)
@@ -321,7 +321,14 @@ public class PlayerController : MonoBehaviour
     private Quaternion GetCameraRotation()
     {
         //TO-DO: IS NOT WORKING AFTER BUILD! In WebGL App the MainCamera Rotation is always the same.
-        return cameraMainTransform.localRotation; 
+        Quaternion rotation = cameraMainTransform.localRotation;
+
+#if UNITY_WEBGL
+        //After Export in WebGL cameraMainTransform will return the same value, but not cameraLeftTransform.
+        rotation = cameraLeftTransform.localRotation;
+#endif
+
+        return rotation;
     }
 
     private void ResetPlayerTransform()
