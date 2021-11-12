@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8621873111779509236}
   - component: {fileID: 5783744127578208062}
   m_Layer: 0
-  m_Name: Tunnel_BallGenerator
+  m_Name: Tunnel_BallGeneratorPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

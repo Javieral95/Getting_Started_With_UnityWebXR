@@ -33,7 +33,7 @@ public class NonXRInteraction : MonoBehaviour
         {
             gameManager = FindObjectOfType<GameManager>();
         }
-
+        
         NonXR_isDragging = false;
     }
 
@@ -109,18 +109,14 @@ public class NonXRInteraction : MonoBehaviour
             screenPoint = myCamera.WorldToScreenPoint(target.transform.position);
 
         float zPosition = (screenPoint.z != float.NegativeInfinity) ? screenPoint.z : 1f;
-        //zPosition = Math.Min(1f, zPosition);
         zPosition = z_GrabObjectPosition;
+
         return myCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, zPosition));
     }
 
     private void ThrowObject(Rigidbody object_rb)
     {
-        Vector3 screenPoint = Camera.main.WorldToScreenPoint(transform.position);
-        Vector3 direction = (Input.mousePosition - screenPoint);
-        direction.Normalize();
-        object_rb.AddForce(direction * NonXR_throwForce, ForceMode.Impulse);
-
+        object_rb.AddForce(Camera.main.transform.forward * NonXR_throwForce, ForceMode.Impulse);
     }
 
     private void DropObject()

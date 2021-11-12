@@ -40,12 +40,17 @@ public class PlayerController : MonoBehaviour
 
     [Header("Player settings"), Tooltip("Movement Speed")]
     public float speed = 5f;
+    [SerializeField, Range(0.1f, 5)]
+    private float height = 2f;
 
     [SerializeField, Range(6, 30)] private float gravity = 20.0f;
     [SerializeField, Range(0, 10)] private float jumpSpeed = 6.0f;
 
     [Header("NonXR settings"), Tooltip("Mouse sensitivity"), Range(1, 5)]
     public float mouseSensitivity = 1f;
+
+    [SerializeField, Range(0.1f, 5)]
+    private float nonXRHeight = 3f;
 
     [Tooltip("Straffe Speed")]
     public float rotationAngle = 15f;
@@ -72,7 +77,7 @@ public class PlayerController : MonoBehaviour
 
     private WebXRInputManager inputManager;
     private Transform myTransform;
-    public CharacterController controller { get; private set; }
+    private CharacterController controller { get; set; }
     private CollisionFlags flags;
 
     private Vector3 moveDirection = Vector3.zero;
@@ -94,17 +99,17 @@ public class PlayerController : MonoBehaviour
     }
     private IEnumerator Start()
     {
-        ChangeXRStatus(isXREnabled);
-
-        myTransform = transform;
+        //Components
         myCamera = cameraMainTransform.GetComponent<Camera>();
-
-        originalRotation = transform.localRotation;
         controller = GetComponent<CharacterController>();
-
-        _nonXR_interactor.InitCamera(myCamera);
-
+        
+        //Preview
+        myTransform = transform;
+        originalRotation = transform.localRotation;
         XRMoveEnabledPrev = isXREnabled;
+
+        ChangeXRStatus(isXREnabled);
+        _nonXR_interactor.InitCamera(myCamera);
 
         yield return new WaitForSeconds(0.5f);
 
@@ -126,7 +131,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Update -> XRMoveEnabled: " + isXREnabled);
             ChangeXRStatus(isXREnabled);
             XRMoveEnabledPrev = isXREnabled;
-        }       
+        }
     }
 
     #endregion
@@ -202,7 +207,7 @@ public class PlayerController : MonoBehaviour
             float moveZ = inputManagerLeftHand.stick.y;
 
             #if UNITY_EDITOR
-                moveZ = moveZ * (-1);
+            moveZ = moveZ * (-1);
             #endif
 
             Quaternion cameraDirection = GetCameraRotation();
@@ -233,7 +238,7 @@ public class PlayerController : MonoBehaviour
             float angle = rotationAngle;
             if (inputManagerRightHand.stick.x < 0)
                 angle = -angle;
-            
+
             rotationX += angle;
             rotationX = ClampAngle(rotationX, minimumX, maximumX);
             Quaternion xQuaternion = Quaternion.AngleAxis(rotationX, Vector3.up);
@@ -285,6 +290,7 @@ public class PlayerController : MonoBehaviour
         ChaneXRHandStatus(setActive);
 
         ResetPlayerTransform();
+        ResetPlayerHeight();
     }
 
     private void ChangeShowCursor(bool setActive)
@@ -315,13 +321,27 @@ public class PlayerController : MonoBehaviour
     private Quaternion GetCameraRotation()
     {
         //TO-DO: IS NOT WORKING AFTER BUILD! In WebGL App the MainCamera Rotation is always the same.
-        return Quaternion.LookRotation(cameraMainTransform.forward, cameraMainTransform.up); //cameraMainTransform.rotation;
+        return cameraMainTransform.localRotation; 
     }
 
     private void ResetPlayerTransform()
     {
-        this.transform.position = positionPrev;
         this.transform.rotation = rotationPrev;
+        this.transform.position = positionPrev;
+    }
+
+    private void ResetPlayerHeight()
+    {
+        if (isXREnabled)
+        {
+            this.controller.height = height;
+            this.controller.center = new Vector3(this.controller.center.x, height / 2, this.controller.center.z);
+        }
+        else
+        {
+            this.controller.height = nonXRHeight;
+            this.controller.center = new Vector3(this.controller.center.x, 0, this.controller.center.z);
+        }
     }
 
     void MoveCharacterController(Vector3 direction)
