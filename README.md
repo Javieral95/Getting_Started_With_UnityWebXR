@@ -15,6 +15,7 @@ Esta investigación se ha llevado a cabo para desarrollar el Trabajo de Fin de M
     - [WebXR Exporter Advance](#webxr-exporter-advance)
     - [InputManager](#inputmanager)
   - [Probando y exportando el proyecto](#probando-y-exportando-el-proyecto)
+    - [Una vez exportado](#una-vez-exportado)
     - [Controles de la escena](#controles-de-la-escena)
 - [Scripts del proyecto y funcionamiento](#scripts-del-proyecto-y-funcionamiento)
   - [Interaccionables](#interaccionables)
@@ -36,7 +37,7 @@ En este proyecto no se abarca la realidad aumentada.
 
 # Pre-requisitos
 
-Este proyecto se ha llevado a cabo haciendo uso de la versión *LTS 2019.4.27f1* de Unity y se han utilizado unas *Oculus Quest 2* conectadas al PC con cable mediante *Oculus Link*.
+Este proyecto se ha llevado a cabo haciendo uso de la versión *LTS 2019.4.27f1* (con *WebGL Build Support* instalado) de Unity y se han utilizado unas *Oculus Quest 2* conectadas al PC con cable mediante *Oculus Link*.
 
 Y ha sido desarrollado utilizando los siguientes repositorios como base (más adelante veremos como hacer uso de ellos):
 - [Unity-WebXR-Export](https://github.com/De-Panther/unity-webxr-export): Para la exportación del proyecto haciendo uso de WebXR.
@@ -101,6 +102,17 @@ Una vez importados los paquetes y copiadas las plantillas (si no encuentras el d
 ¡El proyecto esta listo! Selecciona ``Build and Run``, una vez finalizado el proceso podrás probar la escena en tu navegador:
 - Habilita que la aplicación acceda a los dispositivos de realidad virtual.
 - Funciona en navegadores Chromium (como Google chrome o Microsoft Edge), pero en Mozilla Firefox la escena no carga en el dispositivo de realidad virtual.
+
+### Una vez exportado
+Una vez que el proyecto ha sido exportado, utilizando la opción Build (o Build and run para comprobar su correcto funcionamiento) tendremos que alojar nuestro proyecto resultante en un servidor Http.
+
+No se va a entrar en mucho detalle sobre como realizar este paso, pues hay multitud de alternativas. Pero, para hacer pequeñas pruebas, podemos lanzar los siguientes comandos dentro del directorio del proyecto exportado:
+  -	Python:
+    -	*Python -m SimpleHttpServer \<PUERTO>*
+    -	*Python3 -m http.server*
+  -	NodeJS:
+    - *Node http-server*, una vez instalado el paquete http-server a través de npm.
+
 
 ### Controles de la escena
 
