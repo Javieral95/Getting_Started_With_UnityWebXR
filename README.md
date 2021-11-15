@@ -45,6 +45,8 @@ Y ha sido desarrollado utilizando los siguientes repositorios como base (más ad
 
 Estos dos a su vez han sido basados en [Mozilla WebXR Exporter](https://assetstore.unity.com/packages/tools/integration/webxr-exporter-109152), aunque se ha de tener en cuenta que **el paquete de Mozilla en la Asset Store de Unity se encuentra desactualizado** y ocasiona errores que hará que la aplicación no sea accesible por hardware VR una vez exportado a Web. Y, es por ello que, se deberá hacer uso del repositorio *Unity-WebXR-Export* antes mencionado.
 
+También será necesario un servidor https para que todo funcione correctamente (un servidor http hará que no se pueda disfrutar una experiencia inmersiva accediendo desde el navegador del propio hardware de realidad virtual).
+
 
 # Comenzando
 
@@ -113,6 +115,7 @@ No se va a entrar en mucho detalle sobre como realizar este paso, pues hay multi
   -	NodeJS:
     - *Node http-server*, una vez instalado el paquete http-server a través de npm.
 
+Recordar que se precisa de *https* para que la aplicación funcione accediendo desde el hardware de realidad virtual (*Oculus Browser* por ejemplo). Los ejemplos antes mencionados solo usan *http*.
 
 ### Controles de la escena
 
@@ -179,11 +182,9 @@ Este objeto contiene en su interior un total de 5 camaras y el script **WebXRCam
 # TO-DO:
 
 Hay varios **errores** o mejoras pendientes:
-- **Corregido** El jugador debe moverse en la dirección *forward* de la cámara principal, esto no se da en la aplicación WebXR una vez exportada utilizando hardware de realidad virtual (pero si en el editor).
-  - Pero si puede girarse la cámara utilizando el stick del controlador.
 - La posición del jugador debería ser reiniciada una vez entra en contacto con la Killzone (cuando cae al vacio), se detecta la colisión pero el jugador no se teletransportar.
-- **Corregido** La interacción sin XR no funciona de forma correcta (mala posición de mouse y de la dirección al lanzar los objetos).
 - Una vez exportado el proyecto, si se accede a este desde el navegador Oculus Browser no se detecta el hardware VR y no es posible la navegación inmersiva.
+  - Se precisa de usar *https* para arreglar este error.
 
 # Fin
 ## Autores
