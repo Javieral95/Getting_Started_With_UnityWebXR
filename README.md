@@ -1,12 +1,13 @@
 <!-- omit in toc -->
 # Getting_Started_With_UnityWebXR
 
-El presente proyecto busca realizar una pequeña prueba de concepto sobre el nuevo estándar [WebXR](https://www.w3.org/TR/webxr/), que permite hacer accesible realidad virtual y aumentada en aplicaciones Web, integrandolo con el motor gráfico **Unity**. La idea es permitir el uso e interacción de la aplicación inmersiva a través de Web tanto si se dispone  de Hardware especifico como si no.
+El presente proyecto busca realizar una pequeña prueba de concepto sobre el nuevo estándar [WebXR](https://www.w3.org/TR/webxr/), que permite hacer accesible realidad virtual y aumentada en aplicaciones Web, integrandolo con el motor gráfico **Unity**. La idea es permitir el uso e interacción de la aplicación inmersiva a través de Web tanto si se dispone de Hardware especifico como si no.
 
 Esta investigación se ha llevado a cabo para desarrollar el Trabajo de Fin de Máster de la titulación [Máster universitario en Ingeniería informática](https://masterinformatica.uniovi.es/) por la [Universidad de Oviedo](https://www.uniovi.es/) y para recabar información que podrá ser utilizado para proyectos propiedad de [Fundación CTIC](https://www.fundacionctic.org/es/home).
 
 <!-- omit in toc -->
 ## Tabla de contenido
+- [Qué es WebXR](#qué-es-webxr)
 - [Pre-requisitos](#pre-requisitos)
 - [Comenzando](#comenzando)
   - [Importando los paquetes](#importando-los-paquetes)
@@ -27,6 +28,12 @@ Esta investigación se ha llevado a cabo para desarrollar el Trabajo de Fin de M
 
 
 _________________
+# Qué es WebXR
+
+[WebXR](https://www.w3.org/TR/webxr/) es un grupo de estándares que se juntan para representar escenas 3D en hardware inmersivo (realidad virtual) como para añadir imágenes al mundo real (realidad aumentada).
+
+En este proyecto no se abarca la realidad aumentada.
+
 # Pre-requisitos
 
 Este proyecto se ha llevado a cabo haciendo uso de la versión *LTS 2019.4.27f1* de Unity y se han utilizado unas *Oculus Quest 2* conectadas al PC con cable mediante *Oculus Link*.
@@ -44,7 +51,7 @@ Dado que los paquetes propiedades Mozilla se encuentran desactualizados, hay que
 
 ## Importando los paquetes
 
-El proyecto del presente proyecto ya tiene importado todo lo necesario para hacerlo funcionar, no obstante si empiezas tu proyecto de cero tendrás que importar los siguientes paquetes:
+El proyecto del presente repositorio ya tiene importado todo lo necesario para hacerlo funcionar, no obstante si empiezas tu proyecto de cero tendrás que importar los siguientes paquetes:
 
 ### WebXR Exporter
 Primero tendremos que importar el paquete que nos permitirá exportar nuestro proyecto en WebXR. Para ello, importa el proyecto **Unity-WebXR-Export**  de *De-Panther* siguiendo las siguientes instrucciones indicadas en su [Readme.md](https://github.com/De-Panther/unity-webxr-export/blob/master/Packages/webxr/README.md):
@@ -55,7 +62,7 @@ Primero tendremos que importar el paquete que nos permitirá exportar nuestro pr
     URL: https://package.openupm.com
     Scope(s): com.de-panther
     ```    
-    - Después, en el Package Manager descarga e importa el paquete **WebXR Export**.
+    - Tras ello, accede a *Package Manager* y selecciona *My Registries* para importar el paquete **WebXR Export**.
 
 -  Usando **Git**, para ello accede al Package Manager y selecciona la opción ``+ > Add package from girl url..``, indica la siguiente URL:
      ```
@@ -63,11 +70,11 @@ Primero tendremos que importar el paquete que nos permitirá exportar nuestro pr
      ```  
 Existen mas paquetes además de **WebXR**, por ejemplo el de **WebXR Interactions** que tiene además una escena de ejemplo para probar el exporter y sus controladores, pero en este ejemplo se han implementado otros controladores.
 
-Una vez importando, accede a ``Window > WebXR > Copy WebGLTemplates`` para copiar las plantillas de exportación en tu proyecto.
+**Una vez importando**, accede a ``Window > WebXR > Copy WebGLTemplates`` para copiar las plantillas de exportación en tu proyecto.
 
 ### WebXR Exporter Advance
 
-Este paquete de *jocyf* se ha utilizado para usar de base en el desarrollo de los controladores del proyecto, este a su vez parte del paquete WebXR Exporter, puedes descargarlo directamente desde [aquí](https://www.dropbox.com/s/gvnfxfzrg1k1mw7/WebXRAdvancedDePanther.unitypackage?dl=0). Tambin puedes acceder al siguiente [repositorio](https://github.com/Jocyf/WebXR-Exporter-Advanced).
+Este paquete de *jocyf* se ha utilizado para usar de base en el desarrollo de los controladores del proyecto, este a su vez parte del paquete WebXR Exporter, puedes descargarlo directamente desde [aquí](https://www.dropbox.com/s/gvnfxfzrg1k1mw7/WebXRAdvancedDePanther.unitypackage?dl=0). También puedes acceder al siguiente [repositorio](https://github.com/Jocyf/WebXR-Exporter-Advanced).
 
 Este paquete otorga funcionalidades no implementadas en el presente repositorio (giro con click del raton, teletransporte en VR, interacción a distancia por Raycaster...). 
 
@@ -89,7 +96,7 @@ Una vez importados los paquetes y copiadas las plantillas (si no encuentras el d
   - Habilita tu Hardware en la pestaña *PC, Mac & Linux Standalone Settings*.
   - En la pestaña *WebGL* deberás habilitar la casilla **WebXR Export**.
 -  ``File > Build Settings`` añade la escena y cambia a la plataforma **WebGL**.
--  ``Edit > Project Settings > Player > WebGL > Resolution and Presentation > WebGL Template`` selecciona cualquier plantilla (WebXR ha funcionado correctamente). 
+-  ``Edit > Project Settings > Player > WebGL > Resolution and Presentation > WebGL Template`` selecciona cualquier plantilla (WebXR ha funcionado correctamente, las versiones 2020 parecen no funcionar). 
 
 ¡El proyecto esta listo! Selecciona ``Build and Run``, una vez finalizado el proceso podrás probar la escena en tu navegador:
 - Habilita que la aplicación acceda a los dispositivos de realidad virtual.
@@ -121,7 +128,7 @@ ____________________
 
 # Scripts del proyecto y funcionamiento
 
-Para **evitar errores** en el editor se ha tenido que añadir una *Assembly Definition Reference* que apunte a *WebXR* de los paquetes importados.
+Para **evitar errores** en el editor se ha tenido que añadir, dentro de la carpeta *_Scripts*, una *Assembly Definition Reference* que apunte a *WebXR* de los paquetes importados.
 
 ## Interaccionables
 
@@ -131,12 +138,14 @@ Antes de nada, cabe destacar que los objetos con los cuales puede interaccionar 
 El objeto principal de la escena es el usuario o jugador, este será el objeto **WebXRCameraSet**, puedes ver el prefab en ``Assets/0Assets/MainScene/Prefabs/Player``.
 
 Este objeto contiene en su interior las manos del usuario y las cámaras, además de los scripts mas importantes de la escena:
-- **WebXrManager**: Añadido directamente del paquete WebXR Exporter.
+- **WebXRManager**: Añadido directamente del paquete WebXR Exporter.
 - **PlayerController**: Encargado de detectar el hardware XR y permitir el movimiento del jugador.
   - Ha sido altamente modificado para permitir el movimiento en XR y no XR por igual.
   - En este script la detección y activación del hardware de realidad virtual se hace gracias a los eventos *onXRChange* y *onXRCapabilitiesUpdate*.
-  - Cuando se detecte el hardware se deshabilitará la interacción noXR y se activarán las manos del jugador, cuando se detecte que no se dispone de este se habilitarán las manos del jugador. Puedes forzar este cambio modificando el valor de *isXREnabled* en el editor de Unity.
-  - Fijarse que contiene los objetos de las cámaras y de las manos del usuario, por lo que en este script también se detecta la información recibida a través de los stickers de los contradores y se rotará la cámara de este.
+  - Cuando se detecte el hardware se deshabilitará la interacción noXR y se activarán las manos del jugador, cuando se detecte que no se dispone de este se deshabilitarán las manos del jugador. 
+    - Puedes forzar este cambio modificando el valor de *isXREnabled* en el editor de Unity.
+  - Fijarse que contiene los objetos de las cámaras y de las manos del usuario, por lo que en este script también se detecta la información recibida a través de los stickers de los controladores y se rotará la cámara de este.
+  - **Nota**: El componente *transform* de la *main camera* se actualiza cuando el usuario se mueve en el editor de Unity, pero no una vez exportado el proyecto. Es por eso por lo que una vez exportado se tiene en cuenta la rotación de *left camera*, que si se actualiza correctamente.
 - **NonXRInteraction**: Permite al usuario interaccionar con los objetos de la escena cuando no dispone de hardware de realidad virtual.
   - Se detecta los objetos para interaccionar haciendo uso de Raycast.
 
@@ -147,13 +156,13 @@ Dentro de **WebXRCameraSet** nos encontramos con las dos manos del jugador, cont
 - **CloseHands**: Para añadir una simple animación de abrir y cerrar la mano cuando se pulsan los botones *Grip* o *Trigger*.
 - **WebXRInputManager**: Permite detectar las interacciones que realiza el jugador con el controlador, pulsar botones o mover sus sticks.
   - Puedes activar el valor ShowDebug a true para imprimir por pantalla estas interacciones.
-  - Se ha modificado para detectar también pulsaciones en los botones A,B,X e Y.
+  - Se ha modificado para detectar también pulsaciones en los botones A, B, X e Y.
 - **ControllerInteraction**: Permite al usuario interaccionar con el entorno usando sus manos o agarrar objetos.
   - Se ha modificado para permitir también lanzar objetos.
 
 ## Cameras
 
-Este objeto contiene en su interior un total de 5 camaras y el script **WebXRCamera** (desde paquete WebXR Exporter) para acceder a ellas.
+Este objeto contiene en su interior un total de 5 camaras y el script **WebXRCamera** (que viene del paquete WebXR Exporter) para acceder a ellas.
 
 # TO-DO:
 
