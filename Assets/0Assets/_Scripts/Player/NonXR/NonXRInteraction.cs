@@ -8,9 +8,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NonXRInteraction : MonoBehaviour
 {
+    public Image CursorImage;
+
     private static GameManager gameManager;
     private Camera myCamera;
 
@@ -21,9 +24,8 @@ public class NonXRInteraction : MonoBehaviour
     GameObject NonXR_selectedObject;
     Rigidbody NonXR_selectedObject_rb;
     Ray NonXR_ray;
-    private Plane plane = new Plane(Vector3.up, Vector3.zero);
 
-    private Vector3 mousePos = Vector3.zero;
+    private Vector3 screenCenter = Vector3.zero;
     private float z_GrabObjectPosition = 1f;
 
     // Start is called before the first frame update
@@ -35,11 +37,15 @@ public class NonXRInteraction : MonoBehaviour
         }
         
         NonXR_isDragging = false;
+        screenCenter = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, z_GrabObjectPosition);
+
+        Debug.Log("SCREEN CENTER: " + screenCenter);
     }
 
     // Update is called once per frame
     void Update()
     {
+        CheckResizeWindow();
         NonXR_Interaction();
     }
 
@@ -52,7 +58,7 @@ public class NonXRInteraction : MonoBehaviour
     private void NonXR_Interaction()
     {
         //TO-DO: Improve this method (detect object collisions and avoid errors)
-        NonXR_ray = myCamera.ScreenPointToRay(Input.mousePosition);
+        NonXR_ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); //Screen Center
         RaycastHit hit;
 
         //Grab object or press button
@@ -76,18 +82,14 @@ public class NonXRInteraction : MonoBehaviour
                     TriggerInterface component = tmpGameObject.GetComponent<TriggerInterface>();
                     if (component != null)
                         component.Press();
-
                 }
             }
         }
 
         //Move Grabbed object
         if (NonXR_isDragging)
-        {
-            mousePos = GetMousePosition(NonXR_selectedObject);
-            NonXR_selectedObject.transform.position = mousePos;
-        }
-
+            NonXR_selectedObject.transform.position = GetMousePosition(NonXR_selectedObject);
+        
         //Drop Grabbed object
         if (Input.GetMouseButtonUp(0))
             DropObject();
@@ -111,7 +113,9 @@ public class NonXRInteraction : MonoBehaviour
         float zPosition = (screenPoint.z != float.NegativeInfinity) ? screenPoint.z : 1f;
         zPosition = z_GrabObjectPosition;
 
-        return myCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, zPosition));
+        var tmpm = screenCenter;
+        tmpm.z = zPosition;
+        return myCamera.ScreenToWorldPoint(tmpm);
     }
 
     private void ThrowObject(Rigidbody object_rb)
@@ -124,6 +128,12 @@ public class NonXRInteraction : MonoBehaviour
         NonXR_isDragging = false;
         NonXR_selectedObject = null;
         NonXR_selectedObject_rb = null;
+    }
+
+    private void CheckResizeWindow()
+    {
+        if (screenCenter.x != Screen.width / 2 || screenCenter.y != Screen.height / 2)
+            screenCenter = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0);
     }
     #endregion
 }

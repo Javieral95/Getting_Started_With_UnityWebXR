@@ -2469,7 +2469,7 @@ PrefabInstance:
     - target: {fileID: 8921795627169359123, guid: 49c6231375a91de49a7a5d8f69d5b142,
         type: 3}
       propertyPath: isXREnabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8921795627169359123, guid: 49c6231375a91de49a7a5d8f69d5b142,
         type: 3}

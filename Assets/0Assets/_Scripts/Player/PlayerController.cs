@@ -99,6 +99,9 @@ public class PlayerController : MonoBehaviour
     }
     private IEnumerator Start()
     {
+#if UNITY_WEBGL
+        isXREnabled = false;
+#endif
         //Components
         myCamera = cameraMainTransform.GetComponent<Camera>();
         controller = GetComponent<CharacterController>();
@@ -108,12 +111,12 @@ public class PlayerController : MonoBehaviour
         originalRotation = transform.localRotation;
         XRMoveEnabledPrev = isXREnabled;
 
-        ChangeXRStatus(isXREnabled);
         _nonXR_interactor.InitCamera(myCamera);
 
         yield return new WaitForSeconds(0.5f);
 
         capabilities = new WebXRDisplayCapabilities();
+        ChangeXRStatus(isXREnabled);
     }
 
     void Update()
@@ -187,7 +190,7 @@ public class PlayerController : MonoBehaviour
     private void EnableAccordingToPlatform()
     {
         isXREnabled = capabilities.canPresentVR;
-        ChangeXRStatus(isXREnabled);
+        //ChangeXRStatus(isXREnabled);
         Debug.Log("EnableAccordingToPlatform:: XRMoveEnabled: " + isXREnabled);
     }
     #endregion
@@ -211,7 +214,7 @@ public class PlayerController : MonoBehaviour
 #endif
 
             Quaternion cameraDirection = GetCameraRotation();
-            Debug.Log("THE CAMERA: " + cameraDirection);
+            //Debug.Log("THE CAMERA: " + cameraDirection);
             var dir = GetCameraRotation() * new Vector3(moveX, 0, moveZ);
             MoveCharacterController(dir);
         }
