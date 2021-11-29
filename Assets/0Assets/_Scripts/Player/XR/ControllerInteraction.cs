@@ -31,6 +31,7 @@ public class ControllerInteraction : MonoBehaviour
     [SerializeField, Range(1, 15)]
     private float throwForce = 9f;
     private bool isGrabbing = false;
+    private Vector3 originalGrabbingPosition = Vector3.zero;
     #endregion
 
     #region Unity Functions
@@ -81,14 +82,14 @@ public class ControllerInteraction : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (!isInteractableObject(other.gameObject) && !isInteractableTrigger(other.gameObject)) { return; }
+        if (!isInteractable(other.gameObject)) { return; }
 
         contactRigidBodies.Add(other.attachedRigidbody);
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (!isInteractableObject(other.gameObject) && !isInteractableTrigger(other.gameObject)) { return; }
+        if (!isInteractable(other.gameObject)) { return; }
 
         contactRigidBodies.Remove(other.attachedRigidbody);
     }
@@ -142,6 +143,7 @@ public class ControllerInteraction : MonoBehaviour
 
         lastPosition = currentRigidBody.position;
         lastRotation = currentRigidBody.rotation;
+        Debug.Log(lastPosition+"        "+lastRotation);
         isGrabbing = true;
     }
 
@@ -154,18 +156,31 @@ public class ControllerInteraction : MonoBehaviour
         Debug.Log("You are dropping an object!!");
 
         attachJoint.connectedBody = null;
+        if (IsInteractableNotMovable(currentRigidBody.gameObject))
+            ResetGrabbedObjectPosition(currentRigidBody);
+        else
+        {
 
-        currentRigidBody.velocity = (currentRigidBody.position - lastPosition) / Time.deltaTime;
+            currentRigidBody.velocity = (currentRigidBody.position - lastPosition) / Time.deltaTime;
 
-        var deltaRotation = currentRigidBody.rotation * Quaternion.Inverse(lastRotation);
-        float angle;
-        Vector3 axis;
-        deltaRotation.ToAngleAxis(out angle, out axis);
-        angle *= Mathf.Deg2Rad;
-        currentRigidBody.angularVelocity = axis * angle / Time.deltaTime;
+            var deltaRotation = currentRigidBody.rotation * Quaternion.Inverse(lastRotation);
+            float angle;
+            Vector3 axis;
+            deltaRotation.ToAngleAxis(out angle, out axis);
+            angle *= Mathf.Deg2Rad;
+            currentRigidBody.angularVelocity = axis * angle / Time.deltaTime;
 
-        currentRigidBody = null;
-        isGrabbing = false;
+            currentRigidBody = null;
+            isGrabbing = false;
+        }
+    }
+
+    private void ResetGrabbedObjectPosition(Rigidbody currentRigidBody)
+    {
+        Debug.Log("RESET OBJECT POSITION");
+
+        NotMovable notMovible = currentRigidBody.GetComponent<NotMovable>();
+        notMovible.ChangePosition();
     }
 
     /// <summary>
@@ -176,7 +191,7 @@ public class ControllerInteraction : MonoBehaviour
     {
         Debug.Log("You are throwing an object!!");
 
-        if (currentRigidBody != null && isGrabbing)
+        if (currentRigidBody != null && isGrabbing && !IsInteractableNotMovable(currentRigidBody.gameObject))
         {
             currentRigidBody.AddForce(this.gameObject.transform.forward * throwForce, ForceMode.Impulse);
 
@@ -215,6 +230,16 @@ public class ControllerInteraction : MonoBehaviour
     /// </summary>
     /// <param name="other"></param>
     /// <returns></returns>
+    private bool isInteractable(GameObject other)
+    {
+        return isInteractableObject(other) || isInteractableTrigger(other) || IsInteractableNotMovable(other);
+    }
+
+    /// <summary>
+    /// Check if the object passed as parameter has the "Interactable" tag
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
     private bool isInteractableObject(GameObject other)
     {
         return other.CompareTag(GameManager.INTERACTABLE_TAG);
@@ -227,6 +252,16 @@ public class ControllerInteraction : MonoBehaviour
     private bool isInteractableTrigger(GameObject other)
     {
         return other.CompareTag(GameManager.INTERACTABLE_TRIGGER_TAG);
+    }
+
+    /// <summary>
+    /// Check if the object passed as parameter has the "InteractableNotMovible" tag (For example, a door)
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    private bool IsInteractableNotMovable(GameObject other)
+    {
+        return other.CompareTag(GameManager.INTERACTABLE_NOT_MOVABLE_TAG);
     }
     #endregion
 

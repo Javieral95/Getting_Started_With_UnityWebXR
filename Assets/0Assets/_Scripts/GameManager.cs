@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
 
     public const string INTERACTABLE_TAG = "Interactable";
     public const string INTERACTABLE_TRIGGER_TAG = "InteractableTrigger";
+    public const string INTERACTABLE_NOT_MOVABLE_TAG = "InteractableNotMovable";
     #endregion
 
     //If a script will be using the singleton in its awake method, make sure the manager is first to execute with the Script Execution Order project settings
@@ -102,8 +103,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void RespawnPlayer()
     {
-        //TO-DO: Is not working!
-        if (StartPoint != null)
-            playerTransform.position = StartPoint.position;
+        Application.LoadLevel(Application.loadedLevel);
     }
 }
