@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
     public float mouseSensitivity = 1f;
 
     [SerializeField, Range(0.1f, 5)]
-    private float nonXRHeight = 3f;
+    private float nonXRHeight = 2f;
 
     [Tooltip("Straffe Speed")]
     public float rotationAngle = 15f;
@@ -350,7 +350,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             this.controller.height = nonXRHeight;
-            this.controller.center = new Vector3(this.controller.center.x, 0, this.controller.center.z);
+            this.controller.center = new Vector3(this.controller.center.x, ((-1) * (nonXRHeight / 3)), this.controller.center.z);
         }
     }
 

@@ -28,6 +28,9 @@ public class NonXRInteraction : MonoBehaviour
     private Vector3 screenCenter = Vector3.zero;
     private float z_GrabObjectPosition = 1f;
 
+    private PhysicButton pressedButton;
+    private NotMovable objectNotMovable;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,7 +38,7 @@ public class NonXRInteraction : MonoBehaviour
         {
             gameManager = FindObjectOfType<GameManager>();
         }
-        
+
         NonXR_isDragging = false;
         screenCenter = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, z_GrabObjectPosition);
 
@@ -51,7 +54,7 @@ public class NonXRInteraction : MonoBehaviour
 
     public void InitCamera(Camera controllerCamera)
     {
-        if(myCamera == null)
+        if (myCamera == null)
             myCamera = controllerCamera;
     }
 
@@ -67,32 +70,52 @@ public class NonXRInteraction : MonoBehaviour
             if (hit.collider != null)
             {
                 var tmpGameObject = hit.collider.gameObject;
-                if (tmpGameObject.CompareTag(GameManager.INTERACTABLE_TAG))
+                if (tmpGameObject.CompareTag(GameManager.INTERACTABLE_TAG) || tmpGameObject.CompareTag(GameManager.INTERACTABLE_NOT_MOVABLE_TAG))
                 {
                     //Grab
                     Debug.Log("You select: " + hit.collider.gameObject.name);
                     NonXR_selectedObject = hit.collider.gameObject;
                     NonXR_selectedObject_rb = NonXR_selectedObject.GetComponent<Rigidbody>();
                     NonXR_isDragging = true;
+                    if (tmpGameObject.CompareTag(GameManager.INTERACTABLE_NOT_MOVABLE_TAG))
+                        objectNotMovable = NonXR_selectedObject.GetComponent<NotMovable>();
                 }
                 else if (tmpGameObject.CompareTag(GameManager.INTERACTABLE_TRIGGER_TAG))
                 {
                     //Press
                     Debug.Log("You are pressing a button!!");
-                    TriggerInterface component = tmpGameObject.GetComponent<TriggerInterface>();
-                    if (component != null)
-                        component.Press();
+                    pressedButton = tmpGameObject.GetComponent<PhysicButton>();
+                    if (pressedButton != null)
+                        pressedButton.PressButton();
+                    
                 }
             }
+            else
+            {
+                if (pressedButton != null)
+                {
+                    pressedButton.ReleaseButton();
+                    pressedButton = null;
+                }
+            }
+
         }
 
         //Move Grabbed object
         if (NonXR_isDragging)
             NonXR_selectedObject.transform.position = GetMousePosition(NonXR_selectedObject);
-        
+
         //Drop Grabbed object
         if (Input.GetMouseButtonUp(0))
+        {
             DropObject();
+            //Button (trigger)
+            if (pressedButton != null)
+            {
+                pressedButton.ReleaseButton();
+                pressedButton = null;
+            }
+        }
 
         //Throw Grabbed object
         if (NonXR_isDragging && Input.GetMouseButtonDown(1) && NonXR_selectedObject_rb != null)
@@ -100,6 +123,7 @@ public class NonXRInteraction : MonoBehaviour
             ThrowObject(NonXR_selectedObject_rb);
             DropObject();
         }
+
     }
 
     #region Auxiliar Methods
@@ -120,7 +144,8 @@ public class NonXRInteraction : MonoBehaviour
 
     private void ThrowObject(Rigidbody object_rb)
     {
-        object_rb.AddForce(Camera.main.transform.forward * NonXR_throwForce, ForceMode.Impulse);
+        if (objectNotMovable == null)
+            object_rb.AddForce(myCamera.transform.forward * NonXR_throwForce, ForceMode.Impulse);
     }
 
     private void DropObject()
@@ -128,6 +153,9 @@ public class NonXRInteraction : MonoBehaviour
         NonXR_isDragging = false;
         NonXR_selectedObject = null;
         NonXR_selectedObject_rb = null;
+
+        objectNotMovable?.DropObject();
+        objectNotMovable = null;
     }
 
     private void CheckResizeWindow()

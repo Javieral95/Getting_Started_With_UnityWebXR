@@ -23,16 +23,37 @@ public class PhysicButton : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
     }
 
-    #region Events
-    private void OnTriggerStay(Collider other)
+    private void FixedUpdate()
     {
-        if (other.CompareTag("Player"))
-            _rb.AddRelativeForce((-1) * transform.up * 5);
+        if (_isPressed)
+            AddForceToButton();
     }
 
-    private void onTriggerEnter(Collider other)
+    #region Events
+    //XR Interaction
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (!other.CompareTag("Player"))
+            PressButton();
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        ReleaseButton();
+    }
+    #endregion
+
+    #region Functions
+    //Need to separate Events and function because Non XR interaction don`t work with colliders.
+
+    private void AddForceToButton()
+    {
+        _rb.AddForce((-1) * transform.up * 5);
+    }
+
+    public void PressButton()
+    {
+        if (!_isPressed)
         {
             _isPressed = true;
             onPressed.Invoke();
@@ -40,7 +61,7 @@ public class PhysicButton : MonoBehaviour
         }
     }
 
-    void OnTriggerExit(Collider other)
+    public void ReleaseButton()
     {
         _isPressed = false;
         onReleased.Invoke();

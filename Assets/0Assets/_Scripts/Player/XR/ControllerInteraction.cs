@@ -31,7 +31,7 @@ public class ControllerInteraction : MonoBehaviour
     [SerializeField, Range(1, 15)]
     private float throwForce = 9f;
     private bool isGrabbing = false;
-    private Vector3 originalGrabbingPosition = Vector3.zero;
+    private NotMovable objectNotMovable;
     #endregion
 
     #region Unity Functions
@@ -106,9 +106,13 @@ public class ControllerInteraction : MonoBehaviour
         currentRigidBody = GetNearestRigidBody();
         if (!currentRigidBody) { return; }
 
+        //Check trigger or not movable
         if (isInteractableTrigger(currentRigidBody.gameObject))
             isInteractingWithTrigger = true;
+        else if (IsInteractableNotMovable(currentRigidBody.gameObject))
+            objectNotMovable = currentRigidBody.GetComponent<NotMovable>();
 
+        //Operation
         if (isPicking && isInteractingWithTrigger)
             PressButton(currentRigidBody);
         else if (isPicking)
@@ -143,8 +147,10 @@ public class ControllerInteraction : MonoBehaviour
 
         lastPosition = currentRigidBody.position;
         lastRotation = currentRigidBody.rotation;
-        Debug.Log(lastPosition+"        "+lastRotation);
+
         isGrabbing = true;
+        objectNotMovable?.GrabObject();
+
     }
 
     /// <summary>
@@ -156,8 +162,11 @@ public class ControllerInteraction : MonoBehaviour
         Debug.Log("You are dropping an object!!");
 
         attachJoint.connectedBody = null;
-        if (IsInteractableNotMovable(currentRigidBody.gameObject))
-            ResetGrabbedObjectPosition(currentRigidBody);
+        if (objectNotMovable != null)
+        {
+            objectNotMovable?.DropObject();
+            objectNotMovable = null;
+        }
         else
         {
 
@@ -180,7 +189,7 @@ public class ControllerInteraction : MonoBehaviour
         Debug.Log("RESET OBJECT POSITION");
 
         NotMovable notMovible = currentRigidBody.GetComponent<NotMovable>();
-        notMovible.ChangePosition();
+        notMovible.DropObject();
     }
 
     /// <summary>

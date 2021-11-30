@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(Animator))]
-public class BallGeneratorTrigger : MonoBehaviour, TriggerInterface
+public class BallGeneratorTrigger : MonoBehaviour
 {
     private static GameManager gameManager;
 
@@ -26,27 +26,17 @@ public class BallGeneratorTrigger : MonoBehaviour, TriggerInterface
             gameManager = FindObjectOfType<GameManager>();
 
         anim = this.gameObject.GetComponent<Animator>();
+
     }
 
-    public void Press()
+    public void PressButton()
     {
+        Debug.Log("ON CLICK EVENT!!!!!");
         PressFunction();
-        PlayPressAnimation();
-        PlayPressSound();
     }
 
     public void PressFunction()
     {
         gameManager.InstantiateNewObject(PrefabToInstantiate, BallsSpawn.transform.position, BallsSpawn.transform.rotation, instantiateBallForce);
-    }
-
-    public void PlayPressAnimation()
-    {
-        anim.SetTrigger(BUTTON_ANIMATION_TRIGGER);
-    }
-
-    public void PlayPressSound()
-    {
-        //Not sound yet
     }
 }

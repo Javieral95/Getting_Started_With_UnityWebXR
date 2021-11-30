@@ -336,7 +336,7 @@ PlayerSettings:
   openGLRequireES31AEP: 0
   openGLRequireES32: 0
   m_TemplateCustomTags:
-    DESCRIPTION: Test WebXR
+    DESCRIPTION: 
     WEBXR_POLYFILL_CONFIG: 
   mobileMTRendering:
     Android: 1
@@ -600,7 +600,7 @@ PlayerSettings:
   webGLDebugSymbols: 0
   webGLEmscriptenArgs: 
   webGLModulesDirectory: 
-  webGLTemplate: PROJECT:WebXRFullView
+  webGLTemplate: PROJECT:WebXR
   webGLAnalyzeBuildSize: 0
   webGLUseEmbeddedResources: 0
   webGLCompressionFormat: 1
