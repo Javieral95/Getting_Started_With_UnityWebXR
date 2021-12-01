@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NotMovable : MonoBehaviour
+public class GrabbableDoor : MonoBehaviour
 {
     public bool FollowAlways = true; //TO-DO: Change position after drop object (or follow always if dont grab it)
     public Transform Target;
@@ -25,6 +25,7 @@ public class NotMovable : MonoBehaviour
 
     public void GrabObject()
     {
+        Debug.Log("Is grabbed to True!");
         isGrabbed = true;
     }
 

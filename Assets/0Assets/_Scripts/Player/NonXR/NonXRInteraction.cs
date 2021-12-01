@@ -29,7 +29,8 @@ public class NonXRInteraction : MonoBehaviour
     private float z_GrabObjectPosition = 1f;
 
     private PhysicButton pressedButton;
-    private NotMovable objectNotMovable;
+    private GrabbableDoor grabbableDoor;
+    private BreakInteraction breakInteraction;
 
     // Start is called before the first frame update
     void Start()
@@ -78,7 +79,9 @@ public class NonXRInteraction : MonoBehaviour
                     NonXR_selectedObject_rb = NonXR_selectedObject.GetComponent<Rigidbody>();
                     NonXR_isDragging = true;
                     if (tmpGameObject.CompareTag(GameManager.INTERACTABLE_NOT_MOVABLE_TAG))
-                        objectNotMovable = NonXR_selectedObject.GetComponent<NotMovable>();
+                        grabbableDoor = NonXR_selectedObject.GetComponent<GrabbableDoor>();
+
+                    CheckIfHaveBreakProperty(NonXR_selectedObject_rb);
                 }
                 else if (tmpGameObject.CompareTag(GameManager.INTERACTABLE_TRIGGER_TAG))
                 {
@@ -101,13 +104,17 @@ public class NonXRInteraction : MonoBehaviour
 
         }
 
+        bool needTobreakInteraction = CheckForBreakInteraction();
+
         //Move Grabbed object
         if (NonXR_isDragging)
             NonXR_selectedObject.transform.position = GetMousePosition(NonXR_selectedObject);
 
         //Drop Grabbed object
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) || needTobreakInteraction)
         {
+            if(needTobreakInteraction)
+                breakInteraction?.ResetPosition();
             DropObject();
             //Button (trigger)
             if (pressedButton != null)
@@ -144,7 +151,7 @@ public class NonXRInteraction : MonoBehaviour
 
     private void ThrowObject(Rigidbody object_rb)
     {
-        if (objectNotMovable == null)
+        if (grabbableDoor == null)
             object_rb.AddForce(myCamera.transform.forward * NonXR_throwForce, ForceMode.Impulse);
     }
 
@@ -154,14 +161,37 @@ public class NonXRInteraction : MonoBehaviour
         NonXR_selectedObject = null;
         NonXR_selectedObject_rb = null;
 
-        objectNotMovable?.DropObject();
-        objectNotMovable = null;
+        grabbableDoor?.DropObject();
+        grabbableDoor = null;
+        breakInteraction = null;
     }
 
     private void CheckResizeWindow()
     {
         if (screenCenter.x != Screen.width / 2 || screenCenter.y != Screen.height / 2)
             screenCenter = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0);
+    }
+
+    /// <summary>
+    /// Check if the current Rigid body have BreakInteraction script
+    /// </summary>
+    /// <param name="currentRigidBody"></param>
+    private void CheckIfHaveBreakProperty(Rigidbody currentRigidBody)
+    {
+        if (breakInteraction == null && breakInteraction == null)
+            breakInteraction = currentRigidBody.gameObject.GetComponent<BreakInteraction>();
+    }
+
+    /// <summary>
+    /// Check if the object, with BreakInteractions script, exceed the maximum distance allowed.
+    /// </summary>
+    /// <returns></returns>
+    private bool CheckForBreakInteraction()
+    {
+        if (breakInteraction != null)
+            return breakInteraction.CheckNeedToBreak();
+        else
+            return false;
     }
     #endregion
 }

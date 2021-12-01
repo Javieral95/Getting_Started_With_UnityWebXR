@@ -14,7 +14,7 @@ public class PhysicButton : MonoBehaviour
 {
     public UnityEvent onPressed, onReleased;
 
-    private bool _isPressed;
+    private bool _isPressed = false;
     private Rigidbody _rb;
 
     // Start is called before the first frame update

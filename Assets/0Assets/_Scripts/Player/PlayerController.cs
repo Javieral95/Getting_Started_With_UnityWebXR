@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
 {
     #region Properties
     private static NonXRInteraction _nonXR_interactor;
+    public Image nonXRImage;
 
     [Header("Player movement (Only Unity Editor)")]
     [SerializeField, Tooltip("Enable/disable rotation and movement control using VR hardware. For use in Unity editor only (Authomatic set to true when dettect hardware).")]
@@ -70,6 +71,10 @@ public class PlayerController : MonoBehaviour
     private float rotationY = 0f;
 
     private Quaternion originalRotation;
+
+    //Camera
+    private float XR_Z_Offset = 0.15f;
+    private float nonXR_Z_Offset = 0.15f;
 
     //Others
     private bool inGround = false;
@@ -291,6 +296,7 @@ public class PlayerController : MonoBehaviour
         ChangeShowCursor(!setActive);
         ChangeNotXRInteraction(!setActive);
         ChaneXRHandStatus(setActive);
+        nonXRImage.enabled = (!setActive);
 
         ResetPlayerTransform();
         ResetPlayerHeight();
@@ -345,12 +351,12 @@ public class PlayerController : MonoBehaviour
         if (isXREnabled)
         {
             this.controller.height = height;
-            this.controller.center = new Vector3(this.controller.center.x, height / 2, this.controller.center.z);
+            this.controller.center = new Vector3(this.controller.center.x, height / 2, XR_Z_Offset);
         }
         else
         {
             this.controller.height = nonXRHeight;
-            this.controller.center = new Vector3(this.controller.center.x, ((-1) * (nonXRHeight / 3)), this.controller.center.z);
+            this.controller.center = new Vector3(this.controller.center.x, ((-1) * (nonXRHeight / 3)), nonXR_Z_Offset);
         }
     }
 

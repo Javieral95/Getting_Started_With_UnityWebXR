@@ -31,7 +31,8 @@ public class ControllerInteraction : MonoBehaviour
     [SerializeField, Range(1, 15)]
     private float throwForce = 9f;
     private bool isGrabbing = false;
-    private NotMovable objectNotMovable;
+    private GrabbableDoor grabbableDoor;
+    private BreakInteraction breakInteraction;
     #endregion
 
     #region Unity Functions
@@ -73,6 +74,10 @@ public class ControllerInteraction : MonoBehaviour
 
         lastPosition = currentRigidBody.position;
         lastRotation = currentRigidBody.rotation;
+
+        CheckIfHaveBreakProperty(currentRigidBody);
+        if (CheckForBreakInteraction())
+            Drop(currentRigidBody);
     }
     #endregion
 
@@ -110,7 +115,7 @@ public class ControllerInteraction : MonoBehaviour
         if (isInteractableTrigger(currentRigidBody.gameObject))
             isInteractingWithTrigger = true;
         else if (IsInteractableNotMovable(currentRigidBody.gameObject))
-            objectNotMovable = currentRigidBody.GetComponent<NotMovable>();
+            grabbableDoor = currentRigidBody.GetComponent<GrabbableDoor>();
 
         //Operation
         if (isPicking && isInteractingWithTrigger)
@@ -148,8 +153,12 @@ public class ControllerInteraction : MonoBehaviour
         lastPosition = currentRigidBody.position;
         lastRotation = currentRigidBody.rotation;
 
+        //Cancel Movement when it on hands
+        currentRigidBody.velocity = Vector3.zero;
+        currentRigidBody.angularVelocity = Vector3.zero;
+
         isGrabbing = true;
-        objectNotMovable?.GrabObject();
+        grabbableDoor?.GrabObject();
 
     }
 
@@ -162,14 +171,13 @@ public class ControllerInteraction : MonoBehaviour
         Debug.Log("You are dropping an object!!");
 
         attachJoint.connectedBody = null;
-        if (objectNotMovable != null)
+        if (grabbableDoor != null)
         {
-            objectNotMovable?.DropObject();
-            objectNotMovable = null;
+            grabbableDoor?.DropObject();
+            grabbableDoor = null;
         }
         else
         {
-
             currentRigidBody.velocity = (currentRigidBody.position - lastPosition) / Time.deltaTime;
 
             var deltaRotation = currentRigidBody.rotation * Quaternion.Inverse(lastRotation);
@@ -179,17 +187,12 @@ public class ControllerInteraction : MonoBehaviour
             angle *= Mathf.Deg2Rad;
             currentRigidBody.angularVelocity = axis * angle / Time.deltaTime;
 
+            breakInteraction?.ResetPosition();
+            breakInteraction = null;
+
             currentRigidBody = null;
             isGrabbing = false;
         }
-    }
-
-    private void ResetGrabbedObjectPosition(Rigidbody currentRigidBody)
-    {
-        Debug.Log("RESET OBJECT POSITION");
-
-        NotMovable notMovible = currentRigidBody.GetComponent<NotMovable>();
-        notMovible.DropObject();
     }
 
     /// <summary>
@@ -198,10 +201,9 @@ public class ControllerInteraction : MonoBehaviour
     /// <param name="currentRigidBody"></param>
     private void Throw(Rigidbody currentRigidBody)
     {
-        Debug.Log("You are throwing an object!!");
-
         if (currentRigidBody != null && isGrabbing && !IsInteractableNotMovable(currentRigidBody.gameObject))
         {
+            Debug.Log("You are throwing an object!!");
             currentRigidBody.AddForce(this.gameObject.transform.forward * throwForce, ForceMode.Impulse);
 
             attachJoint.connectedBody = null;
@@ -271,6 +273,28 @@ public class ControllerInteraction : MonoBehaviour
     private bool IsInteractableNotMovable(GameObject other)
     {
         return other.CompareTag(GameManager.INTERACTABLE_NOT_MOVABLE_TAG);
+    }
+
+    /// <summary>
+    /// Check if the current Rigid body have BreakInteraction script
+    /// </summary>
+    /// <param name="currentRigidBody"></param>
+    private void CheckIfHaveBreakProperty(Rigidbody currentRigidBody)
+    {
+        if (breakInteraction == null)
+            breakInteraction = currentRigidBody.gameObject.GetComponent<BreakInteraction>();
+    }
+
+    /// <summary>
+    /// Check if the object, with BreakInteractions script, exceed the maximum distance allowed.
+    /// </summary>
+    /// <returns></returns>
+    private bool CheckForBreakInteraction()
+    {
+        if (breakInteraction != null)
+            return breakInteraction.CheckNeedToBreak();
+        else
+            return false;
     }
     #endregion
 
