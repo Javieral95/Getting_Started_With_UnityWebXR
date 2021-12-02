@@ -22,7 +22,7 @@ public class BreakInteraction : MonoBehaviour
     private Transform _transform;
     private Vector3 initPosition;
 
-    private float distance = 0.0f;
+    private float _distance;
 
     // Start is called before the first frame update
     void Start()
@@ -37,15 +37,20 @@ public class BreakInteraction : MonoBehaviour
     void Update()
     {
         if (UseObjectAsReference)
-            distance = Vector3.Distance(_transform.position, Reference.position);
+            _distance = CalculateDistance(_transform.position, Reference.position);
         else
-            distance = Vector3.Distance(_transform.position, initPosition);
+            _distance = CalculateDistance(_transform.position, initPosition);
 
-        if (distance >= maxDistance && !_needTobreak)
+        if (_distance >= maxDistance && !_needTobreak)
             _needTobreak = true;
         
         else if (_needTobreak && AuthomaticUpdate)
             ResetPosition();
+    }
+
+    private float CalculateDistance(Vector3 object1, Vector3 object2)
+    {
+        return Vector3.Distance(object1, object2);
     }
 
     public void ResetPosition()
@@ -61,5 +66,10 @@ public class BreakInteraction : MonoBehaviour
     public bool CheckNeedToBreak()
     {
         return _needTobreak;
+    }
+
+    public bool CheckNeedToBreak(Transform reference)
+    {
+        return _needTobreak || CalculateDistance(reference.position, initPosition) >= maxDistance;
     }
 }

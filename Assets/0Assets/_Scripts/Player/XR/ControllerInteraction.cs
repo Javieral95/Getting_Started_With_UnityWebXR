@@ -22,7 +22,7 @@ public class ControllerInteraction : MonoBehaviour
     private Rigidbody currentRigidBody;
     private List<Rigidbody> contactRigidBodies = new List<Rigidbody>();
     private WebXRInputManager inputManager;
-    private Transform t;
+    private Transform _transform;
     private Vector3 lastPosition;
     private Quaternion lastRotation;
 
@@ -38,7 +38,7 @@ public class ControllerInteraction : MonoBehaviour
     #region Unity Functions
     void Awake()
     {
-        t = transform;
+        _transform = transform;
         attachJoint = GetComponent<FixedJoint>();
         controller_anim = GetComponent<Animator>();
         inputManager = GetComponent<WebXRInputManager>();
@@ -74,10 +74,19 @@ public class ControllerInteraction : MonoBehaviour
 
         lastPosition = currentRigidBody.position;
         lastRotation = currentRigidBody.rotation;
+    }
 
-        CheckIfHaveBreakProperty(currentRigidBody);
+    private void LateUpdate()
+    {
         if (CheckForBreakInteraction())
+        {
+            if (currentRigidBody != null)
+            { //Ñapa, revisar proximo dia
+                currentRigidBody.angularVelocity = Vector3.zero;
+                currentRigidBody.velocity = Vector3.zero;
+            }
             Drop(currentRigidBody);
+        }
     }
     #endregion
 
@@ -107,20 +116,14 @@ public class ControllerInteraction : MonoBehaviour
     /// <param name="isPicking"></param>
     private void Interaction(bool isPicking = true)
     {
-        bool isInteractingWithTrigger = false;
         currentRigidBody = GetNearestRigidBody();
         if (!currentRigidBody) { return; }
 
-        //Check trigger or not movable
-        if (isInteractableTrigger(currentRigidBody.gameObject))
-            isInteractingWithTrigger = true;
-        else if (IsInteractableNotMovable(currentRigidBody.gameObject))
-            grabbableDoor = currentRigidBody.GetComponent<GrabbableDoor>();
+        CheckSpecialObject();
 
         //Operation
-        if (isPicking && isInteractingWithTrigger)
-            PressButton(currentRigidBody);
-        else if (isPicking)
+
+        if (isPicking)
             Pickup(currentRigidBody);
         else
             Drop(currentRigidBody);
@@ -147,7 +150,7 @@ public class ControllerInteraction : MonoBehaviour
     {
         Debug.Log("You are grabbing an object!!");
 
-        currentRigidBody.MovePosition(t.position);
+        currentRigidBody.MovePosition(_transform.position);
         attachJoint.connectedBody = currentRigidBody;
 
         lastPosition = currentRigidBody.position;
@@ -224,7 +227,7 @@ public class ControllerInteraction : MonoBehaviour
 
         foreach (Rigidbody contactBody in contactRigidBodies)
         {
-            distance = (contactBody.transform.position - t.position).sqrMagnitude;
+            distance = (contactBody.transform.position - _transform.position).sqrMagnitude;
 
             if (distance < minDistance)
             {
@@ -236,6 +239,12 @@ public class ControllerInteraction : MonoBehaviour
         return nearestRigidBody;
     }
 
+    private void CheckSpecialObject()
+    {
+        CheckIfHaveBreakProperty(currentRigidBody);
+        grabbableDoor = currentRigidBody.GetComponent<GrabbableDoor>();   
+    }
+
     /// <summary>
     /// Check if the object passed as parameter has the "Interactable" tag
     /// </summary>
@@ -243,7 +252,7 @@ public class ControllerInteraction : MonoBehaviour
     /// <returns></returns>
     private bool isInteractable(GameObject other)
     {
-        return isInteractableObject(other) || isInteractableTrigger(other) || IsInteractableNotMovable(other);
+        return isInteractableObject(other) /*|| isInteractableTrigger(other)*/ || IsInteractableNotMovable(other);
     }
 
     /// <summary>
@@ -282,7 +291,7 @@ public class ControllerInteraction : MonoBehaviour
     private void CheckIfHaveBreakProperty(Rigidbody currentRigidBody)
     {
         if (breakInteraction == null)
-            breakInteraction = currentRigidBody.gameObject.GetComponent<BreakInteraction>();
+            breakInteraction = currentRigidBody?.gameObject.GetComponent<BreakInteraction>();
     }
 
     /// <summary>
@@ -292,7 +301,7 @@ public class ControllerInteraction : MonoBehaviour
     private bool CheckForBreakInteraction()
     {
         if (breakInteraction != null)
-            return breakInteraction.CheckNeedToBreak();
+            return breakInteraction.CheckNeedToBreak(_transform);
         else
             return false;
     }

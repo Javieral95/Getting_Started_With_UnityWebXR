@@ -78,56 +78,44 @@ public class NonXRInteraction : MonoBehaviour
                     NonXR_selectedObject = hit.collider.gameObject;
                     NonXR_selectedObject_rb = NonXR_selectedObject.GetComponent<Rigidbody>();
                     NonXR_isDragging = true;
-                    if (tmpGameObject.CompareTag(GameManager.INTERACTABLE_NOT_MOVABLE_TAG))
-                        grabbableDoor = NonXR_selectedObject.GetComponent<GrabbableDoor>();
 
-                    CheckIfHaveBreakProperty(NonXR_selectedObject_rb);
+                    CancelForces();
+                    CheckSpecialObject();
                 }
                 else if (tmpGameObject.CompareTag(GameManager.INTERACTABLE_TRIGGER_TAG))
-                {
-                    //Press
-                    Debug.Log("You are pressing a button!!");
-                    pressedButton = tmpGameObject.GetComponent<PhysicButton>();
-                    if (pressedButton != null)
-                        pressedButton.PressButton();
-                    
-                }
+                    PressButton(tmpGameObject);
+
             }
             else
-            {
-                if (pressedButton != null)
-                {
-                    pressedButton.ReleaseButton();
-                    pressedButton = null;
-                }
-            }
+                ReleaseButton();
 
         }
-
-        bool needTobreakInteraction = CheckForBreakInteraction();
-
+       
         //Move Grabbed object
-        if (NonXR_isDragging)
-            NonXR_selectedObject.transform.position = GetMousePosition(NonXR_selectedObject);
+        MoveObject();
 
         //Drop Grabbed object
-        if (Input.GetMouseButtonUp(0) || needTobreakInteraction)
+        if (Input.GetMouseButtonUp(0))
         {
-            if(needTobreakInteraction)
-                breakInteraction?.ResetPosition();
             DropObject();
             //Button (trigger)
-            if (pressedButton != null)
-            {
-                pressedButton.ReleaseButton();
-                pressedButton = null;
-            }
+            ReleaseButton();
         }
 
         //Throw Grabbed object
         if (NonXR_isDragging && Input.GetMouseButtonDown(1) && NonXR_selectedObject_rb != null)
         {
             ThrowObject(NonXR_selectedObject_rb);
+            DropObject();
+        }
+    }
+
+    private void LateUpdate()
+    {
+        bool needTobreakInteraction = CheckForBreakInteraction();
+        if (needTobreakInteraction)
+        {
+            breakInteraction?.ResetPosition();
             DropObject();
         }
 
@@ -147,6 +135,22 @@ public class NonXRInteraction : MonoBehaviour
         var tmpm = screenCenter;
         tmpm.z = zPosition;
         return myCamera.ScreenToWorldPoint(tmpm);
+    }
+
+    private void MoveObject()
+    {
+        if (NonXR_selectedObject == null) return;
+
+        bool isNotMovable = NonXR_selectedObject.CompareTag(GameManager.INTERACTABLE_NOT_MOVABLE_TAG);
+        Debug.Log(NonXR_selectedObject_rb.constraints.ToString());
+        if (NonXR_isDragging)
+        {
+            Vector3 pos = GetMousePosition(NonXR_selectedObject);
+            if (isNotMovable)
+                NonXR_selectedObject_rb.MovePosition(pos);
+            else
+                NonXR_selectedObject.transform.position = pos;
+        }
     }
 
     private void ThrowObject(Rigidbody object_rb)
@@ -171,6 +175,41 @@ public class NonXRInteraction : MonoBehaviour
         if (screenCenter.x != Screen.width / 2 || screenCenter.y != Screen.height / 2)
             screenCenter = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0);
     }
+
+    private void CancelForces()
+    {
+        NonXR_selectedObject_rb.velocity = Vector3.zero;
+        NonXR_selectedObject_rb.angularVelocity = Vector3.zero;
+    }
+
+    private void CheckSpecialObject()
+    {
+        if (NonXR_selectedObject.gameObject.CompareTag(GameManager.INTERACTABLE_NOT_MOVABLE_TAG))
+            grabbableDoor = NonXR_selectedObject.GetComponent<GrabbableDoor>();
+
+        CheckIfHaveBreakProperty(NonXR_selectedObject_rb);
+    }
+
+    /// <summary>
+    /// If the select object is a button, this functions call his Press event.
+    /// </summary>
+    /// <param name="button"></param>
+    private void PressButton(GameObject button)
+    {
+        Debug.Log("You are pressing a button!!");
+        pressedButton = button.GetComponent<PhysicButton>();
+        pressedButton?.PressButton();
+    }
+
+    /// <summary>
+    /// If the select object is a button, this functions call his Release event.
+    /// </summary>
+    private void ReleaseButton()
+    {
+        pressedButton?.ReleaseButton();
+        pressedButton = null;
+    }
+
 
     /// <summary>
     /// Check if the current Rigid body have BreakInteraction script

@@ -175,7 +175,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8918321667258825725}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F4a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,7 +206,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8918666491581390659}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F2a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,7 +237,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8924912447115564523}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F1a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -268,7 +268,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8924549142000511851}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F4c
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -304,7 +304,7 @@ GameObject:
   - component: {fileID: 8921795627169359116}
   m_Layer: 13
   m_Name: WebXRCameraSet
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -368,18 +368,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be56b94c00608f240a26ab5e20b12e54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isXREnabled: 0
+  nonXRImage: {fileID: 0}
+  isXREnabled: 1
   canRotateWithSticks: 1
   inputManagerLeftHand: {fileID: 8922554900483974592}
   inputManagerRightHand: {fileID: 8922231952781522328}
   cameraMainTransform: {fileID: 8918684833200861439}
   cameraLeftTransform: {fileID: 8924540837728880195}
-  speed: 5
-  height: 3
+  speed: 4
+  height: 1.5
   gravity: 20
   jumpSpeed: 6
   mouseSensitivity: 1
-  nonXRHeight: 3
+  nonXRHeight: 1.5
   rotationAngle: 15
   stickText: {fileID: 0}
   cameraText: {fileID: 0}
@@ -395,7 +396,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d987d683aa991d04bbf529413e5cc203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NonXR_throwForce: 13
+  CursorImage: {fileID: 0}
+  NonXR_throwForce: 10
 --- !u!1 &8921798863616087647
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,7 +407,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8924860747623468575}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F1b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -437,7 +439,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8918345009968931511}
   - component: {fileID: 8808172774956197377}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -534,7 +536,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8918415379594169467}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F4c
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -564,7 +566,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8918307921653642557}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -595,7 +597,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8918424529398108009}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -626,7 +628,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8918768233225739561}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F3c
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -656,7 +658,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8918665170096099569}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -687,7 +689,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8918362832242457205}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F2b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -718,7 +720,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8918694869664041847}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -749,7 +751,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8918403204538090755}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F2a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -780,7 +782,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8924933848116209551}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Palm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -898,7 +900,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8924819026481142643}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F2b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -929,7 +931,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8918752853316429349}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Palm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1047,7 +1049,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8918644761774715703}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F4b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1078,7 +1080,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8924542055722761259}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1108,7 +1110,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8924902297913845079}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F3c
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1210,9 +1212,9 @@ GameObject:
   - component: {fileID: 8922231952781522328}
   - component: {fileID: 8922231952781522329}
   - component: {fileID: 8922231952781522335}
-  m_Layer: 12
+  m_Layer: 8
   m_Name: handR
-  m_TagString: Untagged
+  m_TagString: PlayerHands
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1340,7 +1342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stick: {x: 0, y: 0}
-  showDebug: 1
+  showDebug: 0
 --- !u!114 &8922231952781522329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1375,7 +1377,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8918630067384515281}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1406,7 +1408,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8924924548499835249}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F1b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1446,9 +1448,9 @@ GameObject:
   - component: {fileID: 8922554900483974598}
   - component: {fileID: 8922554900483974592}
   - component: {fileID: 8922554900483974597}
-  m_Layer: 12
+  m_Layer: 8
   m_Name: handL
-  m_TagString: Untagged
+  m_TagString: PlayerHands
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1588,7 +1590,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stick: {x: 0, y: 0}
-  showDebug: 1
+  showDebug: 0
 --- !u!114 &8922554900483974597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1611,7 +1613,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8924532696938243719}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F2c
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1641,7 +1643,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8918587049628944633}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F3b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1672,7 +1674,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8924974023695178085}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F1a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1703,7 +1705,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8918806542653924533}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F4a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1734,7 +1736,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8918266287767638941}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F3a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1867,7 +1869,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8918636229624569333}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F1c
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1897,7 +1899,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8918269187406437117}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1928,7 +1930,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8918405473731274965}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F1c
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1958,7 +1960,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8924889788174038139}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F4b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1989,7 +1991,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8924812802379029683}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2019,7 +2021,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8924649118076538989}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F3b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2051,7 +2053,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8918394082847197731}
   - component: {fileID: 8805652360476071473}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2148,7 +2150,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8924623167278317185}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F3a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2179,7 +2181,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8924906467557822625}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: F2c
   m_TagString: Untagged
   m_Icon: {fileID: 0}

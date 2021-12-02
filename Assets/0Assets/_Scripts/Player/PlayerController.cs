@@ -369,7 +369,8 @@ public class PlayerController : MonoBehaviour
             moveDirection.y = 0; //Avoid to move in Y axis
             moveDirection *= speed;
 
-            if (inputManagerLeftHand.is_B_ButtonPressed() || Input.GetButton("Jump"))
+            //Jump
+            if (inputManagerRightHand.is_B_ButtonPressed() || Input.GetButton("Jump"))
                 moveDirection.y = jumpSpeed;
         }
 
