@@ -144,7 +144,7 @@ GameObject:
   - component: {fileID: 6569417109602513042}
   m_Layer: 0
   m_Name: InternalGrabbableHandler
-  m_TagString: InteractableNotMovable
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -268,7 +268,7 @@ MonoBehaviour:
   UseObjectAsReference: 1
   AuthomaticUpdate: 0
   Reference: {fileID: 2699217504623151910}
-  maxDistance: 1
+  maxDistance: 2
 --- !u!1 &3275711033654763864
 GameObject:
   m_ObjectHideFlags: 0
@@ -434,7 +434,7 @@ GameObject:
   - component: {fileID: 9053493603644970439}
   m_Layer: 0
   m_Name: ExternalGrabbableHandler
-  m_TagString: InteractableNotMovable
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -558,7 +558,7 @@ MonoBehaviour:
   UseObjectAsReference: 1
   AuthomaticUpdate: 0
   Reference: {fileID: 4242044457070042110}
-  maxDistance: 1
+  maxDistance: 2
 --- !u!1 &4242044457070042109
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ TagManager:
   - InteractableTrigger
   - InteractableNotMovable
   - PlayerHands
+  - LeverHandle
   layers:
   - Default
   - TransparentFX
