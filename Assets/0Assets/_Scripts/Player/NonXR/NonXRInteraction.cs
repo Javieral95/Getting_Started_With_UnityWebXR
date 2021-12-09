@@ -142,7 +142,7 @@ public class NonXRInteraction : MonoBehaviour
         if (NonXR_selectedObject == null) return;
 
         bool isNotMovable = NonXR_selectedObject.CompareTag(GameManager.INTERACTABLE_NOT_MOVABLE_TAG);
-        Debug.Log(NonXR_selectedObject_rb.constraints.ToString());
+        Debug.Log("PRESSING NOT MOVABLE AND TRY TO MOVE");
         if (NonXR_isDragging)
         {
             Vector3 pos = GetMousePosition(NonXR_selectedObject);

@@ -43,7 +43,7 @@ public class BreakInteraction : MonoBehaviour
 
         if (_distance >= maxDistance && !_needTobreak)
             _needTobreak = true;
-        
+
         else if (_needTobreak && AuthomaticUpdate)
             ResetPosition();
     }
@@ -68,8 +68,11 @@ public class BreakInteraction : MonoBehaviour
         return _needTobreak;
     }
 
-    public bool CheckNeedToBreak(Transform reference)
+    public bool CheckNeedToBreak(Transform playerReference)
     {
-        return _needTobreak || CalculateDistance(reference.position, initPosition) >= maxDistance;
+        if (UseObjectAsReference)
+            return _needTobreak || CalculateDistance(playerReference.position, Reference.position) >= maxDistance;
+        else
+            return _needTobreak || CalculateDistance(playerReference.position, initPosition) >= maxDistance;
     }
 }

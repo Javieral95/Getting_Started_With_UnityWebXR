@@ -84,8 +84,8 @@ public class ControllerInteraction : MonoBehaviour
             { //Ñapa, revisar proximo dia
                 currentRigidBody.angularVelocity = Vector3.zero;
                 currentRigidBody.velocity = Vector3.zero;
+                Drop(currentRigidBody);
             }
-            Drop(currentRigidBody);
         }
     }
     #endregion
@@ -116,7 +116,8 @@ public class ControllerInteraction : MonoBehaviour
     /// <param name="isPicking"></param>
     private void Interaction(bool isPicking = true)
     {
-        currentRigidBody = GetNearestRigidBody();
+        if (currentRigidBody != null) Drop(currentRigidBody);
+        currentRigidBody = GetNearestRigidBody();        
         if (!currentRigidBody) { return; }
 
         CheckSpecialObject();

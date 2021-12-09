@@ -31,14 +31,12 @@ public class LeverBehaviour : MonoBehaviour
 
     private void ActivateLever()
     {
-        Debug.Log("ACTIVATE");
         onActivate.Invoke();
         _is_activate = true;
     }
     
     private void DisactivateLever()
     {
-        Debug.Log("DISACTIVATE");
         onDisactivate.Invoke();
         _is_activate = false;
     }
