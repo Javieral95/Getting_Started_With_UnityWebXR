@@ -27,11 +27,13 @@ public class NonXRInteraction : MonoBehaviour
 
     private Vector3 screenCenter = Vector3.zero;
     private float z_GrabObjectPosition = 1f;
+    private Vector3 mousePos = Vector3.zero;
 
     private PhysicButton pressedButton;
     private GrabbableDoor grabbableDoor;
     private BreakInteraction breakInteraction;
 
+    #region Unity Functions
     // Start is called before the first frame update
     void Start()
     {
@@ -52,6 +54,20 @@ public class NonXRInteraction : MonoBehaviour
         CheckResizeWindow();
         NonXR_Interaction();
     }
+    
+    private void LateUpdate()
+    {
+        if (CheckForBreakInteraction())
+        {
+            if (NonXR_selectedObject_rb != null)
+            { //Ñapa, revisar proximo dia
+                CancelForces();
+                breakInteraction?.ResetPosition();
+                DropObject();
+            }
+        }
+    }
+    #endregion
 
     public void InitCamera(Camera controllerCamera)
     {
@@ -110,17 +126,6 @@ public class NonXRInteraction : MonoBehaviour
         }
     }
 
-    private void LateUpdate()
-    {
-        bool needTobreakInteraction = CheckForBreakInteraction();
-        if (needTobreakInteraction)
-        {
-            breakInteraction?.ResetPosition();
-            DropObject();
-        }
-
-    }
-
     #region Auxiliar Methods
 
     private Vector3 GetMousePosition(GameObject target)
@@ -142,20 +147,23 @@ public class NonXRInteraction : MonoBehaviour
         if (NonXR_selectedObject == null) return;
 
         bool isNotMovable = NonXR_selectedObject.CompareTag(GameManager.INTERACTABLE_NOT_MOVABLE_TAG);
-        Debug.Log("PRESSING NOT MOVABLE AND TRY TO MOVE");
+
         if (NonXR_isDragging)
         {
-            Vector3 pos = GetMousePosition(NonXR_selectedObject);
+            mousePos = GetMousePosition(NonXR_selectedObject);
             if (isNotMovable)
-                NonXR_selectedObject_rb.MovePosition(pos);
+                NonXR_selectedObject_rb.MovePosition(mousePos);
             else
-                NonXR_selectedObject.transform.position = pos;
+                NonXR_selectedObject.transform.position = mousePos;
+            
+            //Cancel Movement when it on "hands"
+            CancelForces();
         }
     }
 
     private void ThrowObject(Rigidbody object_rb)
     {
-        if (grabbableDoor == null)
+        if (grabbableDoor == null && !NonXR_selectedObject.gameObject.CompareTag(GameManager.INTERACTABLE_NOT_MOVABLE_TAG))
             object_rb.AddForce(myCamera.transform.forward * NonXR_throwForce, ForceMode.Impulse);
     }
 
@@ -217,7 +225,7 @@ public class NonXRInteraction : MonoBehaviour
     /// <param name="currentRigidBody"></param>
     private void CheckIfHaveBreakProperty(Rigidbody currentRigidBody)
     {
-        if (breakInteraction == null && breakInteraction == null)
+        if (breakInteraction == null)
             breakInteraction = currentRigidBody.gameObject.GetComponent<BreakInteraction>();
     }
 
@@ -228,7 +236,7 @@ public class NonXRInteraction : MonoBehaviour
     private bool CheckForBreakInteraction()
     {
         if (breakInteraction != null)
-            return breakInteraction.CheckNeedToBreak();
+            return breakInteraction.CheckNeedToBreak(mousePos);
         else
             return false;
     }

@@ -75,4 +75,12 @@ public class BreakInteraction : MonoBehaviour
         else
             return _needTobreak || CalculateDistance(playerReference.position, initPosition) >= maxDistance;
     }
+    
+    public bool CheckNeedToBreak(Vector3 playerReferencePos)
+    {
+        if (UseObjectAsReference)
+            return _needTobreak || CalculateDistance(playerReferencePos, Reference.position) >= maxDistance;
+        else
+            return _needTobreak || CalculateDistance(playerReferencePos, initPosition) >= maxDistance;
+    }
 }
