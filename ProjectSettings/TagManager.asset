@@ -9,6 +9,7 @@ TagManager:
   - InteractableNotMovable
   - PlayerHands
   - LeverHandle
+  - Teleporter
   layers:
   - Default
   - TransparentFX

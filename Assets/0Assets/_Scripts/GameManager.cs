@@ -6,6 +6,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -104,5 +105,23 @@ public class GameManager : MonoBehaviour
     public void RespawnPlayer()
     {
         Application.LoadLevel(Application.loadedLevel);
+    }
+
+    /// <summary>
+    /// This function load a new scene using its name
+    /// </summary>
+    /// <param name="sceneName"></param>
+    public void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+    }
+    
+    /// <summary>
+    /// This function load a new scene using its build index
+    /// </summary>
+    /// <param name="sceneBuildIndex"></param>
+    public void LoadScene(Scene sceneBuildIndex)
+    {
+        SceneManager.LoadScene(sceneBuildIndex.handle, LoadSceneMode.Single);
     }
 }
