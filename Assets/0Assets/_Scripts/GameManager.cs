@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
 
     #region Properties
     [Header("Gameobjects")]
-    public GameObject Player;
+    private GameObject Player;
     public Transform StartPoint;
 
     private Transform playerTransform;
@@ -72,6 +72,8 @@ public class GameManager : MonoBehaviour
     public const string INTERACTABLE_NOT_MOVABLE_TAG = "InteractableNotMovable";
     #endregion
 
+    private bool first = true;
+
     //If a script will be using the singleton in its awake method, make sure the manager is first to execute with the Script Execution Order project settings
     void Awake()
     {
@@ -80,7 +82,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        playerTransform = Player.GetComponent<Transform>();
+        Player = GameObject.FindGameObjectWithTag("Player");
     }
 
     /// <summary>
@@ -91,7 +93,7 @@ public class GameManager : MonoBehaviour
         GameObject newBall = Instantiate(objectToInstantiate, position, rotation);
         Rigidbody newBallrb = newBall.GetComponent<Rigidbody>();
 
-        if(newBallrb!=null)
+        if (newBallrb != null)
             newBallrb.AddForce(Vector3.back * impulseForce, ForceMode.Impulse);
     }
     public void InstantiateNewObject(GameObject objectToInstantiate, Vector3 position, Quaternion rotation)
@@ -115,7 +117,7 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
-    
+
     /// <summary>
     /// This function load a new scene using its build index
     /// </summary>
@@ -123,5 +125,21 @@ public class GameManager : MonoBehaviour
     public void LoadScene(Scene sceneBuildIndex)
     {
         SceneManager.LoadScene(sceneBuildIndex.handle, LoadSceneMode.Single);
+    }
+
+    public void Update()
+    {
+        if (first)
+            ChangePosition(); //Dont work
+
+    }
+
+    private void ChangePosition()
+    {
+        Player.transform.position = StartPoint.transform.position;
+        Player.transform.rotation = StartPoint.transform.rotation;
+        playerTransform = StartPoint.transform;
+        playerTransform.TransformPoint(StartPoint.transform.position);
+
     }
 }
