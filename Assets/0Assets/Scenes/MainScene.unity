@@ -776,12 +776,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 75515540}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &103025951 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8921795627169359117, guid: 49c6231375a91de49a7a5d8f69d5b142,
-    type: 3}
-  m_PrefabInstance: {fileID: 599608899}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &110636992
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4503,7 +4497,7 @@ GameObject:
   - component: {fileID: 647143217}
   m_Layer: 0
   m_Name: StartPoint
-  m_TagString: Untagged
+  m_TagString: StartPoint
   m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4516,7 +4510,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 647143216}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.4441848, y: 0, z: -11.530565}
+  m_LocalPosition: {x: 1.4441848, y: 0.9, z: -11.530565}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -4551,8 +4545,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8985df1ba134bb4499ddf3a8691fb21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 103025951}
-  StartPoint: {fileID: 647143217}
 --- !u!4 &647474927
 Transform:
   m_ObjectHideFlags: 0

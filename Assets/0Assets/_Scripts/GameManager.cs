@@ -63,9 +63,12 @@ public class GameManager : MonoBehaviour
     #region Properties
     [Header("Gameobjects")]
     private GameObject Player;
-    public Transform StartPoint;
 
-    private Transform playerTransform;
+    private CharacterController PlayerCharacterController;
+    
+    //public List<GameObject> StartPoints;
+    private Transform StartPoint;
+    
 
     public const string INTERACTABLE_TAG = "Interactable";
     public const string INTERACTABLE_TRIGGER_TAG = "InteractableTrigger";
@@ -82,7 +85,19 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        first = true;
         Player = GameObject.FindGameObjectWithTag("Player");
+        StartPoint = GameObject.FindGameObjectWithTag("StartPoint").transform;
+        PlayerCharacterController = Player.GetComponent<CharacterController>();
+        MovePlayerToStartPoint();
+    }
+    public void FixedUpdate()
+    {
+        //If you want to teleport the Player (with CharacterController) you need to change his transform inside
+        //FixedUpdate or disable the character controller, change the transform and enable it again.
+        //if (first)
+        //    MovePlayerToStartPoint();
+
     }
 
     /// <summary>
@@ -101,12 +116,26 @@ public class GameManager : MonoBehaviour
         Instantiate(objectToInstantiate, position, rotation);
     }
 
+    private void MovePlayerToStartPoint()
+    {
+        ChangeCharacterControllerStatus(false);
+        Player.transform.position = StartPoint.position;
+        Player.transform.rotation = StartPoint.rotation;
+        ChangeCharacterControllerStatus(true);
+    }
+
+    private void ChangeCharacterControllerStatus(bool isEnabled)
+    {
+        //Need to disable and enable CharacterController or the teleport wont work
+        PlayerCharacterController.enabled = isEnabled;
+    }
+
     /// <summary>
-    /// This function should teleport the player to start point again.
+    /// This function should teleport the player to start point again (Reset the scene).
     /// </summary>
     public void RespawnPlayer()
     {
-        Application.LoadLevel(Application.loadedLevel);
+        MovePlayerToStartPoint();
     }
 
     /// <summary>
@@ -125,21 +154,5 @@ public class GameManager : MonoBehaviour
     public void LoadScene(Scene sceneBuildIndex)
     {
         SceneManager.LoadScene(sceneBuildIndex.handle, LoadSceneMode.Single);
-    }
-
-    public void Update()
-    {
-        if (first)
-            ChangePosition(); //Dont work
-
-    }
-
-    private void ChangePosition()
-    {
-        Player.transform.position = StartPoint.transform.position;
-        Player.transform.rotation = StartPoint.transform.rotation;
-        playerTransform = StartPoint.transform;
-        playerTransform.TransformPoint(StartPoint.transform.position);
-
     }
 }

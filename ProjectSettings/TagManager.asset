@@ -10,6 +10,7 @@ TagManager:
   - PlayerHands
   - LeverHandle
   - Teleporter
+  - StartPoint
   layers:
   - Default
   - TransparentFX
