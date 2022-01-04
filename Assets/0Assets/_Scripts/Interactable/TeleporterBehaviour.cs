@@ -8,6 +8,8 @@ public class TeleporterBehaviour : MonoBehaviour
 {
     public GameManager GameManager;
     public Scene SceneToTeleport;
+
+    public int StartPointIndex;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +20,6 @@ public class TeleporterBehaviour : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
-            GameManager.LoadScene(SceneToTeleport);
+            GameManager.LoadScene(SceneToTeleport, StartPointIndex);
     }
 }

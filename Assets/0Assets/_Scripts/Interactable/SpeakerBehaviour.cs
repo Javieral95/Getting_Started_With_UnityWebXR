@@ -29,7 +29,6 @@ public class SpeakerBehaviour : MonoBehaviour
         float seconds = vibrationSecondsDelay;
         foreach (Rigidbody speaker in Speakers)
         {
-            Debug.Log("Seconds "+seconds);
             StartCoroutine(VibrateSpeaking(speaker, seconds));
             seconds = seconds + vibrationSecondsIncrease;
         }

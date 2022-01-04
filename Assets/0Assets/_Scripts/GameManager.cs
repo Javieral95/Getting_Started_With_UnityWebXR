@@ -66,16 +66,16 @@ public class GameManager : MonoBehaviour
 
     private CharacterController PlayerCharacterController;
     
-    //public List<GameObject> StartPoints;
+    public GameObject[] StartPointsList;
     private Transform StartPoint;
-    
 
     public const string INTERACTABLE_TAG = "Interactable";
     public const string INTERACTABLE_TRIGGER_TAG = "InteractableTrigger";
     public const string INTERACTABLE_NOT_MOVABLE_TAG = "InteractableNotMovable";
     #endregion
 
-    private bool first = true;
+    private bool IsFirstIteration = true;
+    private int StartPointIndex = 0;
 
     //If a script will be using the singleton in its awake method, make sure the manager is first to execute with the Script Execution Order project settings
     void Awake()
@@ -85,9 +85,13 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        first = true;
+        StartPointIndex = SceneArguments.StartPointIndex;
+        IsFirstIteration = true;
+        
         Player = GameObject.FindGameObjectWithTag("Player");
-        StartPoint = GameObject.FindGameObjectWithTag("StartPoint").transform;
+        
+        StartPoint = StartPointsList[StartPointIndex].transform;
+        
         PlayerCharacterController = Player.GetComponent<CharacterController>();
         MovePlayerToStartPoint();
     }
@@ -95,7 +99,7 @@ public class GameManager : MonoBehaviour
     {
         //If you want to teleport the Player (with CharacterController) you need to change his transform inside
         //FixedUpdate or disable the character controller, change the transform and enable it again.
-        //if (first)
+        //if (IsFirstIteration)
         //    MovePlayerToStartPoint();
 
     }
@@ -116,7 +120,7 @@ public class GameManager : MonoBehaviour
         Instantiate(objectToInstantiate, position, rotation);
     }
 
-    private void MovePlayerToStartPoint()
+    private void MovePlayerToStartPoint(int startPointIndex=0)
     {
         ChangeCharacterControllerStatus(false);
         Player.transform.position = StartPoint.position;
@@ -151,8 +155,13 @@ public class GameManager : MonoBehaviour
     /// This function load a new scene using its build index
     /// </summary>
     /// <param name="sceneBuildIndex"></param>
-    public void LoadScene(Scene sceneBuildIndex)
+    public void LoadScene(Scene sceneBuildIndex, int startPointIndex=0)
     {
+        SceneArguments.StartPointIndex = startPointIndex;
         SceneManager.LoadScene(sceneBuildIndex.handle, LoadSceneMode.Single);
     }
+}
+
+public static class SceneArguments {
+    public static int StartPointIndex { get; set; }
 }

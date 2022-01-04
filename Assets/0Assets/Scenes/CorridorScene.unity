@@ -968,6 +968,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8985df1ba134bb4499ddf3a8691fb21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StartPointsList:
+  - {fileID: 350030401}
 --- !u!4 &369449364
 Transform:
   m_ObjectHideFlags: 0
@@ -1859,6 +1861,11 @@ PrefabInstance:
       propertyPath: GameManager
       value: 
       objectReference: {fileID: 369449363}
+    - target: {fileID: 4529302237079651272, guid: 2be5c67cb61e9da48a685ec6f77ae680,
+        type: 3}
+      propertyPath: StartPointIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4529302237079651272, guid: 2be5c67cb61e9da48a685ec6f77ae680,
         type: 3}
       propertyPath: SceneToTeleport.m_Handle
