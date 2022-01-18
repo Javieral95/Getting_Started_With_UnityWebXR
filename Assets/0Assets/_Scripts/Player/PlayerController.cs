@@ -283,7 +283,8 @@ public class PlayerController : MonoBehaviour
 
         Quaternion xQuaternion = Quaternion.AngleAxis(rotationX, Vector3.up);
         Quaternion YQuaternion = Quaternion.AngleAxis(rotationY, Vector3.left);
-        transform.localRotation = originalRotation * xQuaternion * YQuaternion;
+        //transform.localRotation = originalRotation * xQuaternion * YQuaternion;
+        myCamera.transform.rotation = originalRotation * xQuaternion * YQuaternion;
     }
 
     #endregion
@@ -365,7 +366,12 @@ public class PlayerController : MonoBehaviour
         if (inGround)
         {
             // We are grounded, so recalculate movedirection directly from axes
+            //moveDirection = myTransform.TransformDirection(direction);
+            moveDirection = myCamera.transform.TransformDirection(direction);
+#if UNITY_WEBGL
+            //After Export in WebGL cameraMainTransform will return the same value, but not cameraLeftTransform.
             moveDirection = myTransform.TransformDirection(direction);
+#endif
             moveDirection.y = 0; //Avoid to move in Y axis
             moveDirection *= speed;
 
