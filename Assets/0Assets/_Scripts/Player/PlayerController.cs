@@ -333,7 +333,7 @@ public class PlayerController : MonoBehaviour
         //TO-DO: IS NOT WORKING AFTER BUILD! In WebGL App the MainCamera Rotation is always the same.
         Quaternion rotation = cameraMainTransform.localRotation;
 
-#if UNITY_WEBGL
+#if UNITY_WEBGL        
         //After Export in WebGL cameraMainTransform will return the same value, but not cameraLeftTransform.
         rotation = cameraLeftTransform.localRotation;
 #endif
@@ -368,10 +368,7 @@ public class PlayerController : MonoBehaviour
             // We are grounded, so recalculate movedirection directly from axes
             //moveDirection = myTransform.TransformDirection(direction);
             moveDirection = myCamera.transform.TransformDirection(direction);
-#if UNITY_WEBGL
-            //After Export in WebGL cameraMainTransform will return the same value, but not cameraLeftTransform.
-            moveDirection = myTransform.TransformDirection(direction);
-#endif
+
             moveDirection.y = 0; //Avoid to move in Y axis
             moveDirection *= speed;
 
