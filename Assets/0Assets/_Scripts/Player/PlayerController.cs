@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     [Header("WebXR objects")]
     public WebXRInputManager inputManagerLeftHand;
     public WebXRInputManager inputManagerRightHand;
+    private XRTeleporterController xrTeleporterController;
 
     public Transform cameraMainTransform;
     public Transform cameraLeftTransform;
@@ -110,6 +111,7 @@ public class PlayerController : MonoBehaviour
         //Components
         myCamera = cameraMainTransform.GetComponent<Camera>();
         controller = GetComponent<CharacterController>();
+        xrTeleporterController = GetComponent<XRTeleporterController>();
 
         //Preview
         myTransform = transform;
@@ -317,6 +319,7 @@ public class PlayerController : MonoBehaviour
     {
         inputManagerRightHand.gameObject.SetActive(setActive);
         inputManagerLeftHand.gameObject.SetActive(setActive);
+        xrTeleporterController.enabled = setActive;
     }
 
     private void ChangeNotXRInteraction(bool setActive)
