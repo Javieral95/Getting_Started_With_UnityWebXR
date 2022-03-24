@@ -31,8 +31,7 @@ public class ControllerInteraction : MonoBehaviour
     [SerializeField, Range(1, 15)]
     private float throwForce = 9f;
     private bool isGrabbing = false;
-    private GrabbableDoor grabbableDoor;
-    private BreakInteraction breakInteraction;
+    private ISpecialInteractable specialInteractable;    
     #endregion
 
     #region Unity Functions
@@ -162,7 +161,7 @@ public class ControllerInteraction : MonoBehaviour
         currentRigidBody.angularVelocity = Vector3.zero;
 
         isGrabbing = true;
-        grabbableDoor?.GrabObject();
+        specialInteractable?.Grab();
 
     }
 
@@ -175,10 +174,10 @@ public class ControllerInteraction : MonoBehaviour
         Debug.Log("You are dropping an object!!");
 
         attachJoint.connectedBody = null;
-        if (grabbableDoor != null)
+        if (specialInteractable != null)
         {
-            grabbableDoor?.DropObject();
-            grabbableDoor = null;
+            specialInteractable?.Drop();
+            specialInteractable = null;
         }
         else
         {
@@ -191,8 +190,8 @@ public class ControllerInteraction : MonoBehaviour
             angle *= Mathf.Deg2Rad;
             currentRigidBody.angularVelocity = axis * angle / Time.deltaTime;
 
-            breakInteraction?.ResetPosition();
-            breakInteraction = null;
+            specialInteractable?.Drop();
+            specialInteractable = null;
 
             currentRigidBody = null;
             isGrabbing = false;
@@ -242,8 +241,8 @@ public class ControllerInteraction : MonoBehaviour
 
     private void CheckSpecialObject()
     {
-        CheckIfHaveBreakProperty(currentRigidBody);
-        grabbableDoor = currentRigidBody.GetComponent<GrabbableDoor>();   
+        //CheckIfHaveBreakProperty(currentRigidBody);
+        specialInteractable = currentRigidBody.GetComponent<SpecialInteractable>();   
     }
 
     /// <summary>
@@ -286,23 +285,13 @@ public class ControllerInteraction : MonoBehaviour
     }
 
     /// <summary>
-    /// Check if the current Rigid body have BreakInteraction script
-    /// </summary>
-    /// <param name="currentRigidBody"></param>
-    private void CheckIfHaveBreakProperty(Rigidbody currentRigidBody)
-    {
-        if (breakInteraction == null)
-            breakInteraction = currentRigidBody?.gameObject.GetComponent<BreakInteraction>();
-    }
-
-    /// <summary>
     /// Check if the object, with BreakInteractions script, exceed the maximum distance allowed.
     /// </summary>
     /// <returns></returns>
     private bool CheckForBreakInteraction()
     {
-        if (breakInteraction != null)
-            return breakInteraction.CheckNeedToBreak(_transform);
+        if (specialInteractable != null)
+            return specialInteractable.CheckNeedToBreak(_transform);
         else
             return false;
     }

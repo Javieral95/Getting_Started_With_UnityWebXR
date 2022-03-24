@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class PhysicButton : MonoBehaviour
+public class PhysicButton : SpecialInteractable
 {
     public UnityEvent onPressed, onReleased;
 
@@ -20,6 +20,7 @@ public class PhysicButton : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        base.Start();
         _rb = GetComponent<Rigidbody>();
     }
 
@@ -66,6 +67,20 @@ public class PhysicButton : MonoBehaviour
         _isPressed = false;
         onReleased.Invoke();
         Debug.Log("Button Released");
+    }
+
+
+    public override void Grab()
+    {
+        PressButton();
+    }
+    public override void Drop()
+    {
+        ReleaseButton();
+    }
+    public override void Throw()
+    {
+        ReleaseButton();
     }
     #endregion
 
