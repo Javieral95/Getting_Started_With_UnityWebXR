@@ -93,6 +93,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 positionPrev;
     private Quaternion rotationPrev;
 
+
     #endregion
 
     #region Unity Functions
@@ -396,6 +397,13 @@ public class PlayerController : MonoBehaviour
             angle -= 360f;
         return Mathf.Clamp(angle, min, max);
     }
+
+    public void SetOriginalRotation(Transform inputTransform)
+    {
+        this.originalRotation = inputTransform.localRotation;
+    }
+
+
     #endregion
 
     #endregion

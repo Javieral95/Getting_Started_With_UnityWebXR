@@ -62,9 +62,11 @@ public class GameManager : MonoBehaviour
 
     #region Properties
     [Header("Gameobjects")]
-    private GameObject Player;
+    private PlayerController Player;
 
     private CharacterController PlayerCharacterController;
+    private Transform cameraMainTransform;
+    private Transform cameraLeftTransform;
     
     public GameObject[] StartPointsList;
     private Transform StartPoint;
@@ -88,7 +90,9 @@ public class GameManager : MonoBehaviour
         StartPointIndex = SceneArguments.StartPointIndex;
         IsFirstIteration = true;
         
-        Player = GameObject.FindGameObjectWithTag("Player");
+        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        cameraMainTransform = Player.cameraMainTransform;
+        cameraLeftTransform = Player.cameraLeftTransform;
         
         StartPoint = StartPointsList[StartPointIndex].transform;
         
@@ -125,6 +129,7 @@ public class GameManager : MonoBehaviour
         ChangeCharacterControllerStatus(false);
         Player.transform.position = StartPoint.position;
         Player.transform.rotation = StartPoint.rotation;
+        Player.SetOriginalRotation(StartPoint);
         ChangeCharacterControllerStatus(true);
     }
 

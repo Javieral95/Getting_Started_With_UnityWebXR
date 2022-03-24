@@ -152,7 +152,10 @@ public class NonXRInteraction : MonoBehaviour
         {
             mousePos = GetMousePosition(NonXR_selectedObject);
             if (isNotMovable)
+            {
                 NonXR_selectedObject_rb.MovePosition(mousePos);
+                //NonXR_selectedObject_rb.MoveRotation(Quaternion.Euler(new Vector3(0, 10, 0)));
+            }
             else
                 NonXR_selectedObject.transform.position = mousePos;
             
