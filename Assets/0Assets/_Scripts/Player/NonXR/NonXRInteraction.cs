@@ -152,15 +152,15 @@ public class NonXRInteraction : MonoBehaviour
         if (NonXR_isDragging)
         {            
             mousePos = GetMousePosition(NonXR_selectedObject);
-            if (isNotMovable)
+            if (specialInteractable == null || specialInteractable.CanMoveIt())
             {
-                specialInteractable?.Grab();
-                NonXR_selectedObject_rb.MovePosition(mousePos);
-                //NonXR_selectedObject_rb.MoveRotation(Quaternion.Euler(new Vector3(0, 10, 0)));
+                if (isNotMovable)
+                    NonXR_selectedObject_rb.MovePosition(mousePos);
+                else
+                    NonXR_selectedObject.transform.position = mousePos;
             }
-            else
-                NonXR_selectedObject.transform.position = mousePos;
-            
+            specialInteractable?.Grab();
+
             //Cancel Movement when it on "hands"
             CancelForces();
         }
@@ -168,10 +168,10 @@ public class NonXRInteraction : MonoBehaviour
 
     private void ThrowObject(Rigidbody object_rb)
     {
-        if (specialInteractable != null)
-            specialInteractable.Throw();
-        else if (!NonXR_selectedObject.gameObject.CompareTag(GameManager.INTERACTABLE_NOT_MOVABLE_TAG))
+        if (!NonXR_selectedObject.gameObject.CompareTag(GameManager.INTERACTABLE_NOT_MOVABLE_TAG))
             object_rb.AddForce(myCamera.transform.forward * NonXR_throwForce, ForceMode.Impulse);
+
+        specialInteractable?.Throw();
     }
 
     private void DropObject()
@@ -180,7 +180,7 @@ public class NonXRInteraction : MonoBehaviour
         mousePos = GetMousePosition(NonXR_selectedObject);
         var x_force = Input.GetAxis("Mouse X");
         var y_force = Input.GetAxis("Mouse Y");
-        if (x_force != 0 || y_force != 0)
+        if (NonXR_selectedObject_rb != null && (x_force != 0 || y_force != 0))
         {
             var force = new Vector3(mousePos.x * x_force, mousePos.y * y_force, (-mousePos.z / 5));        
             NonXR_selectedObject_rb.AddForce(force, ForceMode.Impulse);

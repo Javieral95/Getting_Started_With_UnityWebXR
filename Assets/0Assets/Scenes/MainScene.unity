@@ -785,6 +785,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2665752822123035979, guid: b638bd42e496da2499861dc45f8f54b9,
         type: 3}
+      propertyPath: AllowMovement
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2665752822123035979, guid: b638bd42e496da2499861dc45f8f54b9,
+        type: 3}
       propertyPath: onActivate.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 989101028}
@@ -883,7 +888,8 @@ PrefabInstance:
       propertyPath: m_ConnectedAnchor.z
       value: -1.8549
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1441550023, guid: b638bd42e496da2499861dc45f8f54b9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b638bd42e496da2499861dc45f8f54b9, type: 3}
 --- !u!4 &121248003 stripped
 Transform:
@@ -3184,6 +3190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2cde0fc73b3024a9918083c16e17f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allowTranslation: 0
   Reference: {fileID: 0}
   HaveBreakInteraction: 0
   AuthomaticUpdate: 0
@@ -8943,7 +8950,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 346855040, guid: a251b4f5542ba274aad072ae800d45c6, type: 3}
       propertyPath: m_Layer
-      value: 11
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 77868922326533536, guid: a251b4f5542ba274aad072ae800d45c6,
         type: 3}
@@ -9005,6 +9012,16 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2102086090172184159, guid: a251b4f5542ba274aad072ae800d45c6,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2513341058862983947, guid: a251b4f5542ba274aad072ae800d45c6,
+        type: 3}
+      propertyPath: XRRotationAxis
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3462993056632404128, guid: a251b4f5542ba274aad072ae800d45c6,
         type: 3}
       propertyPath: m_Layer
@@ -9018,7 +9035,7 @@ PrefabInstance:
     - target: {fileID: 6030275690840007976, guid: a251b4f5542ba274aad072ae800d45c6,
         type: 3}
       propertyPath: m_Layer
-      value: 11
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6139827460259305838, guid: a251b4f5542ba274aad072ae800d45c6,
         type: 3}
@@ -13697,6 +13714,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8883929941840371156, guid: b638bd42e496da2499861dc45f8f54b9,
+        type: 3}
+      propertyPath: m_ConnectedAnchor.x
+      value: -12.281
+      objectReference: {fileID: 0}
+    - target: {fileID: 8883929941840371156, guid: b638bd42e496da2499861dc45f8f54b9,
+        type: 3}
+      propertyPath: m_ConnectedAnchor.y
+      value: 0.23525013
+      objectReference: {fileID: 0}
+    - target: {fileID: 8883929941840371156, guid: b638bd42e496da2499861dc45f8f54b9,
+        type: 3}
+      propertyPath: m_ConnectedAnchor.z
+      value: -12.3645525
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b638bd42e496da2499861dc45f8f54b9, type: 3}
 --- !u!1001 &3934804757942780511
@@ -13910,6 +13942,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2040691983596270834, guid: 2e3d6dffe0bfe574db12e26ccf6feed0,
+        type: 3}
+      propertyPath: m_TagString
+      value: InteractableNotMovable
+      objectReference: {fileID: 0}
+    - target: {fileID: 4242044455718392229, guid: 2e3d6dffe0bfe574db12e26ccf6feed0,
+        type: 3}
+      propertyPath: m_TagString
+      value: InteractableNotMovable
+      objectReference: {fileID: 0}
     - target: {fileID: 4242044455718392231, guid: 2e3d6dffe0bfe574db12e26ccf6feed0,
         type: 3}
       propertyPath: Reference
@@ -13923,7 +13965,7 @@ PrefabInstance:
     - target: {fileID: 4242044455718392231, guid: 2e3d6dffe0bfe574db12e26ccf6feed0,
         type: 3}
       propertyPath: AuthomaticUpdate
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4242044457070042107, guid: 2e3d6dffe0bfe574db12e26ccf6feed0,
         type: 3}
@@ -13944,6 +13986,11 @@ PrefabInstance:
         type: 3}
       propertyPath: maxDistance
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4599540314204751710, guid: 2e3d6dffe0bfe574db12e26ccf6feed0,
+        type: 3}
+      propertyPath: AuthomaticUpdate
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8663201448083062070, guid: 2e3d6dffe0bfe574db12e26ccf6feed0,
         type: 3}

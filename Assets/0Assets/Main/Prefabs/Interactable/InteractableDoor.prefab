@@ -86,6 +86,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb2e4116837ced43acd2487575b4f5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allowTranslation: 0
+  Reference: {fileID: 0}
+  HaveBreakInteraction: 1
+  AuthomaticUpdate: 0
+  maxDistance: 1
   FollowAlways: 1
   Target: {fileID: 4571170904732948084}
 --- !u!23 &3337119331750898006
@@ -141,10 +146,9 @@ GameObject:
   - component: {fileID: 4599540314204751710}
   - component: {fileID: 7301674423402062358}
   - component: {fileID: 6569417109602513043}
-  - component: {fileID: 6569417109602513042}
   m_Layer: 0
   m_Name: InternalGrabbableHandler
-  m_TagString: Interactable
+  m_TagString: InteractableNotMovable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -199,6 +203,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb2e4116837ced43acd2487575b4f5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allowTranslation: 1
+  Reference: {fileID: 0}
+  HaveBreakInteraction: 1
+  AuthomaticUpdate: 0
+  maxDistance: 1
   FollowAlways: 0
   Target: {fileID: 2699217504623151910}
 --- !u!23 &7301674423402062358
@@ -253,22 +262,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.9999999, y: 1.0000002, z: 1.0000002}
   m_Center: {x: -0.0000076293945, y: -0.0000009536743, z: 0.000005722046}
---- !u!114 &6569417109602513042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2040691983596270834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 052ab5e0d20abbb42ac40b25d5fe837f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UseObjectAsReference: 1
-  AuthomaticUpdate: 0
-  Reference: {fileID: 2699217504623151910}
-  maxDistance: 2
 --- !u!1 &3275711033654763864
 GameObject:
   m_ObjectHideFlags: 0
@@ -431,10 +424,9 @@ GameObject:
   - component: {fileID: 4242044455718392231}
   - component: {fileID: 6142408489623540343}
   - component: {fileID: 9053493603644970440}
-  - component: {fileID: 9053493603644970439}
   m_Layer: 0
   m_Name: ExternalGrabbableHandler
-  m_TagString: Interactable
+  m_TagString: InteractableNotMovable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -489,6 +481,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb2e4116837ced43acd2487575b4f5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allowTranslation: 1
+  Reference: {fileID: 0}
+  HaveBreakInteraction: 1
+  AuthomaticUpdate: 0
+  maxDistance: 1
   FollowAlways: 0
   Target: {fileID: 4242044457070042110}
 --- !u!23 &6142408489623540343
@@ -543,22 +540,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.9999999, y: 1.0000002, z: 1.0000002}
   m_Center: {x: 0, y: -0.0000009536743, z: 0.0000038146973}
---- !u!114 &9053493603644970439
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4242044455718392229}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 052ab5e0d20abbb42ac40b25d5fe837f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UseObjectAsReference: 1
-  AuthomaticUpdate: 0
-  Reference: {fileID: 4242044457070042110}
-  maxDistance: 2
 --- !u!1 &4242044457070042109
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,6 +626,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb2e4116837ced43acd2487575b4f5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allowTranslation: 0
+  Reference: {fileID: 0}
+  HaveBreakInteraction: 1
+  AuthomaticUpdate: 0
+  maxDistance: 1
   FollowAlways: 1
   Target: {fileID: 4242044455718392230}
 --- !u!23 &512259526767057539

@@ -31,7 +31,7 @@ public class ControllerInteraction : MonoBehaviour
     [SerializeField, Range(1, 15)]
     private float throwForce = 9f;
     private bool isGrabbing = false;
-    private ISpecialInteractable specialInteractable;    
+    private ISpecialInteractable specialInteractable;
     #endregion
 
     #region Unity Functions
@@ -116,7 +116,7 @@ public class ControllerInteraction : MonoBehaviour
     private void Interaction(bool isPicking = true)
     {
         if (currentRigidBody != null) Drop(currentRigidBody);
-        currentRigidBody = GetNearestRigidBody();        
+        currentRigidBody = GetNearestRigidBody();
         if (!currentRigidBody) { return; }
 
         CheckSpecialObject();
@@ -150,18 +150,21 @@ public class ControllerInteraction : MonoBehaviour
     {
         Debug.Log("You are grabbing an object!!");
 
-        currentRigidBody.MovePosition(_transform.position);
-        attachJoint.connectedBody = currentRigidBody;
+        if (specialInteractable == null || specialInteractable.CanMoveIt())
+        {
+            currentRigidBody.MovePosition(_transform.position);
+            attachJoint.connectedBody = currentRigidBody;
 
-        lastPosition = currentRigidBody.position;
-        lastRotation = currentRigidBody.rotation;
+            lastPosition = currentRigidBody.position;
+            lastRotation = currentRigidBody.rotation;
 
-        //Cancel Movement when it on hands
-        currentRigidBody.velocity = Vector3.zero;
-        currentRigidBody.angularVelocity = Vector3.zero;
+            //Cancel Movement when it on hands
+            currentRigidBody.velocity = Vector3.zero;
+            currentRigidBody.angularVelocity = Vector3.zero;
 
-        isGrabbing = true;
-        specialInteractable?.Grab();
+            isGrabbing = true;
+        }
+        specialInteractable?.Grab(true);
 
     }
 
@@ -174,28 +177,21 @@ public class ControllerInteraction : MonoBehaviour
         Debug.Log("You are dropping an object!!");
 
         attachJoint.connectedBody = null;
-        if (specialInteractable != null)
-        {
-            specialInteractable?.Drop();
-            specialInteractable = null;
-        }
-        else
-        {
-            currentRigidBody.velocity = (currentRigidBody.position - lastPosition) / Time.deltaTime;
+        currentRigidBody.velocity = (currentRigidBody.position - lastPosition) / Time.deltaTime;
 
-            var deltaRotation = currentRigidBody.rotation * Quaternion.Inverse(lastRotation);
-            float angle;
-            Vector3 axis;
-            deltaRotation.ToAngleAxis(out angle, out axis);
-            angle *= Mathf.Deg2Rad;
-            currentRigidBody.angularVelocity = axis * angle / Time.deltaTime;
+        var deltaRotation = currentRigidBody.rotation * Quaternion.Inverse(lastRotation);
+        float angle;
+        Vector3 axis;
+        deltaRotation.ToAngleAxis(out angle, out axis);
+        angle *= Mathf.Deg2Rad;
+        currentRigidBody.angularVelocity = axis * angle / Time.deltaTime;
 
-            specialInteractable?.Drop();
-            specialInteractable = null;
+        specialInteractable?.Drop(true);
+        specialInteractable = null;
 
-            currentRigidBody = null;
-            isGrabbing = false;
-        }
+        currentRigidBody = null;
+        isGrabbing = false;
+
     }
 
     /// <summary>
@@ -213,6 +209,8 @@ public class ControllerInteraction : MonoBehaviour
             currentRigidBody = null;
             isGrabbing = false;
         }
+        else
+            specialInteractable?.Throw(true);
     }
 
     /// <summary>
@@ -242,7 +240,7 @@ public class ControllerInteraction : MonoBehaviour
     private void CheckSpecialObject()
     {
         //CheckIfHaveBreakProperty(currentRigidBody);
-        specialInteractable = currentRigidBody.GetComponent<SpecialInteractable>();   
+        specialInteractable = currentRigidBody.GetComponent<SpecialInteractable>();
     }
 
     /// <summary>

@@ -28,13 +28,13 @@ public class GrabbableDoor : SpecialInteractable
             _rb.MovePosition(Target.transform.position);
     }
 
-    public override void Grab()
+    public override void Grab(bool isXR = false)
     {
         Debug.Log("Is grabbed to True!");
         isGrabbed = true;
     }
 
-    public override void Drop()
+    public override void Drop(bool isXR = false)
     { //Need to Do After fixed update
         this.transform.position = Target.position;
         this.transform.rotation = Target.rotation;
@@ -42,7 +42,7 @@ public class GrabbableDoor : SpecialInteractable
         isGrabbed = false;
     }
 
-    public override void Throw()
+    public override void Throw(bool isXR = false)
     {
         Debug.LogError("Cannot throw a door!!!!");
     }

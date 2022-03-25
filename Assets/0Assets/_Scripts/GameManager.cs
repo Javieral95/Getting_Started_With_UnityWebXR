@@ -75,8 +75,7 @@ public class GameManager : MonoBehaviour
     public const string INTERACTABLE_TRIGGER_TAG = "InteractableTrigger";
     public const string INTERACTABLE_NOT_MOVABLE_TAG = "InteractableNotMovable";
     #endregion
-
-    private bool IsFirstIteration = true;
+    
     private int StartPointIndex = 0;
 
     //If a script will be using the singleton in its awake method, make sure the manager is first to execute with the Script Execution Order project settings
@@ -88,7 +87,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         StartPointIndex = SceneArguments.StartPointIndex;
-        IsFirstIteration = true;
         
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         cameraMainTransform = Player.cameraMainTransform;

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
 {
+    [SerializeField, Tooltip("Set to True if the user will be able to take it and move with his hands")]
+    private bool allowTranslation = false;
     [Tooltip("If Reference is null, the reference to calculate the distance will be the object's init position.")]
     public Transform Reference;
 
@@ -56,6 +58,12 @@ public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
         return Vector3.Distance(object1, object2);
     }
 
+    //Public
+    public bool CanMoveIt()
+    {
+        return allowTranslation;
+    }
+
     public void ResetPosition()
     {
         if (_useObjectAsReference)
@@ -73,6 +81,8 @@ public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
 
     public bool CheckNeedToBreak(Transform playerReference)
     {
+        if (!HaveBreakInteraction) return false;
+
         if (_useObjectAsReference)
             return _needTobreak || CalculateDistance(playerReference.position, Reference.position) >= maxDistance;
         else
@@ -81,6 +91,8 @@ public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
 
     public bool CheckNeedToBreak(Vector3 playerReferencePos)
     {
+        if (!HaveBreakInteraction) return false;
+
         if (_useObjectAsReference)
             return _needTobreak || CalculateDistance(playerReferencePos, Reference.position) >= maxDistance;
         else
@@ -91,11 +103,11 @@ public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
 
     #region Abstract methods
 
-    public abstract void Drop();
+    public abstract void Drop(bool isXR=false);
 
-    public abstract void Grab();
+    public abstract void Grab(bool isXR = false);
 
-    public abstract void Throw();
+    public abstract void Throw(bool isXR = false);
 
     #endregion
 }
@@ -103,11 +115,24 @@ public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
 
 public interface ISpecialInteractable
 {
-    void Grab();
-    void Drop();
-    void Throw();
+    /// <summary>
+    /// Use isXR if the object have an special behaviour when the user is playing using VR Headset
+    /// </summary>
+    /// <param name="isXR"></param>
+    void Grab(bool isXR=false);
+    /// <summary>
+    /// Use isXR if the object have an special behaviour when the user is playing using VR Headset
+    /// </summary>
+    /// <param name="isXR"></param>
+    void Drop(bool isXR=false);
+    /// <summary>
+    /// Use isXR if the object have an special behaviour when the user is playing using VR Headset
+    /// </summary>
+    /// <param name="isXR"></param>
+    void Throw(bool isXR=false);
 
 
+    bool CanMoveIt();
     void ResetPosition();
     bool CheckNeedToBreak();
     bool CheckNeedToBreak(Transform playerReference);

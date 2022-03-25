@@ -15,14 +15,14 @@ public class LeverBehaviour : SpecialInteractable
     private bool _is_activate = false;
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
         base.Start();
         _TRIGGER_TAG = TriggerCollider.gameObject.tag;
     }
 
     // Update is called once per frame
-    void Update()
+    new void Update()
     {
         base.Update();
         if(OnCollider.IsColliderActivate && !_is_activate)
@@ -43,15 +43,15 @@ public class LeverBehaviour : SpecialInteractable
         _is_activate = false;
     }
 
-    public override void Drop()
+    public override void Drop(bool isXR = false)
     {        
     }
 
-    public override void Grab()
+    public override void Grab(bool isXR = false)
     {
     }
 
-    public override void Throw()
+    public override void Throw(bool isXR = false)
     {
     }
 }

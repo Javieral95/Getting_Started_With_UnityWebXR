@@ -18,7 +18,7 @@ public class PhysicButton : SpecialInteractable
     private Rigidbody _rb;
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
         base.Start();
         _rb = GetComponent<Rigidbody>();
@@ -70,15 +70,15 @@ public class PhysicButton : SpecialInteractable
     }
 
 
-    public override void Grab()
+    public override void Grab(bool isXR = false)
     {
         PressButton();
     }
-    public override void Drop()
+    public override void Drop(bool isXR = false)
     {
         ReleaseButton();
     }
-    public override void Throw()
+    public override void Throw(bool isXR = false)
     {
         ReleaseButton();
     }
