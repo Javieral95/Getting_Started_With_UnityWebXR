@@ -86,9 +86,9 @@ public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
         bool ret = false; 
 
         if (_useObjectAsReference)
-            return _needTobreak || CalculateDistance(playerReference.position, Reference.position) >= maxDistance;
+            ret = _needTobreak || CalculateDistance(playerReference.position, Reference.position) >= maxDistance;
         else
-            return _needTobreak || CalculateDistance(playerReference.position, initPosition) >= maxDistance;
+            ret = _needTobreak || CalculateDistance(playerReference.position, initPosition) >= maxDistance;
 
         _needTobreak = false;
         return ret;

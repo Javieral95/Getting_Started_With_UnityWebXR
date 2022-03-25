@@ -9019,8 +9019,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2513341058862983947, guid: a251b4f5542ba274aad072ae800d45c6,
         type: 3}
+      propertyPath: maxDistance
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2513341058862983947, guid: a251b4f5542ba274aad072ae800d45c6,
+        type: 3}
       propertyPath: XRRotationAxis
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2513341058862983947, guid: a251b4f5542ba274aad072ae800d45c6,
+        type: 3}
+      propertyPath: AuthomaticUpdate
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2513341058862983947, guid: a251b4f5542ba274aad072ae800d45c6,
         type: 3}
