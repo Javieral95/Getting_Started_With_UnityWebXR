@@ -9022,6 +9022,11 @@ PrefabInstance:
       propertyPath: XRRotationAxis
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2513341058862983947, guid: a251b4f5542ba274aad072ae800d45c6,
+        type: 3}
+      propertyPath: HaveBreakInteraction
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3462993056632404128, guid: a251b4f5542ba274aad072ae800d45c6,
         type: 3}
       propertyPath: m_Layer

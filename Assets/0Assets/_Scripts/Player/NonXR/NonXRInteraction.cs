@@ -29,7 +29,6 @@ public class NonXRInteraction : MonoBehaviour
     private float z_GrabObjectPosition = 1f;
     private Vector3 mousePos = Vector3.zero;
 
-    private PhysicButton pressedButton;
     private ISpecialInteractable specialInteractable;
     //private BreakInteraction breakInteraction;
 
@@ -98,13 +97,8 @@ public class NonXRInteraction : MonoBehaviour
 
                     CancelForces();
                     CheckSpecialObject();
-                }
-                else if (tmpGameObject.CompareTag(GameManager.INTERACTABLE_TRIGGER_TAG))
-                    PressButton(tmpGameObject);
-
+                }            
             }
-            else
-                ReleaseButton();
 
         }
        
@@ -115,8 +109,6 @@ public class NonXRInteraction : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             DropObject();
-            //Button (trigger)
-            ReleaseButton();
         }
 
         //Throw Grabbed object
@@ -214,37 +206,6 @@ public class NonXRInteraction : MonoBehaviour
 
         //CheckIfHaveBreakProperty(NonXR_selectedObject_rb);
     }
-
-    /// <summary>
-    /// If the select object is a button, this functions call his Press event.
-    /// </summary>
-    /// <param name="button"></param>
-    private void PressButton(GameObject button)
-    {
-        Debug.Log("You are pressing a button!!");
-        pressedButton = button.GetComponent<PhysicButton>();
-        pressedButton?.PressButton();
-    }
-
-    /// <summary>
-    /// If the select object is a button, this functions call his Release event.
-    /// </summary>
-    private void ReleaseButton()
-    {
-        pressedButton?.ReleaseButton();
-        pressedButton = null;
-    }
-
-
-    /// <summary>
-    /// Check if the current Rigid body have BreakInteraction script
-    /// </summary>
-    /// <param name="currentRigidBody"></param>
-    /*private void CheckIfHaveBreakProperty(Rigidbody currentRigidBody)
-    {
-        if (breakInteraction == null)
-            breakInteraction = currentRigidBody.gameObject.GetComponent<BreakInteraction>();
-    }*/
 
     /// <summary>
     /// Check if the object, with BreakInteractions script, exceed the maximum distance allowed.
