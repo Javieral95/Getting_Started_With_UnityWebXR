@@ -274,6 +274,7 @@ MonoBehaviour:
   MinGrades: 0
   MaxGrades: 350
   sensitivity: 5
+  XRRotationAxis: 0
 --- !u!1 &6139827460259305838
 GameObject:
   m_ObjectHideFlags: 0

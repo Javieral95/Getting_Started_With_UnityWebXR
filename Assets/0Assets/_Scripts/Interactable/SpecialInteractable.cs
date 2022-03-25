@@ -5,14 +5,14 @@ using UnityEngine;
 public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
 {
     [SerializeField, Tooltip("Set to True if the user will be able to take it and move with his hands")]
-    private bool allowTranslation = false;
+    private bool allowTranslation;
     [Tooltip("If Reference is null, the reference to calculate the distance will be the object's init position.")]
     public Transform Reference;
 
     [Tooltip("If the interaction with the object must break when the user it moves away of it, put this property to True. ")]
-    public bool HaveBreakInteraction = true;
+    public bool HaveBreakInteraction;
     [Tooltip("If the scripts detects than need to break the interaction, will break that. Otherwise, need to break calling ResetPosition function")]
-    public bool AuthomaticUpdate = false;
+    public bool AuthomaticUpdate;
 
     [SerializeField, Range(0, 10)]
     private float maxDistance = 1f;
@@ -83,20 +83,30 @@ public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
     {
         if (!HaveBreakInteraction) return false;
 
+        bool ret = false; 
+
         if (_useObjectAsReference)
             return _needTobreak || CalculateDistance(playerReference.position, Reference.position) >= maxDistance;
         else
             return _needTobreak || CalculateDistance(playerReference.position, initPosition) >= maxDistance;
+
+        _needTobreak = false;
+        return ret;
     }
 
     public bool CheckNeedToBreak(Vector3 playerReferencePos)
-    {
+    {        
         if (!HaveBreakInteraction) return false;
 
+        bool ret = false;
+
         if (_useObjectAsReference)
-            return _needTobreak || CalculateDistance(playerReferencePos, Reference.position) >= maxDistance;
+            ret = _needTobreak || CalculateDistance(playerReferencePos, Reference.position) >= maxDistance;
         else
-            return _needTobreak || CalculateDistance(playerReferencePos, initPosition) >= maxDistance;
+            ret = _needTobreak || CalculateDistance(playerReferencePos, initPosition) >= maxDistance;
+
+        _needTobreak = false;
+        return ret;
     }
 
     #endregion
