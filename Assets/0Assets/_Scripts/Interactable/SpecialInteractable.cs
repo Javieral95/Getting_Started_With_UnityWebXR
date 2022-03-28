@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
 {
+    [Header("Break Interaction options")]
     [SerializeField, Tooltip("Set to True if the user will be able to take it and move with his hands")]
     private bool allowTranslation;
     [Tooltip("If Reference is null, the reference to calculate the distance will be the object's init position.")]

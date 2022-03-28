@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class VRPotentiometer : SpecialInteractable
 {
+    [Header("General options")]
     public TextMeshProUGUI DisplayScreenText;
 
     public bool RotateX = false;
@@ -15,6 +17,7 @@ public class VRPotentiometer : SpecialInteractable
     public float MinGrades = 0;
     public float MaxGrades = 350;
 
+    [Header("Non XR options")]
     public float sensitivity;
 
     private Vector3 initEulerAngles; //Init Rotation
@@ -26,9 +29,12 @@ public class VRPotentiometer : SpecialInteractable
     private float initRot;
 
     //XR set to true
+    [Header("XR options")]
     private bool isXRInteraction;
     [SerializeField]
     private Axis XRRotationAxis;
+    [Tooltip("Activate if need to rotate the object and put the rotate value in negative.")]
+    public bool InvertAxis;
     private float rotationValueDivisor = 10;
     
     private Transform collisionObjectTransform;
@@ -36,6 +42,7 @@ public class VRPotentiometer : SpecialInteractable
     //Value
     private float val = .0f;
 
+    //Unity Functions
     new void Start()
     {
         base.Start();
@@ -115,10 +122,12 @@ public class VRPotentiometer : SpecialInteractable
         throw new System.NotImplementedException();
     }
 
+    // XR
     private float GetXRRotationValue()
     {
         float potentiometerValue = 0;
         float handValue = 0;
+        float ret = 0;
 
         if (this.XRRotationAxis == Axis.X)
         {
@@ -136,7 +145,11 @@ public class VRPotentiometer : SpecialInteractable
             handValue = collisionObjectTransform.position.z;
         }
 
-        return (handValue - potentiometerValue)/rotationValueDivisor;
+        ret = (handValue - potentiometerValue)/rotationValueDivisor;
+        if (InvertAxis)
+            return -ret;
+        else
+            return ret;
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -156,9 +169,3 @@ public class VRPotentiometer : SpecialInteractable
     }
 }
 
-enum Axis// your custom enumeration
-{
-    X,
-    Y,
-    Z
-};

@@ -76,7 +76,6 @@ public class NonXRInteraction : MonoBehaviour
 
     private void NonXR_Interaction()
     {
-        Debug.Log("INPUT X MOUSE: " + Input.GetAxis("Mouse X"));
         //TO-DO: Improve this method (detect object collisions and avoid errors)
         NonXR_ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); //Screen Center
         RaycastHit hit;
@@ -172,7 +171,7 @@ public class NonXRInteraction : MonoBehaviour
         mousePos = GetMousePosition(NonXR_selectedObject);
         var x_force = Input.GetAxis("Mouse X");
         var y_force = Input.GetAxis("Mouse Y");
-        if (NonXR_selectedObject_rb != null && (x_force != 0 || y_force != 0))
+        if (NonXR_selectedObject_rb != null && !NonXR_selectedObject.CompareTag(GameManager.INTERACTABLE_NOT_MOVABLE_TAG) && (x_force != 0 || y_force != 0))
         {
             var force = new Vector3(mousePos.x * x_force, mousePos.y * y_force, (-mousePos.z / 5));        
             NonXR_selectedObject_rb.AddForce(force, ForceMode.Impulse);
