@@ -876,7 +876,7 @@ PrefabInstance:
     - target: {fileID: 8883929941840371156, guid: b638bd42e496da2499861dc45f8f54b9,
         type: 3}
       propertyPath: m_Limits.max
-      value: 38.305702
+      value: 46.282467
       objectReference: {fileID: 0}
     - target: {fileID: 8883929941840371156, guid: b638bd42e496da2499861dc45f8f54b9,
         type: 3}
@@ -1112,7 +1112,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1.955, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &165585585
@@ -2756,55 +2756,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 882022339638817444, guid: 52fb6e2f5e9c44047abbff90cc2ccbce,
-        type: 3}
-      propertyPath: m_Constraints
-      value: 112
-      objectReference: {fileID: 0}
     - target: {fileID: 3312089636224397953, guid: 52fb6e2f5e9c44047abbff90cc2ccbce,
         type: 3}
-      propertyPath: InvertAxis
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3312089636224397953, guid: 52fb6e2f5e9c44047abbff90cc2ccbce,
-        type: 3}
-      propertyPath: GlobalXRMoveAxis
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3312089636224397953, guid: 52fb6e2f5e9c44047abbff90cc2ccbce,
-        type: 3}
-      propertyPath: sliderMoveDirection
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3312089636224397953, guid: 52fb6e2f5e9c44047abbff90cc2ccbce,
-        type: 3}
-      propertyPath: HaveBreakInteraction
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3312089636224397953, guid: 52fb6e2f5e9c44047abbff90cc2ccbce,
-        type: 3}
-      propertyPath: localSliderMoveDirection
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: DisplayScreenText
+      value: 
+      objectReference: {fileID: 699439003}
     - target: {fileID: 6257651876094361551, guid: 52fb6e2f5e9c44047abbff90cc2ccbce,
         type: 3}
       propertyPath: m_RootOrder
       value: 22
-      objectReference: {fileID: 0}
-    - target: {fileID: 6257651876094361551, guid: 52fb6e2f5e9c44047abbff90cc2ccbce,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6257651876094361551, guid: 52fb6e2f5e9c44047abbff90cc2ccbce,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6257651876094361551, guid: 52fb6e2f5e9c44047abbff90cc2ccbce,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6257651876094361551, guid: 52fb6e2f5e9c44047abbff90cc2ccbce,
         type: 3}
@@ -2861,8 +2821,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: InteractableSlider
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2834262904262538804, guid: 52fb6e2f5e9c44047abbff90cc2ccbce, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52fb6e2f5e9c44047abbff90cc2ccbce, type: 3}
 --- !u!1001 &433338827
 PrefabInstance:
@@ -4936,6 +4895,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 692181571}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &699439003 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 699439003, guid: 52fb6e2f5e9c44047abbff90cc2ccbce,
+    type: 3}
+  m_PrefabInstance: {fileID: 427299979}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -7964,7 +7935,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 6.624386, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1114040582
@@ -9146,6 +9117,11 @@ PrefabInstance:
         type: 3}
       propertyPath: maxDistance
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2513341058862983947, guid: a251b4f5542ba274aad072ae800d45c6,
+        type: 3}
+      propertyPath: sensitivity
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2513341058862983947, guid: a251b4f5542ba274aad072ae800d45c6,
         type: 3}
