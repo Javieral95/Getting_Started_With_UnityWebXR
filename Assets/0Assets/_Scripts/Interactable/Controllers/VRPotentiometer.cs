@@ -31,12 +31,12 @@ public class VRPotentiometer : SpecialInteractable
     //XR set to true
     [Header("XR options")]
     private bool isXRInteraction;
-    [SerializeField]
+    [SerializeField, Tooltip("(Global) Detect the hand's movement in this axis (Select only one Option!)")]
     private Axis XRRotationAxis;
     [Tooltip("Activate if need to rotate the object and put the rotate value in negative.")]
     public bool InvertAxis;
     private float rotationValueDivisor = 10;
-    
+
     private Transform collisionObjectTransform;
 
     //Value
@@ -65,7 +65,8 @@ public class VRPotentiometer : SpecialInteractable
             if (val != initRot) { changed = true; }
             if (changed && (val == limits.x || val == limits.y)) { clicking = false; }
 
-            DisplayScreenText.text = GetScreenValue();
+            if (DisplayScreenText != null)
+                DisplayScreenText.text = GetScreenValue();
         }
     }
 
@@ -78,7 +79,7 @@ public class VRPotentiometer : SpecialInteractable
 
     public string GetScreenValue()
     {
-        string ret = String.Format("{0:0.00}", ((GetValue()/MaxGrades)*100));
+        string ret = String.Format("{0:0.00}", ((GetValue() / MaxGrades) * 100));
         return $"{ret}%";
     }
 
@@ -145,7 +146,7 @@ public class VRPotentiometer : SpecialInteractable
             handValue = collisionObjectTransform.position.z;
         }
 
-        ret = (handValue - potentiometerValue)/rotationValueDivisor;
+        ret = (handValue - potentiometerValue) / rotationValueDivisor;
         if (InvertAxis)
             return -ret;
         else
@@ -159,12 +160,12 @@ public class VRPotentiometer : SpecialInteractable
     }
     private void OnTriggerExit(Collider other)
     {
-        if(!clicking)
+        if (!clicking)
             collisionObjectTransform = null;
     }
     private void OnTriggerStay(Collider other)
     {
-        if(collisionObjectTransform == null && other.gameObject.CompareTag("PlayerHands"))
+        if (collisionObjectTransform == null && other.gameObject.CompareTag("PlayerHands"))
             collisionObjectTransform = other.gameObject.GetComponent<Transform>();
     }
 }

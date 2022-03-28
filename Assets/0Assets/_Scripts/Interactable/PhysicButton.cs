@@ -12,7 +12,7 @@ using UnityEngine.Events;
 
 public class PhysicButton : SpecialInteractable
 {
-    public UnityEvent onPressed, onReleased;
+    public UnityEvent onPressed, onReleased;    
 
     private bool _isPressed = false;
     private Rigidbody _rb;

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Animations;
 
 public class VRSlider : SpecialInteractable
 {
     [Header("General options")]
+
+    public TextMeshProUGUI DisplayScreenText;
     public float Sensitivity;
 
     [Header("Non XR Options")]
@@ -29,7 +32,6 @@ public class VRSlider : SpecialInteractable
     private Transform collisionObjectTransform;
     private float moveValueDivisor = 1;
 
-
     //Unity Functions
     new void Start()
     {
@@ -46,8 +48,12 @@ public class VRSlider : SpecialInteractable
         {
             transform.localPosition += Vector3.forward * Sensitivity * GetMovementValue() * Time.deltaTime;
             transform.localPosition = GetNewPosition();
+
             if (transform.localPosition.x != initPos) { changed = true; }
             if (changed && (CheckLimits())) { clicking = false; }
+
+            if (DisplayScreenText != null)
+                DisplayScreenText.text = GetScreenValue();
         }
     }
 
@@ -90,6 +96,17 @@ public class VRSlider : SpecialInteractable
             else
                 return Input.GetAxis("Mouse X");
         }
+    }
+
+    private string GetScreenValue()
+    {
+        //value = (Math.Abs(transform.localPosition.z) / (-limits.y + limits.x)) * 100;
+
+        var limit = Math.Abs(limits.x);
+        var value = ((limit + transform.localPosition.z) / (2 * limit)) * 100;
+
+        string ret = String.Format("{0:0.00}", value);
+        return $"{ret}%";
     }
 
     private bool CheckLimits()
