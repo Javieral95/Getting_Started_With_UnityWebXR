@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(Collider))]
 public class TeleporterBehaviour : MonoBehaviour
 {
     public GameManager GameManager;

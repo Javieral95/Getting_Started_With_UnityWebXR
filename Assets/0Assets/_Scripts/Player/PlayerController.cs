@@ -29,6 +29,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Tooltip("Enable/disable rotation control using VR hardware's sticks (Non Up down, only LR). For use in Unity editor only.")]
     private bool canRotateWithSticks = true;
 
+    [Tooltip("Activate this option to rotate the XR camera using angles ticks instead of Plain Rotation")]
+    public bool useTickRotation;
+
+    [Tooltip("Straffe Speed")]
+    public float rotationAngle = 15f;
+
+
     [Header("WebXR objects")]
     public WebXRInputManager inputManagerLeftHand;
     public WebXRInputManager inputManagerRightHand;
@@ -53,9 +60,6 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField, Range(0.1f, 5)]
     private float nonXRHeight = 2f;
-
-    [Tooltip("Straffe Speed")]
-    public float rotationAngle = 15f;
 
     [Header("Debug Texts")]
     public Text stickText;
@@ -229,7 +233,10 @@ public class PlayerController : MonoBehaviour
 
         // Rotation (No rotation on Y -> Up/Down)
         if (canRotateWithSticks && inputManagerRightHand != null)
-            PlainXRRotation();
+            if (useTickRotation)
+                TickXRRotation();
+            else
+                PlainXRRotation();
 
         // Write the values in the UI text in game screen
         if (stickText != null)

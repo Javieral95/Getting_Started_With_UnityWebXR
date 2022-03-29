@@ -1112,7 +1112,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1.955, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &165585585
@@ -2756,11 +2756,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3312089636224397953, guid: 52fb6e2f5e9c44047abbff90cc2ccbce,
-        type: 3}
-      propertyPath: DisplayScreenText
-      value: 
-      objectReference: {fileID: 699439003}
     - target: {fileID: 6257651876094361551, guid: 52fb6e2f5e9c44047abbff90cc2ccbce,
         type: 3}
       propertyPath: m_RootOrder
@@ -3945,6 +3940,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114632205543208511, guid: 49c6231375a91de49a7a5d8f69d5b142,
+        type: 3}
+      propertyPath: ExcludeLayers.m_Bits
+      value: 1840
+      objectReference: {fileID: 0}
     - target: {fileID: 8918545518983862369, guid: 49c6231375a91de49a7a5d8f69d5b142,
         type: 3}
       propertyPath: m_RootOrder
@@ -4895,18 +4895,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 692181571}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &699439003 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 699439003, guid: 52fb6e2f5e9c44047abbff90cc2ccbce,
-    type: 3}
-  m_PrefabInstance: {fileID: 427299979}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -7935,7 +7923,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 6.624386, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1114040582

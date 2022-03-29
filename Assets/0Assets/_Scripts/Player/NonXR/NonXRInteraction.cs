@@ -12,8 +12,6 @@ using UnityEngine.UI;
 
 public class NonXRInteraction : MonoBehaviour
 {
-    public Image CursorImage;
-
     private static GameManager gameManager;
     private Camera myCamera;
 

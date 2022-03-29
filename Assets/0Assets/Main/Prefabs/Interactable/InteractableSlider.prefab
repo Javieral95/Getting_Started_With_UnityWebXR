@@ -593,11 +593,11 @@ MonoBehaviour:
   HaveBreakInteraction: 1
   AuthomaticUpdate: 0
   maxDistance: 1.2
+  DisplayScreenText: {fileID: 699439003}
   Sensitivity: 2
   IsVerticalSlider: 0
-  GlobalXRMoveAxis: 1
-  InvertAxis: 1
-  value: 0
+  GlobalXRMoveAxis: 4
+  InvertAxis: 0
 --- !u!54 &882022339638817444
 Rigidbody:
   m_ObjectHideFlags: 0
