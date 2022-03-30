@@ -54,8 +54,8 @@ public class WebXRInputManager : MonoBehaviour
     public bool IsGripButtonUp() { return gripStatus == XRButtonStatus.ButtonUp; }
     public float GetGripAxis() { return gripAxis; }
 
-    public bool is_A_ButtonPressed() {  return aStatus == XRButtonStatus.isDown;  }
-    public bool is_B_ButtonPressed() { return bStatus == XRButtonStatus.isDown; ; }
+    public bool Is_A_ButtonPressed() {  return aStatus == XRButtonStatus.isDown;  }
+    public bool Is_B_ButtonPressed() { return bStatus == XRButtonStatus.isDown; ; }
 
     private Vector3 fixupAngle = new Vector3(-30f, 0f, 0f); /**/
     void Awake()
@@ -81,8 +81,8 @@ public class WebXRInputManager : MonoBehaviour
         if (IsTriggerButtonUp() && showDebug) Debug.Log("Controller " + controllerHand + " Trigger ButtonUp");
         if (IsGripButtonUp() && showDebug) Debug.Log("Controller " + controllerHand + " Grip ButtonUp");
 
-        if (is_A_ButtonPressed() && showDebug) Debug.Log("Controller " + controllerHand + " A (or X) Pressed");
-        if (is_B_ButtonPressed() && showDebug) Debug.Log("Controller " + controllerHand + " B (or Y) Pressed");
+        if (Is_A_ButtonPressed() && showDebug) Debug.Log("Controller " + controllerHand + " A (or X) Pressed");
+        if (Is_B_ButtonPressed() && showDebug) Debug.Log("Controller " + controllerHand + " B (or Y) Pressed");
 
         /*stickAxis = controller.GetAxis("Stick");
         if(stickAxis != 0) Debug.Log("Controller " + controllerHand + " Strick Axis: "+ stickAxis.ToString());*/

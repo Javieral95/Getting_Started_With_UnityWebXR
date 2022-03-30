@@ -196,7 +196,7 @@ Dentro de WebXRCameraSet nos encontramos con las dos manos del jugador, contiene
 * **ControllerInteraction**: Permite al usuario interaccionar con el entorno usando sus manos y permite agarrar objetos.
   * Se ha modificado para permitir también lanzar objetos (con un impulso de fuerza).
 
-Además, en el caso especifico de ***HandR***, nos encontramos con el objeto ***Teleporter*** que se encuentra referenciado en el script XR Teleporter Controller (definido anteriormente) y que permite al usuario trazar la ruta (marcada gracias al objeto hijo *Quad*) al lugar donde quiere teleportarse. En él se encuentran todos los parámetros de configuración de este aspecto.
+Además, en el caso especifico de ***HandR***, nos encontramos con el objeto ***Teleporter*** que se encuentra referenciado en el script XR Teleporter Controller (definido anteriormente) y que permite al usuario trazar la ruta (marcada gracias al objeto hijo *Quad*) al lugar donde quiere teleportarse. En él se encuentran todos los parámetros de configuración de este aspecto (entre los que se encuentra la **lista de capas que quedan excluidas del teletransporte** y a las que el usuario no podrá dirigirse).
 
 ## Cameras
 

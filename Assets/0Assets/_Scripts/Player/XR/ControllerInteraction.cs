@@ -60,7 +60,7 @@ public class ControllerInteraction : MonoBehaviour
         if (inputManager.IsTriggerButtonDown() || inputManager.IsGripButtonDown()) { Interaction(true); }
         if (inputManager.IsTriggerButtonUp() || inputManager.IsGripButtonUp()) { Interaction(false); }
 
-        if (inputManager.is_A_ButtonPressed())
+        if (inputManager.Is_A_ButtonPressed())
             Throw(currentRigidBody);
 
         controller_anim.Play("Take", -1, normalizedTime);  // Use the controller button or axis position to manipulate the playback time for hand model.
@@ -261,15 +261,6 @@ public class ControllerInteraction : MonoBehaviour
     private bool isInteractableObject(GameObject other)
     {
         return other.CompareTag(GameManager.INTERACTABLE_TAG);
-    }
-    /// <summary>
-    /// Check if the object passed as parameter has the "InteractableTrigger" tag
-    /// </summary>
-    /// <param name="other"></param>
-    /// <returns></returns>
-    private bool isInteractableTrigger(GameObject other)
-    {
-        return other.CompareTag(GameManager.INTERACTABLE_TRIGGER_TAG);
     }
 
     /// <summary>

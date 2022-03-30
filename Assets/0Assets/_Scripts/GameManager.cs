@@ -67,12 +67,13 @@ public class GameManager : MonoBehaviour
     private CharacterController PlayerCharacterController;
     private Transform cameraMainTransform;
     private Transform cameraLeftTransform;
-    
+
     public GameObject[] StartPointsList;
     private Transform StartPoint;
 
-    public const string INTERACTABLE_TAG = "Interactable";
-    public const string INTERACTABLE_TRIGGER_TAG = "InteractableTrigger";
+    public bool IsGameStopped { get; private set; }
+
+    public const string INTERACTABLE_TAG = "Interactable";    
     public const string INTERACTABLE_NOT_MOVABLE_TAG = "InteractableNotMovable";
     #endregion
     
@@ -104,6 +105,18 @@ public class GameManager : MonoBehaviour
         //if (IsFirstIteration)
         //    MovePlayerToStartPoint();
 
+    }
+
+    public void StopApp()
+    {
+        IsGameStopped = true;
+        Time.timeScale = 0;
+    }
+
+    public void ResumeApp()
+    {
+        IsGameStopped = false;
+        Time.timeScale = 1;
     }
 
     /// <summary>

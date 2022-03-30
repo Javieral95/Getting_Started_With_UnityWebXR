@@ -25,9 +25,15 @@ public class PlayerController : MonoBehaviour
     [Header("Player movement (Only Unity Editor)")]
     [SerializeField, Tooltip("Enable/disable rotation and movement control using VR hardware. For use in Unity editor only (Authomatic set to true when dettect hardware).")]
     private bool isXREnabled = false;
+    public bool IsXREnabled { get { return isXREnabled; } }
 
-    [SerializeField, Tooltip("Enable/disable rotation control using VR hardware's sticks (Non Up down, only LR). For use in Unity editor only.")]
-    private bool canRotateWithSticks = true;
+    [Tooltip("Enable/disable rotation control using VR hardware's sticks (Non Up down, only LR).")]
+    public bool canRotateWithSticks = true;
+    [Tooltip("Enable/disable movement control using VR hardware's sticks.")]
+    public bool canMoveWithSticks = true;
+
+    [Tooltip("Enable/disable teleport movement using VR hardware's controllers")]
+    public bool isTeleportEnabled;
 
     [Tooltip("Activate this option to rotate the XR camera using angles ticks instead of Plain Rotation")]
     public bool useTickRotation;
@@ -216,7 +222,7 @@ public class PlayerController : MonoBehaviour
         //if (XRTeleporterController.Instance.IsTeleporterActive()) return;
 
         // Traslation
-        if (inputManagerLeftHand != null)
+        if (canMoveWithSticks && inputManagerLeftHand != null)
         {
             float moveX = inputManagerLeftHand.stick.x;
             float moveZ = inputManagerLeftHand.stick.y;
@@ -232,7 +238,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Rotation (No rotation on Y -> Up/Down)
-        if (canRotateWithSticks && inputManagerRightHand != null)
+        if (canRotateWithSticks && inputManagerRightHand != null && (!inputManagerRightHand.IsTriggerButtonDown() || !isTeleportEnabled))
             if (useTickRotation)
                 TickXRRotation();
             else
@@ -285,10 +291,10 @@ public class PlayerController : MonoBehaviour
         MoveCharacterController(dir);
 
         // Rotation
-        rotationX += Input.GetAxis("Mouse X") * mouseSensitivity;
+        rotationX += Input.GetAxis("Mouse X") * (mouseSensitivity*30) * (Time.deltaTime);
         rotationX = ClampAngle(rotationX, minimumX, maximumX);
 
-        rotationY += Input.GetAxis("Mouse Y") * mouseSensitivity;
+        rotationY += Input.GetAxis("Mouse Y") * (mouseSensitivity*30) * (Time.deltaTime);
         rotationY = ClampAngle(rotationY, minimumY, maximumY);
 
         Quaternion xQuaternion = Quaternion.AngleAxis(rotationX, Vector3.up);
@@ -307,7 +313,7 @@ public class PlayerController : MonoBehaviour
         ChangeShowCursor(!setActive);
         ChangeNotXRInteraction(!setActive);
         ChaneXRHandStatus(setActive);
-        nonXRImage.enabled = (!setActive);
+        nonXRImage.gameObject.SetActive(!setActive);
 
         ResetPlayerTransform();
         ResetPlayerHeight();
@@ -383,8 +389,8 @@ public class PlayerController : MonoBehaviour
             moveDirection.y = 0; //Avoid to move in Y axis
             moveDirection *= speed;
 
-            //Jump
-            if (inputManagerRightHand.is_B_ButtonPressed() || Input.GetButton("Jump"))
+            //Jump With B Button or with Jump button (if dont use XR)
+            if (inputManagerRightHand.Is_B_ButtonPressed() || (!isXREnabled && Input.GetButton("Jump")))
                 moveDirection.y = jumpSpeed;
         }
 
@@ -407,6 +413,7 @@ public class PlayerController : MonoBehaviour
 
     public void SetOriginalRotation(Transform inputTransform)
     {
+        this.positionPrev = inputTransform.position;
         this.originalRotation = inputTransform.localRotation;
     }
 

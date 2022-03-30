@@ -17,7 +17,6 @@ public class BallGeneratorTrigger : MonoBehaviour
     private float instantiateBallForce = 5f;
 
     private Animator anim;
-    private string BUTTON_ANIMATION_TRIGGER = "Press_Trig";
 
     // Start is called before the first frame update
     void Start()

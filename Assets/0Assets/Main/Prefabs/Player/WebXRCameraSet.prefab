@@ -373,6 +373,9 @@ MonoBehaviour:
   nonXRImage: {fileID: 0}
   isXREnabled: 1
   canRotateWithSticks: 1
+  isTeleportEnabled: 0
+  useTickRotation: 0
+  rotationAngle: 15
   inputManagerLeftHand: {fileID: 8922554900483974592}
   inputManagerRightHand: {fileID: 8922231952781522328}
   cameraMainTransform: {fileID: 8918684833200861439}
@@ -383,7 +386,6 @@ MonoBehaviour:
   jumpSpeed: 6
   mouseSensitivity: 1
   nonXRHeight: 1.5
-  rotationAngle: 15
   stickText: {fileID: 0}
   cameraText: {fileID: 0}
 --- !u!114 &8921795627169359116
@@ -398,7 +400,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d987d683aa991d04bbf529413e5cc203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CursorImage: {fileID: 0}
   NonXR_throwForce: 10
 --- !u!114 &4138882423985007143
 MonoBehaviour:
@@ -424,13 +425,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 870014881ffa78d4fbe218c26554ae33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stickSensitivity: 200
   Teleporter: {fileID: 114632205543208511}
   InputManager: {fileID: 8922231952781522328}
-  minStickValue: 0.1
-  distanceMult: 10
-  isActive: 0
-  stickvalue: 0
-  strength: 0
 --- !u!1 &8921798863616087647
 GameObject:
   m_ObjectHideFlags: 0
@@ -2309,7 +2306,7 @@ PrefabInstance:
     - target: {fileID: 114632206035923448, guid: dadbda9315d15264f9ba1364afbca3fc,
         type: 3}
       propertyPath: ExcludeLayers.m_Bits
-      value: 816
+      value: 1840
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dadbda9315d15264f9ba1364afbca3fc, type: 3}
