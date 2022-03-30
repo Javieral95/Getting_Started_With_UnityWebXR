@@ -54,8 +54,11 @@ public class WebXRInputManager : MonoBehaviour
     public bool IsGripButtonUp() { return gripStatus == XRButtonStatus.ButtonUp; }
     public float GetGripAxis() { return gripAxis; }
 
-    public bool Is_A_ButtonPressed() {  return aStatus == XRButtonStatus.isDown;  }
-    public bool Is_B_ButtonPressed() { return bStatus == XRButtonStatus.isDown; ; }
+    public bool Is_A_ButtonPressed() {  return aStatus == XRButtonStatus.ButtonDown;  }
+    public bool Is_B_ButtonPressed() { return bStatus == XRButtonStatus.ButtonDown; ; }
+
+    public bool Is_A_ButtonUp() { return aStatus == XRButtonStatus.ButtonUp; }
+    public bool Is_B_ButtonUp() { return bStatus == XRButtonStatus.ButtonUp; ; }
 
     private Vector3 fixupAngle = new Vector3(-30f, 0f, 0f); /**/
     void Awake()

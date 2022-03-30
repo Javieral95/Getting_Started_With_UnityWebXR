@@ -10,7 +10,13 @@ public class MenuBehaviour : MonoBehaviour
 {
     [Header("Game Objects")]
     [Tooltip("The Canvas with the settings menu")]
-    public GameObject MenuCanvas;
+    public Canvas MenuCanvas;
+    private RectTransform menuCanvasTransform;
+    private Vector3 originalMenuCanvasScale;
+    private Vector3 originalMenuCanvasPosition;
+    [SerializeField, Range(0.1f, 5f)]
+    private float menuDistanceInVR;
+
     [Tooltip("The settings menu will be opened pressing the Y (B) button of the controller")]
     public WebXRInputManager HandController;
     [Tooltip("The scene where the user will teleport after press Start Menu")]
@@ -19,6 +25,8 @@ public class MenuBehaviour : MonoBehaviour
     private GameManager gameManager;
     private PlayerController Player;
     private bool isAppStarted;
+    private bool isMenuOpened;
+    private bool isButtonPressed;
 
     //Settings controls
     [Header("Menu Controls")]
@@ -35,6 +43,10 @@ public class MenuBehaviour : MonoBehaviour
     PointerEventData m_PointerEventData;
     EventSystem m_EventSystem;
 
+    private Transform CanvasVRPosition;
+    private Camera mainCamera;
+    private Camera leftCamera;
+
     #region Unity events
     // Start is called before the first frame update
     void Start()
@@ -44,19 +56,36 @@ public class MenuBehaviour : MonoBehaviour
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         AllowMouse(true);
         InitSettingsControls();
-        
+
+        menuCanvasTransform = MenuCanvas.gameObject.GetComponent<RectTransform>();
+        originalMenuCanvasScale = menuCanvasTransform.localScale;
+        originalMenuCanvasPosition = menuCanvasTransform.position;
+
+        //VR
         m_EventSystem = MenuCanvas.GetComponent<EventSystem>();
         m_Raycaster = MenuCanvas.GetComponent<GraphicRaycaster>();
         m_PointerEventData = new PointerEventData(m_EventSystem);
+
+        //End
+        isMenuOpened = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isAppStarted && PressSettingsMenuButton())
-            ChangeSettingsMenuStatus();
 
-        XRMenuInteraction();
+        if (PressSettingsMenuButton() && isAppStarted)
+        {
+            ChangeSettingsMenuStatus();
+            if (Player.IsXREnabled)
+                MoveCanvasToHand();
+        }
+
+        if (isMenuOpened)
+        {
+            CheckCanvasRenderMode();
+            XRMenuInteraction();
+        }
     }
     #endregion
 
@@ -69,7 +98,7 @@ public class MenuBehaviour : MonoBehaviour
     public void ChangeRotateSticks()
     {
         var active = allowStickRotationToggle.isOn;
-        Player.canRotateWithSticks = active;        
+        Player.canRotateWithSticks = active;
         useTickRotationToggle.enabled = active;
     }
     public void ChangeUseTickRotation()
@@ -104,32 +133,50 @@ public class MenuBehaviour : MonoBehaviour
         gameManager.LoadScene(FirstScene, 0);
         startButton.GetComponentInChildren<Text>().text = "Resume";
 
-        MenuCanvas.SetActive(false);
+        MenuCanvas.gameObject.SetActive(false);
         AllowMouse(false);
         isAppStarted = true;
+        isMenuOpened = false;
     }
     #endregion
 
     #region Settings Menu
     private bool PressSettingsMenuButton()
     {
+        isButtonPressed = true;
+
         if (Player.IsXREnabled)
             return HandController.Is_B_ButtonPressed();
         else
             return Input.GetButtonDown("Fire3");
 
     }
+
+    private void MoveCanvasToHand()
+    {
+        menuCanvasTransform.position = HandController.transform.position;
+        menuCanvasTransform.transform.localPosition = menuCanvasTransform.transform.localPosition + new Vector3(0, 0, menuDistanceInVR);
+        menuCanvasTransform.LookAt(Camera.main.transform);
+        menuCanvasTransform.Rotate(menuCanvasTransform.up, 180);
+    }
+
     private void ChangeSettingsMenuStatus()
     {
-        MenuCanvas.SetActive(!MenuCanvas.activeSelf);
-        AllowMouse(MenuCanvas.activeSelf);
-        if (MenuCanvas.activeSelf)
-            gameManager.StopApp();
-        else
+        //CheckCanvasRenderMode();
+        var oldValue = MenuCanvas.gameObject.activeSelf;
+        MenuCanvas.gameObject.SetActive(!oldValue);
+        AllowMouse(!oldValue);
+        if (oldValue)
+        {
             gameManager.ResumeApp();
-
-        Debug.Log("Cursor set visible to: " + MenuCanvas.activeSelf);
-
+            isMenuOpened = false;
+        }
+        else
+        {
+            MoveCanvasToHand();
+            gameManager.StopApp();
+            isMenuOpened = true;
+        }
     }
     #endregion
 
@@ -167,8 +214,27 @@ public class MenuBehaviour : MonoBehaviour
         allowStickRotationToggle.isOn = Player.canRotateWithSticks;
         useTickRotationToggle.isOn = Player.useTickRotation;
         useTickRotationToggle.enabled = Player.canRotateWithSticks;
-        allowStickMoveToggle.isOn = Player.canMoveWithSticks;        
+        allowStickMoveToggle.isOn = Player.canMoveWithSticks;
         allowTeleportToggle.isOn = Player.isTeleportEnabled;
+    }
+
+    private void CheckCanvasRenderMode()
+    {
+        if (Player.IsXREnabled && MenuCanvas.renderMode == RenderMode.ScreenSpaceOverlay)
+        {
+            /*
+            MenuCanvas.worldCamera = mainCamera;
+#if UNITY_WEBGL
+            MenuCanvas.worldCamera = leftCamera;
+#endif
+*/
+            MenuCanvas.worldCamera = Camera.main;
+            MenuCanvas.renderMode = RenderMode.WorldSpace;
+            menuCanvasTransform.localScale = originalMenuCanvasScale;
+            menuCanvasTransform.position = originalMenuCanvasPosition;
+        }
+        else if (!Player.IsXREnabled && MenuCanvas.renderMode == RenderMode.WorldSpace)
+            MenuCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
     }
 
     private void AllowMouse(bool allow = true)
