@@ -222,20 +222,24 @@ public class PlayerController : MonoBehaviour
         //if (XRTeleporterController.Instance.IsTeleporterActive()) return;
 
         // Traslation
+        float moveX = 0;
+        float moveZ = 0;
+
         if (canMoveWithSticks && inputManagerLeftHand != null)
         {
-            float moveX = inputManagerLeftHand.stick.x;
-            float moveZ = inputManagerLeftHand.stick.y;
-
-//#if UNITY_EDITOR
-//            moveZ = moveZ * (-1);
-//#endif
-
-            Quaternion cameraDirection = GetCameraRotation();
-            //Debug.Log("THE CAMERA: " + cameraDirection);
-            var dir = GetCameraRotation() * new Vector3(moveX, 0, moveZ);
-            MoveCharacterController(dir);
+            moveX = inputManagerLeftHand.stick.x;
+            moveZ = inputManagerLeftHand.stick.y;
         }
+
+        //#if UNITY_EDITOR
+        //            moveZ = moveZ * (-1);
+        //#endif
+
+        Quaternion cameraDirection = GetCameraRotation();
+        //Debug.Log("THE CAMERA: " + cameraDirection);
+        var dir = GetCameraRotation() * new Vector3(moveX, 0, moveZ);
+        MoveCharacterController(dir);
+
 
         // Rotation (No rotation on Y -> Up/Down)
         if (canRotateWithSticks && inputManagerRightHand != null && (!inputManagerRightHand.IsTriggerButtonDown() || !isTeleportEnabled))
@@ -274,7 +278,7 @@ public class PlayerController : MonoBehaviour
 
     private void PlainXRRotation()
     {
-        rotationX += inputManagerRightHand.stick.x * mouseSensitivity;
+        rotationX += inputManagerRightHand.stick.x /* * mouseSensitivity */;
         rotationX = ClampAngle(rotationX, minimumX, maximumX);
         Quaternion xQuaternion = Quaternion.AngleAxis(rotationX, Vector3.up);
 
@@ -291,10 +295,10 @@ public class PlayerController : MonoBehaviour
         MoveCharacterController(dir);
 
         // Rotation
-        rotationX += Input.GetAxis("Mouse X") * (mouseSensitivity*30) * (Time.deltaTime);
+        rotationX += Input.GetAxis("Mouse X") * (mouseSensitivity * 30) * (Time.deltaTime);
         rotationX = ClampAngle(rotationX, minimumX, maximumX);
 
-        rotationY += Input.GetAxis("Mouse Y") * (mouseSensitivity*30) * (Time.deltaTime);
+        rotationY += Input.GetAxis("Mouse Y") * (mouseSensitivity * 30) * (Time.deltaTime);
         rotationY = ClampAngle(rotationY, minimumY, maximumY);
 
         Quaternion xQuaternion = Quaternion.AngleAxis(rotationX, Vector3.up);
@@ -350,7 +354,7 @@ public class PlayerController : MonoBehaviour
         //TO-DO: IS NOT WORKING AFTER BUILD! In WebGL App the MainCamera Rotation is always the same.
         Quaternion rotation = cameraMainTransform.localRotation;
 
-#if UNITY_WEBGL        
+#if UNITY_WEBGL
         //After Export in WebGL cameraMainTransform will return the same value, but not cameraLeftTransform.
         rotation = cameraLeftTransform.localRotation;
 #endif
@@ -360,8 +364,11 @@ public class PlayerController : MonoBehaviour
 
     private void ResetPlayerTransform()
     {
-        //this.transform.rotation = rotationPrev;
+        this.transform.rotation = rotationPrev;
         this.transform.position = positionPrev;
+
+        cameraMainTransform.rotation = rotationPrev;
+        cameraLeftTransform.rotation = rotationPrev;
     }
 
     private void ResetPlayerHeight()

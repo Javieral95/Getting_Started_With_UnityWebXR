@@ -167,7 +167,7 @@ public class ControllerInteraction : MonoBehaviour
         Debug.Log("You are dropping an object!!");
 
         attachJoint.connectedBody = null;
-        currentRigidBody.velocity = (currentRigidBody.position - lastPosition) / Time.deltaTime;
+        currentRigidBody.velocity = ((currentRigidBody.position - lastPosition) / Time.deltaTime);
 
         var deltaRotation = currentRigidBody.rotation * Quaternion.Inverse(lastRotation);
         float angle;

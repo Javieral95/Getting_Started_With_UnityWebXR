@@ -85,8 +85,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.40052634, y: 1.147983, z: 0.39696077}
-  m_Center: {x: 0.0025067965, y: 0.819335, z: -0.009097124}
+  m_Size: {x: 0.27963096, y: 1.147983, z: 0.28459165}
+  m_Center: {x: 0.0025067895, y: 0.819335, z: -0.007246779}
 --- !u!59 &8883929941840371156
 HingeJoint:
   m_ObjectHideFlags: 0
@@ -95,11 +95,11 @@ HingeJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2277489780821048065}
   m_ConnectedBody: {fileID: 3408810858823610223}
-  m_Anchor: {x: 0, y: 0.3, z: 0}
-  m_Axis: {x: 0, y: 0, z: 0}
+  m_Anchor: {x: 0, y: 0, z: 0}
+  m_Axis: {x: 90, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 1.655545, z: -0.121129684}
-  m_UseSpring: 1
+  m_ConnectedAnchor: {x: 0, y: -0.92900467, z: 0.053436924}
+  m_UseSpring: 0
   m_Spring:
     spring: 0
     damper: 2
@@ -111,8 +111,8 @@ HingeJoint:
     freeSpin: 0
   m_UseLimits: 1
   m_Limits:
-    min: -188.6878
-    max: -109.93697
+    min: -96.413185
+    max: -24.762732
     bounciness: 0
     bounceMinVelocity: 0.2
     contactDistance: 0
@@ -138,7 +138,7 @@ MonoBehaviour:
   Reference: {fileID: 0}
   HaveBreakInteraction: 1
   AuthomaticUpdate: 0
-  maxDistance: 0.5
+  maxDistance: 0.7
   onActivate:
     m_PersistentCalls:
       m_Calls:
