@@ -256,6 +256,7 @@ Hay varios **errores** o mejoras pendientes:
 ## Autores
 
 * **Javier Álvarez de la Fuente** - *Investigación inicial* para Trabajo Fin de Máster y Fundación CTIC - [JavierAl95](https://github.com/javieral95)
+* **Roberto Abad Jiménez** - *VR Teleport* - [Cronorobs](https://github.com/cronorobs)
 
 
 ## Licencia

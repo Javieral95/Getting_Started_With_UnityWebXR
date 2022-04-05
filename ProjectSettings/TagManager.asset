@@ -24,7 +24,7 @@ TagManager:
   - Grabbable
   - CannotTeleport
   - AvoidScenearioCollision
-  - 
+  - Player
   - 
   - 
   - 

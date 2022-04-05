@@ -30,7 +30,6 @@ public class GrabbableDoor : SpecialInteractable
 
     public override void Grab(bool isXR = false)
     {
-        Debug.Log("Is grabbed to True!");
         isGrabbed = true;
     }
 

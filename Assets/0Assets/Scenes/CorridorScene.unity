@@ -1998,7 +1998,7 @@ GameObject:
   - component: {fileID: 1128738122}
   - component: {fileID: 1128738121}
   - component: {fileID: 1128738120}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Roof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2764,7 +2764,7 @@ GameObject:
   - component: {fileID: 1442645449}
   - component: {fileID: 1442645448}
   - component: {fileID: 1442645447}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wall1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3514,7 +3514,7 @@ GameObject:
   - component: {fileID: 2079190739}
   - component: {fileID: 2079190738}
   - component: {fileID: 2079190737}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wall2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

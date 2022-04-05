@@ -141,9 +141,9 @@ public class NonXRInteraction : MonoBehaviour
         if (NonXR_isDragging)
         {            
             mousePos = GetMousePosition(NonXR_selectedObject);
-            if (specialInteractable == null || specialInteractable.CanMoveIt())
+            if (specialInteractable == null || (specialInteractable.CanMoveIt()))
             {
-                if (isNotMovable)
+                if (isNotMovable && NonXR_selectedObject_rb != null)
                     NonXR_selectedObject_rb.MovePosition(mousePos);
                 else
                     NonXR_selectedObject.transform.position = mousePos;
@@ -192,8 +192,11 @@ public class NonXRInteraction : MonoBehaviour
 
     private void CancelForces()
     {
-        NonXR_selectedObject_rb.velocity = Vector3.zero;
-        NonXR_selectedObject_rb.angularVelocity = Vector3.zero;
+        if (NonXR_selectedObject_rb != null)
+        {
+            NonXR_selectedObject_rb.velocity = Vector3.zero;
+            NonXR_selectedObject_rb.angularVelocity = Vector3.zero;
+        }
     }
 
     private void CheckSpecialObject()

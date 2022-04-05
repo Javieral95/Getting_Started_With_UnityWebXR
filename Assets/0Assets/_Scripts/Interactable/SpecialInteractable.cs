@@ -16,7 +16,7 @@ public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
     public bool AuthomaticUpdate;
 
     [SerializeField, Range(0, 10)]
-    private float maxDistance = 1f;
+    private float maxDistance = 0f;
     private bool _useObjectAsReference = false;
     private bool _needTobreak = false;
 

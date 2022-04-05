@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,25 +12,35 @@ public class MenuBehaviour : MonoBehaviour
     [Header("Game Objects")]
     [Tooltip("The Canvas with the settings menu")]
     public Canvas MenuCanvas;
-    private RectTransform menuCanvasTransform;
-    private Vector3 originalMenuCanvasScale;
-    private Vector3 originalMenuCanvasPosition;
+
+    [Header("VR Menu interaction")]
     [SerializeField, Range(0.1f, 5f)]
-    private float menuDistanceInVR;
+    private readonly float VRMenuDistance = 0.3f;
 
     [Tooltip("The settings menu will be opened pressing the Y (B) button of the controller")]
     public WebXRInputManager HandController;
+
     [Tooltip("The scene where the user will teleport after press Start Menu")]
     public Scene FirstScene;
 
     private GameManager gameManager;
     private PlayerController Player;
-    private bool isAppStarted;
-    private bool isMenuOpened;
-    private bool isButtonPressed;
+    private bool oldXRStatus;
+    private Transform cameraMainTransform;
+    private Transform cameraLeftTransform;
+
+    public bool IsAppStarted { get; private set; }
+    public bool IsMenuOpened { get; private set; }
 
     //Settings controls
-    [Header("Menu Controls")]
+    [Header("VR Menu Controls")]
+    public GameObject VRMenuObject;
+    public VRToggle allowStickRotationVRToggle;
+    public VRToggle useTickRotationVRToggle;
+    public VRToggle allowStickMoveVRToggle;
+    public VRToggle allowTeleportVRToggle;
+
+    [Header("NonVR Menu Controls")]
     public Slider sensibilitySlider;
     public TextMeshProUGUI sliderTextValue;
     public Toggle allowStickRotationToggle;
@@ -38,15 +49,6 @@ public class MenuBehaviour : MonoBehaviour
     public Toggle allowTeleportToggle;
     public Button startButton;
 
-    //VR Interaction Raycast objects
-    GraphicRaycaster m_Raycaster;
-    PointerEventData m_PointerEventData;
-    EventSystem m_EventSystem;
-
-    private Transform CanvasVRPosition;
-    private Camera mainCamera;
-    private Camera leftCamera;
-
     #region Unity events
     // Start is called before the first frame update
     void Start()
@@ -54,77 +56,96 @@ public class MenuBehaviour : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         gameManager.StopApp();
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        AllowMouse(true);
-        InitSettingsControls();
+        cameraMainTransform = Player.cameraMainTransform;
+        cameraLeftTransform = Player.cameraLeftTransform;
 
-        menuCanvasTransform = MenuCanvas.gameObject.GetComponent<RectTransform>();
-        originalMenuCanvasScale = menuCanvasTransform.localScale;
-        originalMenuCanvasPosition = menuCanvasTransform.position;
-
-        //VR
-        m_EventSystem = MenuCanvas.GetComponent<EventSystem>();
-        m_Raycaster = MenuCanvas.GetComponent<GraphicRaycaster>();
-        m_PointerEventData = new PointerEventData(m_EventSystem);
-
+        Thread.Sleep(100);
+        UpdateControlsValues();
+        VRMenuObject.SetActive(false);
         //End
-        isMenuOpened = true;
+        IsMenuOpened = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //TO-DO: Refactor this
+        CheckXRStatus();
 
-        if (PressSettingsMenuButton() && isAppStarted)
+        //Update loop
+        if (Player.IsXREnabled)
         {
-            ChangeSettingsMenuStatus();
-            if (Player.IsXREnabled)
-                MoveCanvasToHand();
-        }
+            VRMenuBehaviour();
 
-        if (isMenuOpened)
-        {
-            CheckCanvasRenderMode();
-            XRMenuInteraction();
+            //Start App in VR
+            if (!IsAppStarted && Is_Start_VR_Button_Pressed())
+                StartApp();
         }
+        else if (PressSettingsMenuButton() && IsAppStarted)
+            ChangeNonVRSettingsMenuStatus();
     }
     #endregion
 
     #region Settings events
-    public void ChangeMouseSensibility()
+    public void ChangeMouseSensibility(float value)
     {
-        Player.mouseSensitivity = sensibilitySlider.value;
+        Player.mouseSensitivity = value;
         sliderTextValue.text = $"{Player.mouseSensitivity}";
     }
-    public void ChangeRotateSticks()
+    public void ChangeRotateSticks(bool isChecked)
     {
-        var active = allowStickRotationToggle.isOn;
-        Player.canRotateWithSticks = active;
-        useTickRotationToggle.enabled = active;
+        //NonVR
+        Player.canRotateWithSticks = isChecked;
+        useTickRotationToggle.enabled = isChecked;
+
+        //VR
+        //allowStickRotationVRToggle.ChangeStatus(isChecked);
+        useTickRotationVRToggle.enabled = isChecked;
     }
-    public void ChangeUseTickRotation()
+    public void ChangeUseTickRotation(bool isChecked)
     {
-        Player.useTickRotation = useTickRotationToggle.isOn;
+        //NonVR
+        Player.useTickRotation = isChecked;
+        //VR
+        //if (Player.IsXREnabled)
+        //    useTickRotationVRToggle.ChangeStatus(isChecked);
+        //else
+        //    useTickRotationToggle.isOn = isChecked;
     }
-    public void ChangeStickMovement()
+    public void ChangeStickMovement(bool isChecked)
     {
-        Player.canMoveWithSticks = allowStickMoveToggle.isOn;
+        //NonVR
+        Player.canMoveWithSticks = isChecked;
+        //VR
+        //allowStickMoveVRToggle.ChangeStatus(isChecked);
     }
-    public void ChangeAllowTeleport()
+    public void ChangeAllowTeleport(bool isChecked)
     {
-        Player.isTeleportEnabled = allowTeleportToggle.isOn;
+        //NonVR
+        Player.isTeleportEnabled = isChecked;
+        //VR
+        //allowTeleportVRToggle.ChangeStatus(isChecked);
     }
     #endregion
 
     #region Main Menu
     /// <summary>
-    /// This game will teleport to main scene after click Start button on main menu.
+    /// This function will teleport to main scene after click Start button on main menu (or close the menu when the user is playing).
     /// </summary>
     public void StartGame()
     {
-        if (isAppStarted)
-            ChangeSettingsMenuStatus();
+        if (IsAppStarted)
+            ChangeNonVRSettingsMenuStatus();
         else
             StartApp();
+    }
+
+    /// <summary>
+    /// This function will close the game.
+    /// </summary>
+    public void StopGame()
+    {
+        Application.Quit();
     }
 
     private void StartApp()
@@ -135,16 +156,14 @@ public class MenuBehaviour : MonoBehaviour
 
         MenuCanvas.gameObject.SetActive(false);
         AllowMouse(false);
-        isAppStarted = true;
-        isMenuOpened = false;
+        IsAppStarted = true;
+        IsMenuOpened = false;
     }
     #endregion
 
     #region Settings Menu
     private bool PressSettingsMenuButton()
     {
-        isButtonPressed = true;
-
         if (Player.IsXREnabled)
             return HandController.Is_B_ButtonPressed();
         else
@@ -152,15 +171,7 @@ public class MenuBehaviour : MonoBehaviour
 
     }
 
-    private void MoveCanvasToHand()
-    {
-        menuCanvasTransform.position = HandController.transform.position;
-        menuCanvasTransform.transform.localPosition = menuCanvasTransform.transform.localPosition + new Vector3(0, 0, menuDistanceInVR);
-        menuCanvasTransform.LookAt(Camera.main.transform);
-        menuCanvasTransform.Rotate(menuCanvasTransform.up, 180);
-    }
-
-    private void ChangeSettingsMenuStatus()
+    private void ChangeNonVRSettingsMenuStatus()
     {
         //CheckCanvasRenderMode();
         var oldValue = MenuCanvas.gameObject.activeSelf;
@@ -169,45 +180,64 @@ public class MenuBehaviour : MonoBehaviour
         if (oldValue)
         {
             gameManager.ResumeApp();
-            isMenuOpened = false;
+            IsMenuOpened = false;
         }
         else
         {
-            MoveCanvasToHand();
             gameManager.StopApp();
-            isMenuOpened = true;
+            IsMenuOpened = true;
         }
     }
     #endregion
 
     #region VR Interaction
-    private void XRMenuInteraction()
+    private void VRMenuBehaviour()
     {
-        //Set the Pointer Event Position to that of the mouse position
-        m_PointerEventData.position = new Vector3(0.5f, 0.5f, 0); //Screen Center
-        //Create a list of Raycast Results
-        List<RaycastResult> results = new List<RaycastResult>();
+        var openMenuButtonPressed = PressSettingsMenuButton();
+        var closeMenu = Is_Close_VR_Menu_Button_Pressed();
 
-        //Raycast using the Graphics Raycaster and mouse click position
-        m_Raycaster.Raycast(m_PointerEventData, results);
-
-        //For every result returned, output the name of the GameObject on the Canvas hit by the Ray
-        foreach (RaycastResult result in results)
+        if (openMenuButtonPressed)
         {
-            Debug.Log("Hit " + result.gameObject.name);
+            VRMenuObject.gameObject.SetActive(true);
+            ChangeVRControlsStatus(true);
+            IsMenuOpened = true;
         }
+        else if (closeMenu)
+        {
+            VRMenuObject.gameObject.SetActive(false);
+            ChangeVRControlsStatus(false);
+            IsMenuOpened = false;
+        }
+
+        if (IsMenuOpened)
+            MoveVRMenuToHand();
+    }
+
+    private void MoveVRMenuToHand()
+    {
+        //VRMenuDistance
+        VRMenuObject.transform.position = (HandController.transform.position) + (VRMenuDistance * HandController.transform.right); ;
+        VRMenuObject.transform.LookAt(cameraMainTransform);
+#if UNITY_WEBGL
+        VRMenuObject.transform.LookAt(cameraLeftTransform);
+#endif
+
+    }
+
+    private bool Is_Start_VR_Button_Pressed()
+    {
+        return HandController.Is_A_ButtonPressed();
+    }
+    private bool Is_Close_VR_Menu_Button_Pressed()
+    {
+        return HandController.Is_B_ButtonUp();
     }
     #endregion
 
     #region Auxiliar Functions
-    private void InitSettingsControls()
+    private void UpdateControlsValues()
     {
-        sensibilitySlider.onValueChanged.AddListener(delegate { ChangeMouseSensibility(); });
-        allowStickRotationToggle.onValueChanged.AddListener(delegate { ChangeRotateSticks(); });
-        useTickRotationToggle.onValueChanged.AddListener(delegate { ChangeUseTickRotation(); });
-        allowStickMoveToggle.onValueChanged.AddListener(delegate { ChangeStickMovement(); });
-        allowTeleportToggle.onValueChanged.AddListener(delegate { ChangeAllowTeleport(); });
-        startButton.onClick.AddListener(delegate { StartGame(); });
+        //startButton.onClick.AddListener(delegate { StartGame(); });
 
         sliderTextValue.text = $"{Player.mouseSensitivity}";
         sensibilitySlider.value = Player.mouseSensitivity;
@@ -216,31 +246,47 @@ public class MenuBehaviour : MonoBehaviour
         useTickRotationToggle.enabled = Player.canRotateWithSticks;
         allowStickMoveToggle.isOn = Player.canMoveWithSticks;
         allowTeleportToggle.isOn = Player.isTeleportEnabled;
+
+        //Change VR VALUES
+        allowStickRotationVRToggle.ChangeStatus(Player.canRotateWithSticks);
+        useTickRotationVRToggle.ChangeStatus(Player.useTickRotation);
+        useTickRotationVRToggle.enabled = Player.canRotateWithSticks;
+        allowStickMoveVRToggle.ChangeStatus(Player.canMoveWithSticks);
+        allowTeleportVRToggle.ChangeStatus(Player.isTeleportEnabled);
     }
 
-    private void CheckCanvasRenderMode()
+    private void ChangeVRControlsStatus(bool status)
     {
-        if (Player.IsXREnabled && MenuCanvas.renderMode == RenderMode.ScreenSpaceOverlay)
-        {
-            /*
-            MenuCanvas.worldCamera = mainCamera;
-#if UNITY_WEBGL
-            MenuCanvas.worldCamera = leftCamera;
-#endif
-*/
-            MenuCanvas.worldCamera = Camera.main;
-            MenuCanvas.renderMode = RenderMode.WorldSpace;
-            menuCanvasTransform.localScale = originalMenuCanvasScale;
-            menuCanvasTransform.position = originalMenuCanvasPosition;
-        }
-        else if (!Player.IsXREnabled && MenuCanvas.renderMode == RenderMode.WorldSpace)
-            MenuCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        //Need to do this, because the parent is disabled but player hands will allow to change toggles values.
+        allowStickRotationVRToggle.enabled = status;
+        useTickRotationVRToggle.enabled = status;
+        allowStickMoveVRToggle.enabled = status;
+        allowTeleportVRToggle.enabled = status;
+
     }
 
     private void AllowMouse(bool allow = true)
     {
         Cursor.visible = allow;
         Cursor.lockState = (allow) ? CursorLockMode.None : CursorLockMode.Locked;
+    }
+
+    private void CheckXRStatus()
+    {
+        if (oldXRStatus != Player.IsXREnabled)
+        {
+            MenuCanvas.gameObject.SetActive(!Player.IsXREnabled);
+            AllowMouse(!Player.IsXREnabled);
+            IsMenuOpened = !Player.IsXREnabled;
+
+            if (Player.IsXREnabled)
+                gameManager.ResumeApp();
+            else
+                gameManager.StopApp();
+
+            oldXRStatus = Player.IsXREnabled;
+            UpdateControlsValues();
+        }
     }
     #endregion
 }

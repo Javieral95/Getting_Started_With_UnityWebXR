@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2621831231549511761}
   - component: {fileID: 4306246617589943427}
   - component: {fileID: 3337119331750898006}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Internal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,11 +86,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb2e4116837ced43acd2487575b4f5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowTranslation: 0
   Reference: {fileID: 0}
   HaveBreakInteraction: 1
   AuthomaticUpdate: 0
-  maxDistance: 1
   FollowAlways: 1
   Target: {fileID: 4571170904732948084}
 --- !u!23 &3337119331750898006
@@ -146,7 +144,7 @@ GameObject:
   - component: {fileID: 4599540314204751710}
   - component: {fileID: 7301674423402062358}
   - component: {fileID: 6569417109602513043}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: InternalGrabbableHandler
   m_TagString: InteractableNotMovable
   m_Icon: {fileID: 0}
@@ -203,11 +201,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb2e4116837ced43acd2487575b4f5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowTranslation: 1
   Reference: {fileID: 0}
   HaveBreakInteraction: 1
   AuthomaticUpdate: 0
-  maxDistance: 1
   FollowAlways: 0
   Target: {fileID: 2699217504623151910}
 --- !u!23 &7301674423402062358
@@ -276,7 +272,7 @@ GameObject:
   - component: {fileID: 4242044456571927316}
   - component: {fileID: 4242044456571927322}
   - component: {fileID: 4242044456571927323}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Inner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -424,7 +420,7 @@ GameObject:
   - component: {fileID: 4242044455718392231}
   - component: {fileID: 6142408489623540343}
   - component: {fileID: 9053493603644970440}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ExternalGrabbableHandler
   m_TagString: InteractableNotMovable
   m_Icon: {fileID: 0}
@@ -481,11 +477,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb2e4116837ced43acd2487575b4f5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowTranslation: 1
   Reference: {fileID: 0}
   HaveBreakInteraction: 1
   AuthomaticUpdate: 0
-  maxDistance: 1
   FollowAlways: 0
   Target: {fileID: 4242044457070042110}
 --- !u!23 &6142408489623540343
@@ -554,7 +548,7 @@ GameObject:
   - component: {fileID: 4242044457070042111}
   - component: {fileID: 4242044457070042107}
   - component: {fileID: 512259526767057539}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: External
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -626,11 +620,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb2e4116837ced43acd2487575b4f5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowTranslation: 0
   Reference: {fileID: 0}
   HaveBreakInteraction: 1
   AuthomaticUpdate: 0
-  maxDistance: 1
   FollowAlways: 1
   Target: {fileID: 4242044455718392230}
 --- !u!23 &512259526767057539
@@ -683,7 +675,7 @@ GameObject:
   - component: {fileID: 8639306682031359343}
   - component: {fileID: 7416707369675827731}
   - component: {fileID: 685981577805362744}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Outer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -761,7 +753,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8663201448083087638}
   - component: {fileID: 8663201448075628278}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InteractableDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}

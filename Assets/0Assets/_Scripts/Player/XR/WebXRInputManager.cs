@@ -55,7 +55,7 @@ public class WebXRInputManager : MonoBehaviour
     public float GetGripAxis() { return gripAxis; }
 
     public bool Is_A_ButtonPressed() {  return aStatus == XRButtonStatus.ButtonDown;  }
-    public bool Is_B_ButtonPressed() { return bStatus == XRButtonStatus.ButtonDown; ; }
+    public bool Is_B_ButtonPressed() { return bStatus == XRButtonStatus.ButtonDown; ; }   
 
     public bool Is_A_ButtonUp() { return aStatus == XRButtonStatus.ButtonUp; }
     public bool Is_B_ButtonUp() { return bStatus == XRButtonStatus.ButtonUp; ; }
@@ -102,11 +102,13 @@ public class WebXRInputManager : MonoBehaviour
         /*stick.x = controller.GetAxis("StickX");
         stick.y = controller.GetAxis("StickY");*/
         stick = controller.GetAxis2D(WebXRController.Axis2DTypes.Thumbstick);
-        #if UNITY_EDITOR
-        stick.y *= -1;
-        #endif 
 
-        
+        //#if UNITY_EDITOR
+        //stick.x *= -1;
+        //stick.y *= -1;
+        //#endif
+
+
         //Trigger & Grip
         GetXRButtonStatus(WebXRController.ButtonTypes.Trigger, ref triggerStatus);
         GetXRButtonStatus(WebXRController.ButtonTypes.Grip, ref gripStatus);

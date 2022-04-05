@@ -17,6 +17,7 @@ public class ControllerInteraction : MonoBehaviour
 {
     #region Properties
     private static GameManager gameManager;
+    private static PlayerController player;
 
     private FixedJoint attachJoint;
     private Rigidbody currentRigidBody;
@@ -29,7 +30,7 @@ public class ControllerInteraction : MonoBehaviour
     private Animator controller_anim;
 
     [SerializeField, Range(1, 15)]
-    private float throwForce = 9f;
+    private readonly float throwForce = 9f;
     private bool isGrabbing = false;
     private ISpecialInteractable specialInteractable;
     #endregion
@@ -47,6 +48,7 @@ public class ControllerInteraction : MonoBehaviour
     {
         if (gameManager == null)
             gameManager = FindObjectOfType<GameManager>();
+        player = FindObjectOfType<PlayerController>();
     }
 
     void Update()
@@ -57,8 +59,8 @@ public class ControllerInteraction : MonoBehaviour
         /*if(!inputManager.IsTriggerButtonInactive() || !inputManager.IsGripButtonInactive())
             Debug.Log("TriggerAxis: " + inputManager.GetTriggerAxis() + " - GripAxis: " + inputManager.GetGripAxis());*/
 
-        if (inputManager.IsTriggerButtonDown() || inputManager.IsGripButtonDown()) { Interaction(true); }
-        if (inputManager.IsTriggerButtonUp() || inputManager.IsGripButtonUp()) { Interaction(false); }
+        if (inputManager.IsGripButtonDown()) { Interaction(true); }
+        if (inputManager.IsGripButtonUp()) { Interaction(false); }
 
         if (inputManager.Is_A_ButtonPressed())
             Throw(currentRigidBody);
@@ -130,18 +132,6 @@ public class ControllerInteraction : MonoBehaviour
     }
 
     #region Interaction Auxiliar Functions
-    /// <summary>
-    /// Trigger when the user press a button
-    /// </summary>
-    /// <param name="currentRigidBody"></param>
-    private void PressButton(Rigidbody currentRigidBody)
-    {
-        Debug.Log("You are pressing a button!!");
-        TriggerInterface component = currentRigidBody.gameObject.GetComponent<TriggerInterface>();
-        if (component != null)
-            component.Press();
-    }
-
     /// <summary>
     /// Pick the object and connect to hand.
     /// </summary>
@@ -227,7 +217,7 @@ public class ControllerInteraction : MonoBehaviour
         {
             distance = (contactBody.transform.position - _transform.position).sqrMagnitude;
 
-            if (distance < minDistance)
+            if (distance < minDistance && contactBody.gameObject.activeInHierarchy)
             {
                 minDistance = distance;
                 nearestRigidBody = contactBody;
@@ -274,7 +264,7 @@ public class ControllerInteraction : MonoBehaviour
     }
 
     /// <summary>
-    /// Check if the object, with BreakInteractions script, exceed the maximum distance allowed.
+    /// Check if the special interactable object have the Break Interaction check and if exceed the maximum distance allowed.
     /// </summary>
     /// <returns></returns>
     private bool CheckForBreakInteraction()

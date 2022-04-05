@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Animations;
+using UnityEngine.Events;
 
 public class VRSlider : SpecialInteractable
 {
+    public FloatEvent onChangeValue;
+
     [Header("General options")]
 
     public TextMeshProUGUI DisplayScreenText;
@@ -32,6 +35,8 @@ public class VRSlider : SpecialInteractable
     private Transform collisionObjectTransform;
     private float moveValueDivisor = 1;
 
+    public float value { get; private set; }
+
     //Unity Functions
     new void Start()
     {
@@ -52,8 +57,10 @@ public class VRSlider : SpecialInteractable
             if (transform.localPosition.x != initPos) { changed = true; }
             if (changed && (CheckLimits())) { clicking = false; }
 
+            UpdateValue();
+
             if (DisplayScreenText != null)
-                DisplayScreenText.text = GetScreenValue();
+                DisplayScreenText.text = $"{String.Format("{0:0.00}", value)}%";
         }
     }
 
@@ -98,15 +105,15 @@ public class VRSlider : SpecialInteractable
         }
     }
 
-    private string GetScreenValue()
+    private void UpdateValue()
     {
         //value = (Math.Abs(transform.localPosition.z) / (-limits.y + limits.x)) * 100;
 
         var limit = Math.Abs(limits.x);
-        var value = ((limit + transform.localPosition.z) / (2 * limit)) * 100;
+        value = ((limit + transform.localPosition.z) / (2 * limit)) * 100;
 
-        string ret = String.Format("{0:0.00}", value);
-        return $"{ret}%";
+        //Call Event
+        onChangeValue?.Invoke(value);
     }
 
     private bool CheckLimits()
@@ -139,7 +146,7 @@ public class VRSlider : SpecialInteractable
 
     public override void Throw(bool isXR = false)
     {
-        throw new System.NotImplementedException();
+        Debug.Log("You cannot throw a Slider >:(");
     }
 
     // XR

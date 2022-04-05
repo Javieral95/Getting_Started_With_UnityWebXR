@@ -227,9 +227,9 @@ public class PlayerController : MonoBehaviour
             float moveX = inputManagerLeftHand.stick.x;
             float moveZ = inputManagerLeftHand.stick.y;
 
-#if UNITY_EDITOR
-            moveZ = moveZ * (-1);
-#endif
+//#if UNITY_EDITOR
+//            moveZ = moveZ * (-1);
+//#endif
 
             Quaternion cameraDirection = GetCameraRotation();
             //Debug.Log("THE CAMERA: " + cameraDirection);
@@ -360,7 +360,7 @@ public class PlayerController : MonoBehaviour
 
     private void ResetPlayerTransform()
     {
-        this.transform.rotation = rotationPrev;
+        //this.transform.rotation = rotationPrev;
         this.transform.position = positionPrev;
     }
 

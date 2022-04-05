@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Animations;
+using UnityEngine.Events;
 
 public class VRPotentiometer : SpecialInteractable
 {
+    public FloatEvent onChangeValue;
+
     [Header("General options")]
     public TextMeshProUGUI DisplayScreenText;
 
@@ -40,7 +43,7 @@ public class VRPotentiometer : SpecialInteractable
     private Transform collisionObjectTransform;
 
     //Value
-    private float val = .0f;
+    public float value { get; private set; }
 
     //Unity Functions
     new void Start()
@@ -57,29 +60,26 @@ public class VRPotentiometer : SpecialInteractable
         if (clicking)
         {
             if (isXRInteraction)
-                val += sensitivity * 1000 * (GetXRRotationValue()) * Time.deltaTime;
+                value += sensitivity * 1000 * (GetXRRotationValue()) * Time.deltaTime;
             else
-                val += sensitivity * 1000 * Input.GetAxis("Mouse X") * Time.deltaTime;
-            val = Mathf.Clamp(val, limits.x, limits.y);
-            transform.localEulerAngles = GetRotationEularAngles(val);
-            if (val != initRot) { changed = true; }
-            if (changed && (val == limits.x || val == limits.y)) { clicking = false; }
+                value += sensitivity * 1000 * Input.GetAxis("Mouse X") * Time.deltaTime;
+            value = Mathf.Clamp(value, limits.x, limits.y);
+            transform.localEulerAngles = GetRotationEularAngles(value);
+            if (value != initRot) { changed = true; }
+            if (changed && (value == limits.x || value == limits.y)) { clicking = false; }
 
             if (DisplayScreenText != null)
                 DisplayScreenText.text = GetScreenValue();
+
+            //Call Event
+            onChangeValue?.Invoke(value);
         }
     }
 
     //Public Functions
-
-    public float GetValue()
-    {
-        return val;
-    }
-
     public string GetScreenValue()
     {
-        string ret = String.Format("{0:0.00}", ((GetValue() / MaxGrades) * 100));
+        string ret = String.Format("{0:0.00}", ((value / MaxGrades) * 100));
         return $"{ret}%";
     }
 
@@ -90,11 +90,11 @@ public class VRPotentiometer : SpecialInteractable
         Vector3 ret = initEulerAngles;
 
         if (RotateX)
-            ret.x = val;
+            ret.x = value;
         if (RotateY)
-            ret.y = val;
+            ret.y = value;
         if (RotateZ)
-            ret.z = val;
+            ret.z = value;
 
         return ret;
     }
@@ -113,14 +113,14 @@ public class VRPotentiometer : SpecialInteractable
     {
         clicking = true;
         changed = false;
-        initRot = val;
+        initRot = value;
 
         isXRInteraction = isXR;
     }
 
     public override void Throw(bool isXR = false)
     {
-        throw new System.NotImplementedException();
+        Debug.Log("You cannot throw a Potentiometer >:(");
     }
 
     // XR

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3497529684780335617}
   - component: {fileID: 5368019818566307689}
   - component: {fileID: 4126766800094244470}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: CameraARL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 2582713136301721828}
   - component: {fileID: 8729765953258989140}
   - component: {fileID: 146847575003634117}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: CameraARR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -304,7 +304,7 @@ GameObject:
   - component: {fileID: 8921795627169359116}
   - component: {fileID: 4138882423985007143}
   - component: {fileID: 576509394}
-  m_Layer: 13
+  m_Layer: 12
   m_Name: WebXRCameraSet
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -373,6 +373,7 @@ MonoBehaviour:
   nonXRImage: {fileID: 0}
   isXREnabled: 1
   canRotateWithSticks: 1
+  canMoveWithSticks: 1
   isTeleportEnabled: 0
   useTickRotation: 0
   rotationAngle: 15
@@ -426,6 +427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stickSensitivity: 200
+  stickRotate: 0
   Teleporter: {fileID: 114632205543208511}
   InputManager: {fileID: 8922231952781522328}
 --- !u!1 &8921798863616087647
@@ -849,7 +851,7 @@ GameObject:
   - component: {fileID: 8924540837728880195}
   - component: {fileID: 8907962209999114965}
   - component: {fileID: 8821868367812315467}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: CameraL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -998,7 +1000,7 @@ GameObject:
   - component: {fileID: 8925007246121197137}
   - component: {fileID: 8907058849138001585}
   - component: {fileID: 8822140106689222155}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: CameraR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1172,7 +1174,7 @@ GameObject:
   - component: {fileID: 8924590103456473965}
   - component: {fileID: 4570106479513460181}
   - component: {fileID: 8860070584061901271}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Cameras
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1248,7 +1250,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8924692316598278949
 Transform:
   m_ObjectHideFlags: 0
@@ -1398,7 +1400,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe52eea496a41d5408d62a53d97a5420, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  throwForce: 9
 --- !u!1 &8922494753334265419
 GameObject:
   m_ObjectHideFlags: 0
@@ -1485,7 +1486,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8924610704118268443
 Transform:
   m_ObjectHideFlags: 0
@@ -1634,7 +1635,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe52eea496a41d5408d62a53d97a5420, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  throwForce: 9
 --- !u!1 &8922623065013200061
 GameObject:
   m_ObjectHideFlags: 0
@@ -1801,7 +1801,7 @@ GameObject:
   - component: {fileID: 8904265601611001855}
   - component: {fileID: 8820622430660403913}
   - component: {fileID: 6715201783484331869}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: CameraMain
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -2240,9 +2240,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8924692316598278949}
     m_Modifications:
+    - target: {fileID: 1589036259176580, guid: dadbda9315d15264f9ba1364afbca3fc, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1951154286922452, guid: dadbda9315d15264f9ba1364afbca3fc, type: 3}
       propertyPath: m_Name
       value: Teleporter
+      objectReference: {fileID: 0}
+    - target: {fileID: 1951154286922452, guid: dadbda9315d15264f9ba1364afbca3fc, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4411256152801402, guid: dadbda9315d15264f9ba1364afbca3fc, type: 3}
       propertyPath: m_RootOrder
@@ -2305,8 +2313,23 @@ PrefabInstance:
       objectReference: {fileID: 1589035733399363}
     - target: {fileID: 114632206035923448, guid: dadbda9315d15264f9ba1364afbca3fc,
         type: 3}
+      propertyPath: HitLayers.m_Bits
+      value: 1024
+      objectReference: {fileID: 0}
+    - target: {fileID: 114632206035923448, guid: dadbda9315d15264f9ba1364afbca3fc,
+        type: 3}
       propertyPath: ExcludeLayers.m_Bits
-      value: 1840
+      value: 4384
+      objectReference: {fileID: 0}
+    - target: {fileID: 246049054999541603, guid: dadbda9315d15264f9ba1364afbca3fc,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 306331728314083319, guid: dadbda9315d15264f9ba1364afbca3fc,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dadbda9315d15264f9ba1364afbca3fc, type: 3}
