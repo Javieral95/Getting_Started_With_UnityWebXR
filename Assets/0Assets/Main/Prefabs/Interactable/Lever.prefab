@@ -85,8 +85,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.2930651, y: 1.1264002, z: 0.32452166}
-  m_Center: {x: 0.0025067776, y: 0.80854356, z: -0.009460326}
+  m_Size: {x: 0.40052634, y: 1.147983, z: 0.39696077}
+  m_Center: {x: 0.0025067965, y: 0.819335, z: -0.009097124}
 --- !u!59 &8883929941840371156
 HingeJoint:
   m_ObjectHideFlags: 0
@@ -138,7 +138,7 @@ MonoBehaviour:
   Reference: {fileID: 0}
   HaveBreakInteraction: 1
   AuthomaticUpdate: 0
-  maxDistance: 0.3
+  maxDistance: 0.5
   onActivate:
     m_PersistentCalls:
       m_Calls:

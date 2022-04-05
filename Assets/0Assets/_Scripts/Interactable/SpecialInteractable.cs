@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿/***********************************************************************
+ ********************* SPECIAL INTERACTABLE CLASS  *********************
+ ****** Implements Special Interactable Interface (Grab, Drop Throw ****
+ *********** methods) and Break interaction property *******************
+ **** https://github.com/Javieral95/Getting_Started_With_UnityWebXR ****
+ **********************************************************************/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

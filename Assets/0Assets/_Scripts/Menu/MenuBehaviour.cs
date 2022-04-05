@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/***********************************************************************
+ ******* MENU (For VR with Canvas and NonVR with Physic buttons) *******
+ **** https://github.com/Javieral95/Getting_Started_With_UnityWebXR ****
+ **********************************************************************/
+
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using TMPro;

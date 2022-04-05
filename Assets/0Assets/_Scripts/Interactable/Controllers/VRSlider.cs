@@ -1,4 +1,9 @@
-﻿using System;
+﻿/***********************************************************************
+ ***************** SPECIAL INTERACTABLE OBJECT: SLIDER *****************
+ **** https://github.com/Javieral95/Getting_Started_With_UnityWebXR ****
+ **********************************************************************/
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
