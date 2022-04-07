@@ -22,11 +22,12 @@ public class PlayerController : MonoBehaviour
     private static NonXRInteraction _nonXR_interactor;
     public Image nonXRImage;
 
-    [Header("Player movement (Only Unity Editor)")]
+    [Header("XR Status (Only Unity Editor)")]
     [SerializeField, Tooltip("Enable/disable rotation and movement control using VR hardware. For use in Unity editor only (Authomatic set to true when dettect hardware).")]
-    private bool isXREnabled = false;
+    private bool isXREnabled;
     public bool IsXREnabled { get { return isXREnabled; } }
 
+    [Header("XR Movement")]
     [Tooltip("Enable/disable rotation control using VR hardware's sticks (Non Up down, only LR).")]
     public bool canRotateWithSticks = true;
     [Tooltip("Enable/disable movement control using VR hardware's sticks.")]
@@ -38,9 +39,8 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Activate this option to rotate the XR camera using angles ticks instead of Plain Rotation")]
     public bool useTickRotation;
 
-    [Tooltip("Straffe Speed")]
+    [Tooltip("Straffe Speed. Grades for Tick rotation.")]
     public float rotationAngle = 15f;
-
 
     [Header("WebXR objects")]
     public WebXRInputManager inputManagerLeftHand;
@@ -53,19 +53,21 @@ public class PlayerController : MonoBehaviour
 
     private WebXRDisplayCapabilities capabilities;
 
-    [Header("Player settings"), Tooltip("Movement Speed")]
-    public float speed = 5f;
+    [Header("Player settings")]
+    [SerializeField, Tooltip("Movement Speed")]
+    private float speed = 5f;
+
     [SerializeField, Range(0.1f, 5)]
     private float height = 2f;
+    [SerializeField, Range(0.1f, 5)]
+    private float nonXRHeight = 2f;
 
     [SerializeField, Range(6, 30)] private float gravity = 20.0f;
     [SerializeField, Range(0, 10)] private float jumpSpeed = 6.0f;
 
-    [Header("NonXR settings"), Tooltip("Mouse sensitivity"), Range(1, 5)]
+    [Header("NonXR settings")]
+    [Tooltip("Mouse sensitivity"), Range(1, 5)]
     public float mouseSensitivity = 1f;
-
-    [SerializeField, Range(0.1f, 5)]
-    private float nonXRHeight = 2f;
 
     [Header("Debug Texts")]
     public Text stickText;
@@ -102,8 +104,6 @@ public class PlayerController : MonoBehaviour
     private bool XRMoveEnabledPrev = false;
     private Vector3 positionPrev;
     private Quaternion rotationPrev;
-
-
     #endregion
 
     #region Unity Functions
@@ -351,7 +351,6 @@ public class PlayerController : MonoBehaviour
 
     private Quaternion GetCameraRotation()
     {
-        //TO-DO: IS NOT WORKING AFTER BUILD! In WebGL App the MainCamera Rotation is always the same.
         Quaternion rotation = cameraMainTransform.localRotation;
 
 #if UNITY_WEBGL
@@ -390,14 +389,13 @@ public class PlayerController : MonoBehaviour
         if (inGround)
         {
             // We are grounded, so recalculate movedirection directly from axes
-            //moveDirection = myTransform.TransformDirection(direction);
             moveDirection = myCamera.transform.TransformDirection(direction);
 
             moveDirection.y = 0; //Avoid to move in Y axis
             moveDirection *= speed;
 
             //Jump With B Button or with Jump button (if dont use XR)
-            if (inputManagerRightHand.Is_B_ButtonPressed() || (!isXREnabled && Input.GetButton("Jump")))
+            if ((isXREnabled && inputManagerRightHand.Is_B_ButtonPressed()) || Input.GetButton("Jump"))
                 moveDirection.y = jumpSpeed;
         }
 

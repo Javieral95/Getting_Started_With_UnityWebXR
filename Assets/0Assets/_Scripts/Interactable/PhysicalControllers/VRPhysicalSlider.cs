@@ -11,7 +11,7 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Events;
 
-public class VRSlider : SpecialInteractable
+public class VRPhysicalSlider : SpecialInteractable
 {
     public FloatEvent onChangeValue;
 
@@ -25,6 +25,7 @@ public class VRSlider : SpecialInteractable
     public bool IsVerticalSlider;
 
     private Vector2 limits;
+    private float absLimit;
     private bool clicking;
     private bool changed;
     private float initPos;
@@ -40,7 +41,7 @@ public class VRSlider : SpecialInteractable
     private Transform collisionObjectTransform;
     private float moveValueDivisor = 1;
 
-    public float value { get; private set; }
+    public float Value { get; private set; }
 
     //Unity Functions
     new void Start()
@@ -48,6 +49,7 @@ public class VRSlider : SpecialInteractable
         base.Start();
         //InitLimits();
         limits = new Vector2(transform.localPosition.z, -transform.localPosition.z);
+        absLimit = Math.Abs(limits.x);
         _rb = this.gameObject.GetComponent<Rigidbody>();
     }
 
@@ -65,7 +67,7 @@ public class VRSlider : SpecialInteractable
             UpdateValue();
 
             if (DisplayScreenText != null)
-                DisplayScreenText.text = $"{String.Format("{0:0.00}", value)}%";
+                DisplayScreenText.text = $"{String.Format("{0:0.00}", Value)}%";
         }
     }
 
@@ -111,14 +113,10 @@ public class VRSlider : SpecialInteractable
     }
 
     private void UpdateValue()
-    {
-        //value = (Math.Abs(transform.localPosition.z) / (-limits.y + limits.x)) * 100;
-
-        var limit = Math.Abs(limits.x);
-        value = ((limit + transform.localPosition.z) / (2 * limit)) * 100;
-
+    {        
+        Value = ((absLimit + transform.localPosition.z) / (2 * absLimit)) * 100;
         //Call Event
-        onChangeValue?.Invoke(value);
+        onChangeValue?.Invoke(Value);
     }
 
     private bool CheckLimits()
@@ -130,8 +128,8 @@ public class VRSlider : SpecialInteractable
     {
         return new Vector3(transform.localPosition.x, transform.localPosition.y, Mathf.Clamp(transform.localPosition.z, limits.x, limits.y));
     }
-    //Special Interactable Object Functions
 
+    //Special Interactable Object Functions
     public override void Drop(bool isXR = false)
     {
         clicking = false;

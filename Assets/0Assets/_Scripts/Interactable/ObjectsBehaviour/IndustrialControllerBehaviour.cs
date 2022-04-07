@@ -17,7 +17,7 @@ public class IndustrialControllerBehaviour : MonoBehaviour
 
     public void ActivateIndustrialController()
     {
-        this.gameObject.SetActive(true);
+        //this.gameObject.SetActive(true);
         _animator.SetBool(ANIMATOR_BOOL, true);
         isActive = true;
     }
@@ -25,8 +25,8 @@ public class IndustrialControllerBehaviour : MonoBehaviour
     public void DisactivateIndustrialController()
     {
         _animator.SetBool(ANIMATOR_BOOL, false);
-        if (isActive)
-            StartCoroutine(DisactivateGameObject(1));
+        //if (isActive)
+        //    StartCoroutine(DisactivateGameObject(1));
     }
     
     private IEnumerator DisactivateGameObject(int seconds = 1)

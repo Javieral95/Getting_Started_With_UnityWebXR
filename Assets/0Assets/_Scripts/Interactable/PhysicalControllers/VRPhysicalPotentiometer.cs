@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Events;
 
-public class VRPotentiometer : SpecialInteractable
+public class VRPhysicalPotentiometer : SpecialInteractable
 {
     public FloatEvent onChangeValue;
 

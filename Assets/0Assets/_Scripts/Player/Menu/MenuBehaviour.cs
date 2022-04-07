@@ -17,33 +17,24 @@ public class MenuBehaviour : MonoBehaviour
     [Header("Game Objects")]
     [Tooltip("The Canvas with the settings menu")]
     public Canvas MenuCanvas;
-
-    [Header("VR Menu interaction")]
-    [SerializeField, Range(0.1f, 5f)]
-    private readonly float VRMenuDistance = 0.3f;
-
-    [Tooltip("The settings menu will be opened pressing the Y (B) button of the controller")]
+    [Tooltip("The object which contains the VR Menu")]
+    public GameObject VRMenuObject;
+    [Tooltip("The settings menu will be opened pressing the Y (B) button of the controller in XR mode")]
     public WebXRInputManager HandController;
 
+    [Header("Settings")]
     [Tooltip("The scene where the user will teleport after press Start Menu")]
     public Scene FirstScene;
-
-    private GameManager gameManager;
-    private PlayerController Player;
-    private bool oldXRStatus;
-    private Transform cameraMainTransform;
-    private Transform cameraLeftTransform;
-
-    public bool IsAppStarted { get; private set; }
-    public bool IsMenuOpened { get; private set; }
+    
+    [SerializeField, Range(0.1f, 5f), Tooltip("Distance between VR Menu and hand")]
+    private readonly float VRMenuDistance = 0.3f;
 
     //Settings controls
     [Header("VR Menu Controls")]
-    public GameObject VRMenuObject;
-    public VRToggle allowStickRotationVRToggle;
-    public VRToggle useTickRotationVRToggle;
-    public VRToggle allowStickMoveVRToggle;
-    public VRToggle allowTeleportVRToggle;
+    public VRPhysicalToggle allowStickRotationVRToggle;
+    public VRPhysicalToggle useTickRotationVRToggle;
+    public VRPhysicalToggle allowStickMoveVRToggle;
+    public VRPhysicalToggle allowTeleportVRToggle;
 
     [Header("NonVR Menu Controls")]
     public Slider sensibilitySlider;
@@ -53,6 +44,17 @@ public class MenuBehaviour : MonoBehaviour
     public Toggle allowStickMoveToggle;
     public Toggle allowTeleportToggle;
     public Button startButton;
+
+    // Properties
+    private GameManager gameManager;
+    private PlayerController Player;
+    private bool oldXRStatus;
+    private Transform cameraMainTransform;
+    private Transform cameraLeftTransform;
+
+    public bool IsAppStarted { get; private set; }
+    public bool IsMenuOpened { get; private set; }
+
 
     #region Unity events
     // Start is called before the first frame update
@@ -99,37 +101,21 @@ public class MenuBehaviour : MonoBehaviour
     }
     public void ChangeRotateSticks(bool isChecked)
     {
-        //NonVR
         Player.canRotateWithSticks = isChecked;
-        useTickRotationToggle.enabled = isChecked;
-
-        //VR
-        //allowStickRotationVRToggle.ChangeStatus(isChecked);
-        useTickRotationVRToggle.enabled = isChecked;
+        useTickRotationToggle.enabled = isChecked; //NonXR
+        useTickRotationVRToggle.enabled = isChecked; //XR
     }
     public void ChangeUseTickRotation(bool isChecked)
     {
-        //NonVR
         Player.useTickRotation = isChecked;
-        //VR
-        //if (Player.IsXREnabled)
-        //    useTickRotationVRToggle.ChangeStatus(isChecked);
-        //else
-        //    useTickRotationToggle.isOn = isChecked;
     }
     public void ChangeStickMovement(bool isChecked)
     {
-        //NonVR
         Player.canMoveWithSticks = isChecked;
-        //VR
-        //allowStickMoveVRToggle.ChangeStatus(isChecked);
     }
     public void ChangeAllowTeleport(bool isChecked)
     {
-        //NonVR
         Player.isTeleportEnabled = isChecked;
-        //VR
-        //allowTeleportVRToggle.ChangeStatus(isChecked);
     }
     #endregion
 
@@ -178,7 +164,6 @@ public class MenuBehaviour : MonoBehaviour
 
     private void ChangeNonVRSettingsMenuStatus()
     {
-        //CheckCanvasRenderMode();
         var oldValue = MenuCanvas.gameObject.activeSelf;
         MenuCanvas.gameObject.SetActive(!oldValue);
         AllowMouse(!oldValue);
@@ -199,7 +184,7 @@ public class MenuBehaviour : MonoBehaviour
     private void VRMenuBehaviour()
     {
         var openMenuButtonPressed = PressSettingsMenuButton();
-        var closeMenu = Is_Close_VR_Menu_Button_Pressed();
+        var closeMenuButtonPressed = Is_Close_VR_Menu_Button_Pressed();
 
         if (openMenuButtonPressed)
         {
@@ -207,7 +192,7 @@ public class MenuBehaviour : MonoBehaviour
             ChangeVRControlsStatus(true);
             IsMenuOpened = true;
         }
-        else if (closeMenu)
+        else if (closeMenuButtonPressed)
         {
             VRMenuObject.gameObject.SetActive(false);
             ChangeVRControlsStatus(false);
@@ -242,8 +227,6 @@ public class MenuBehaviour : MonoBehaviour
     #region Auxiliar Functions
     private void UpdateControlsValues()
     {
-        //startButton.onClick.AddListener(delegate { StartGame(); });
-
         sliderTextValue.text = $"{Player.mouseSensitivity}";
         sensibilitySlider.value = Player.mouseSensitivity;
         allowStickRotationToggle.isOn = Player.canRotateWithSticks;
@@ -262,12 +245,11 @@ public class MenuBehaviour : MonoBehaviour
 
     private void ChangeVRControlsStatus(bool status)
     {
-        //Need to do this, because the parent is disabled but player hands will allow to change toggles values.
+        //Need to do this because the parent is disabled but player hands will allow to change toggles values.
         allowStickRotationVRToggle.enabled = status;
         useTickRotationVRToggle.enabled = status;
         allowStickMoveVRToggle.enabled = status;
         allowTeleportVRToggle.enabled = status;
-
     }
 
     private void AllowMouse(bool allow = true)

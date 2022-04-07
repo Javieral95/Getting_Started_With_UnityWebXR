@@ -9,6 +9,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(Rigidbody))]
 public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
 {
     [Header("Break Interaction options")]
@@ -29,6 +31,7 @@ public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
 
     private Transform _transform;
     private Vector3 initPosition;
+    private Quaternion initRotation;
 
     private float _distance;
 
@@ -38,6 +41,7 @@ public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
     {
         _transform = GetComponent<Transform>();
         initPosition = _transform.position;
+        initRotation = _transform.rotation;
 
         if (Reference != null) _useObjectAsReference = true; //Avoid Errors
     }
@@ -46,16 +50,20 @@ public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
     {
         if (HaveBreakInteraction)
         {
+            //Calculate distance
             if (_useObjectAsReference)
                 _distance = CalculateDistance(_transform.position, Reference.position);
             else
                 _distance = CalculateDistance(_transform.position, initPosition);
 
+            //Update status or reset position
             if (_distance >= maxDistance && !_needTobreak)
-                _needTobreak = true;
-
-            else if (_needTobreak && AuthomaticUpdate)
-                ResetPosition();
+            {
+                if (AuthomaticUpdate)
+                    ResetPosition();
+                else
+                    _needTobreak = true;
+            }
         }
     }
     #endregion
@@ -75,9 +83,15 @@ public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
     public void ResetPosition()
     {
         if (_useObjectAsReference)
+        {
             _transform.position = Reference.position;
+            _transform.rotation = Reference.rotation;
+        }
         else
+        {
             _transform.position = initPosition;
+            _transform.rotation = initRotation;
+        }
 
         _needTobreak = false;
     }
@@ -91,7 +105,7 @@ public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
     {
         if (!HaveBreakInteraction) return false;
 
-        bool ret = false; 
+        bool ret = false;
 
         if (_useObjectAsReference)
             ret = _needTobreak || CalculateDistance(playerReference.position, Reference.position) >= maxDistance;
@@ -103,7 +117,7 @@ public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
     }
 
     public bool CheckNeedToBreak(Vector3 playerReferencePos)
-    {        
+    {
         if (!HaveBreakInteraction) return false;
 
         bool ret = false;
@@ -121,7 +135,7 @@ public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
 
     #region Abstract methods
 
-    public abstract void Drop(bool isXR=false);
+    public abstract void Drop(bool isXR = false);
 
     public abstract void Grab(bool isXR = false);
 
@@ -130,24 +144,24 @@ public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
     #endregion
 }
 
-
+#region INTERFACE
 public interface ISpecialInteractable
 {
     /// <summary>
     /// Use isXR if the object have an special behaviour when the user is playing using VR Headset
     /// </summary>
     /// <param name="isXR"></param>
-    void Grab(bool isXR=false);
+    void Grab(bool isXR = false);
     /// <summary>
     /// Use isXR if the object have an special behaviour when the user is playing using VR Headset
     /// </summary>
     /// <param name="isXR"></param>
-    void Drop(bool isXR=false);
+    void Drop(bool isXR = false);
     /// <summary>
     /// Use isXR if the object have an special behaviour when the user is playing using VR Headset
     /// </summary>
     /// <param name="isXR"></param>
-    void Throw(bool isXR=false);
+    void Throw(bool isXR = false);
 
 
     bool CanMoveIt();
@@ -156,3 +170,4 @@ public interface ISpecialInteractable
     bool CheckNeedToBreak(Transform playerReference);
     bool CheckNeedToBreak(Vector3 playerReferencePos);
 }
+#endregion

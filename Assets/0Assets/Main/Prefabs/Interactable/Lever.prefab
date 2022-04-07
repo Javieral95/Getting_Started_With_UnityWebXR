@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2347765942296302610}
   - component: {fileID: 1211851207622470882}
-  - component: {fileID: 8323050178448934056}
   m_Layer: 2
   m_Name: OnCollider
   m_TagString: Untagged
@@ -45,19 +44,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.42931753, y: 0.7203481, z: 0.4906729}
   m_Center: {x: 0.000000028097903, y: 0.36354744, z: 0.030866276}
---- !u!114 &8323050178448934056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 616092601368083026}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3fb5f274c425614d87020b9dcd9527c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TriggerCollider: {fileID: 1622953266263628697}
 --- !u!54 &6712564813922208843
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -139,6 +125,9 @@ MonoBehaviour:
   HaveBreakInteraction: 1
   AuthomaticUpdate: 0
   maxDistance: 0.7
+  OnCollider: {fileID: 1211851207622470882}
+  OffCollider: {fileID: 6119199525200207737}
+  TriggerCollider: {fileID: 1622953266263628697}
   onActivate:
     m_PersistentCalls:
       m_Calls:
@@ -167,9 +156,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnCollider: {fileID: 8323050178448934056}
-  OffCollider: {fileID: 4752801015327604872}
-  TriggerCollider: {fileID: 1622953266263628697}
 --- !u!54 &3408810858823610223
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -230,7 +216,6 @@ GameObject:
   m_Component:
   - component: {fileID: 759779090969854003}
   - component: {fileID: 6119199525200207737}
-  - component: {fileID: 4752801015327604872}
   m_Layer: 2
   m_Name: OffCollider
   m_TagString: Untagged
@@ -265,19 +250,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.42931753, y: 0.7203481, z: 0.4906729}
   m_Center: {x: 0.000000028097903, y: 0.36354744, z: 0.030866276}
---- !u!114 &4752801015327604872
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4192663141085787111}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3fb5f274c425614d87020b9dcd9527c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TriggerCollider: {fileID: 1622953266263628697}
 --- !u!135 &1622953266263628697
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -8,48 +8,62 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class LeverBehaviour : SpecialInteractable
+public class VRPhysicalLever : SpecialInteractable
 {
-    public UnityEvent onActivate, onDisactivate;
-
-    public ColliderTriggerListener OnCollider;
-    public ColliderTriggerListener OffCollider;
+    [Header("Lever colliders")]
+    [Tooltip("When the TriggerCollider collision with OnCollider will call OnActivate event.")]
+    public Collider OnCollider;
+    [Tooltip("When the TriggerCollider collision with OffCollider will call OnDisactivate event.")]
+    public Collider OffCollider;
+    [Tooltip("The trigger which is checked for call events")]
     public Collider TriggerCollider;
 
-    private string _TRIGGER_TAG;
-    private bool _is_activate = false;
+    [Header("Lever events")]
+    public UnityEvent onActivate, onDisactivate;
+
+    // Private properties
+    private bool _is_activate;
 
     // Start is called before the first frame update
     new void Start()
     {
         base.Start();
-        _TRIGGER_TAG = TriggerCollider.gameObject.tag;
     }
 
     // Update is called once per frame
     new void Update()
     {
         base.Update();
-        if(OnCollider.IsColliderActivate && !_is_activate)
+        CheckLeverStatus();
+    }
+
+    // Auxiliar Functions
+    private void CheckLeverStatus()
+    {
+        if (!_is_activate && TriggerCollider.bounds.Intersects(OnCollider.bounds))
             ActivateLever();
-        else if(OffCollider.IsColliderActivate && _is_activate)
+        else if (_is_activate && TriggerCollider.bounds.Intersects(OffCollider.bounds))
             DisactivateLever();
     }
 
+    // Events
     private void ActivateLever()
     {
+        Debug.Log("ACTIVATE");
         onActivate.Invoke();
         _is_activate = true;
     }
-    
+
     private void DisactivateLever()
     {
+        Debug.Log("DISACTIVATE");
         onDisactivate.Invoke();
         _is_activate = false;
     }
 
+    // Special Interactable functions
     public override void Drop(bool isXR = false)
-    {        
+    {
     }
 
     public override void Grab(bool isXR = false)

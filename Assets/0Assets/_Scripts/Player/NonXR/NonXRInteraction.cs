@@ -51,7 +51,7 @@ public class NonXRInteraction : MonoBehaviour
         CheckResizeWindow();
         NonXR_Interaction();
     }
-    
+
     private void LateUpdate()
     {
         if (CheckForBreakInteraction())
@@ -94,11 +94,11 @@ public class NonXRInteraction : MonoBehaviour
 
                     CancelForces();
                     CheckSpecialObject();
-                }            
+                }
             }
 
         }
-       
+
         //Move Grabbed object
         MoveObject();
 
@@ -139,7 +139,7 @@ public class NonXRInteraction : MonoBehaviour
         bool isNotMovable = NonXR_selectedObject.CompareTag(GameManager.INTERACTABLE_NOT_MOVABLE_TAG);
 
         if (NonXR_isDragging)
-        {            
+        {
             mousePos = GetMousePosition(NonXR_selectedObject);
             if (specialInteractable == null || (specialInteractable.CanMoveIt()))
             {
@@ -171,7 +171,7 @@ public class NonXRInteraction : MonoBehaviour
         var y_force = Input.GetAxis("Mouse Y");
         if (NonXR_selectedObject_rb != null && !NonXR_selectedObject.CompareTag(GameManager.INTERACTABLE_NOT_MOVABLE_TAG) && (x_force != 0 || y_force != 0))
         {
-            var force = new Vector3(mousePos.x * x_force, mousePos.y * y_force, (-mousePos.z / 5));        
+            var force = new Vector3(mousePos.x * x_force, mousePos.y * y_force, (-mousePos.z / 5));
             NonXR_selectedObject_rb.AddForce(force, ForceMode.Impulse);
         }
         //Delete references
@@ -181,7 +181,6 @@ public class NonXRInteraction : MonoBehaviour
 
         specialInteractable?.Drop();
         specialInteractable = null;
-        //breakInteraction = null;
     }
 
     private void CheckResizeWindow()
@@ -201,10 +200,7 @@ public class NonXRInteraction : MonoBehaviour
 
     private void CheckSpecialObject()
     {
-        //if (NonXR_selectedObject.gameObject.CompareTag(GameManager.INTERACTABLE_NOT_MOVABLE_TAG))
-            specialInteractable = NonXR_selectedObject.GetComponent<SpecialInteractable>();
-
-        //CheckIfHaveBreakProperty(NonXR_selectedObject_rb);
+        specialInteractable = NonXR_selectedObject.GetComponent<SpecialInteractable>();
     }
 
     /// <summary>

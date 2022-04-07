@@ -56,9 +56,7 @@ public class ControllerInteraction : MonoBehaviour
         float normalizedTime = inputManager.GetTriggerAxis();
         if (normalizedTime < 0.1f) { normalizedTime = inputManager.GetGripAxis(); }
 
-        /*if(!inputManager.IsTriggerButtonInactive() || !inputManager.IsGripButtonInactive())
-            Debug.Log("TriggerAxis: " + inputManager.GetTriggerAxis() + " - GripAxis: " + inputManager.GetGripAxis());*/
-
+        // Interaction
         if (inputManager.IsGripButtonDown()) { Interaction(true); }
         if (inputManager.IsGripButtonUp()) { Interaction(false); }
 
@@ -97,14 +95,14 @@ public class ControllerInteraction : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (!isInteractable(other.gameObject)) { return; }
+        if (!IsInteractable(other.gameObject)) { return; }
 
         contactRigidBodies.Add(other.attachedRigidbody);
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (!isInteractable(other.gameObject)) { return; }
+        if (!IsInteractable(other.gameObject)) { return; }
 
         contactRigidBodies.Remove(other.attachedRigidbody);
     }
@@ -117,14 +115,15 @@ public class ControllerInteraction : MonoBehaviour
     /// <param name="isPicking"></param>
     private void Interaction(bool isPicking = true)
     {
+        // Take object
         if (currentRigidBody != null) Drop(currentRigidBody);
         currentRigidBody = GetNearestRigidBody();
         if (!currentRigidBody) { return; }
 
+        // Special Interactable
         CheckSpecialObject();
 
-        //Operation
-
+        // Operation
         if (isPicking)
             Pickup(currentRigidBody);
         else
@@ -154,8 +153,9 @@ public class ControllerInteraction : MonoBehaviour
 
             isGrabbing = true;
         }
-        specialInteractable?.Grab(true);
 
+        // Special Interactable
+        specialInteractable?.Grab(true);
     }
 
     /// <summary>
@@ -170,12 +170,11 @@ public class ControllerInteraction : MonoBehaviour
         currentRigidBody.velocity = ((currentRigidBody.position - lastPosition) / Time.deltaTime);
 
         var deltaRotation = currentRigidBody.rotation * Quaternion.Inverse(lastRotation);
-        float angle;
-        Vector3 axis;
-        deltaRotation.ToAngleAxis(out angle, out axis);
+        deltaRotation.ToAngleAxis(out float angle, out Vector3 axis);
         angle *= Mathf.Deg2Rad;
         currentRigidBody.angularVelocity = axis * angle / Time.deltaTime;
 
+        // Delete references
         specialInteractable?.Drop(true);
         specialInteractable = null;
 
@@ -229,7 +228,6 @@ public class ControllerInteraction : MonoBehaviour
 
     private void CheckSpecialObject()
     {
-        //CheckIfHaveBreakProperty(currentRigidBody);
         specialInteractable = currentRigidBody.GetComponent<SpecialInteractable>();
     }
 
@@ -238,9 +236,9 @@ public class ControllerInteraction : MonoBehaviour
     /// </summary>
     /// <param name="other"></param>
     /// <returns></returns>
-    private bool isInteractable(GameObject other)
+    private bool IsInteractable(GameObject other)
     {
-        return isInteractableObject(other) /*|| isInteractableTrigger(other)*/ || IsInteractableNotMovable(other);
+        return IsInteractableObject(other) || IsInteractableNotMovable(other);
     }
 
     /// <summary>
@@ -248,7 +246,7 @@ public class ControllerInteraction : MonoBehaviour
     /// </summary>
     /// <param name="other"></param>
     /// <returns></returns>
-    private bool isInteractableObject(GameObject other)
+    private bool IsInteractableObject(GameObject other)
     {
         return other.CompareTag(GameManager.INTERACTABLE_TAG);
     }

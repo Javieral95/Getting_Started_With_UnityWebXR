@@ -4,13 +4,12 @@
 // Implements a physic buttons which you cant press with your hand.
 //
 //==================================================================================================================
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class PhysicButton : SpecialInteractable
+public class VRPhysicalButton : SpecialInteractable
 {
     public UnityEvent onPressed, onReleased;    
 

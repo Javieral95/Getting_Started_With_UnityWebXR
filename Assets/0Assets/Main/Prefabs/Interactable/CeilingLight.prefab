@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 1156133142133142433}
   - component: {fileID: 1156133142133142428}
   - component: {fileID: 1156133142133142430}
-  - component: {fileID: 1156133142133142429}
+  - component: {fileID: 4457849610013917607}
   m_Layer: 0
   m_Name: LightingSphere
   m_TagString: InteractableNotMovable
@@ -249,7 +249,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0.5000003, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0, y: -0.6174493, z: -0.27085426}
+  m_ConnectedAnchor: {x: -0, y: -0.61744934, z: -0.27085453}
   m_UseSpring: 0
   m_Spring:
     spring: 0
@@ -273,7 +273,7 @@ HingeJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!114 &1156133142133142429
+--- !u!114 &4457849610013917607
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -282,13 +282,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1156133142133142435}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 052ab5e0d20abbb42ac40b25d5fe837f, type: 3}
+  m_Script: {fileID: 11500000, guid: 5405e2ed74087734a90c2062e96cc70e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UseObjectAsReference: 0
-  AuthomaticUpdate: 0
+  allowTranslation: 1
   Reference: {fileID: 0}
-  maxDistance: 0.5
+  HaveBreakInteraction: 1
+  AuthomaticUpdate: 1
+  maxDistance: 1
 --- !u!1 &1156133142967342511
 GameObject:
   m_ObjectHideFlags: 0
@@ -522,7 +523,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 1, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.019424418, y: -0.097246476, z: 0.009809392}
+  m_ConnectedAnchor: {x: 0.019424418, y: -0.097246476, z: 0.009809524}
   m_UseSpring: 0
   m_Spring:
     spring: 0

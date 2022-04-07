@@ -7,7 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GrabbableDoor : SpecialInteractable
+public class VRPhysicalGrabbableDoor : SpecialInteractable
 {
     public bool FollowAlways = true; //TO-DO: Change position after drop object (or follow always if dont grab it)
     public Transform Target;
@@ -40,8 +40,8 @@ public class GrabbableDoor : SpecialInteractable
 
     public override void Drop(bool isXR = false)
     { //Need to Do After fixed update
-        this.transform.position = Target.position;
-        this.transform.rotation = Target.rotation;
+        //this.transform.position = Target.position;
+        //this.transform.rotation = Target.rotation;
         base.ResetPosition();
         isGrabbed = false;
     }
