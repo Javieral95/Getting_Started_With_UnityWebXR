@@ -206,8 +206,8 @@ MonoBehaviour:
   allowTranslation: 0
   Reference: {fileID: 0}
   HaveBreakInteraction: 1
-  AuthomaticUpdate: 0
-  maxDistance: 0
+  AuthomaticUpdate: 1
+  maxDistance: 1
   FollowAlways: 0
   Target: {fileID: 2699217504623151910}
 --- !u!23 &7301674423402062358
@@ -484,8 +484,8 @@ MonoBehaviour:
   allowTranslation: 0
   Reference: {fileID: 0}
   HaveBreakInteraction: 1
-  AuthomaticUpdate: 0
-  maxDistance: 0
+  AuthomaticUpdate: 1
+  maxDistance: 1
   FollowAlways: 0
   Target: {fileID: 4242044457070042110}
 --- !u!23 &6142408489623540343
