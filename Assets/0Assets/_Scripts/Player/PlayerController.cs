@@ -395,7 +395,7 @@ public class PlayerController : MonoBehaviour
             moveDirection *= speed;
 
             //Jump With B Button or with Jump button (if dont use XR)
-            if ((isXREnabled && inputManagerRightHand.Is_B_ButtonPressed()) || Input.GetButton("Jump"))
+            if ((isXREnabled && inputManagerRightHand.Is_B_ButtonPressed()) || (!isXREnabled && Input.GetButton("Jump")))
                 moveDirection.y = jumpSpeed;
         }
 

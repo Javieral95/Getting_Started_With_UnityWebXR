@@ -207,9 +207,11 @@ public class MenuBehaviour : MonoBehaviour
     {
         //VRMenuDistance
         VRMenuObject.transform.position = (HandController.transform.position) + (VRMenuDistance * HandController.transform.right); ;
-        VRMenuObject.transform.LookAt(cameraMainTransform);
 #if UNITY_WEBGL
         VRMenuObject.transform.LookAt(cameraLeftTransform);
+#endif
+#if UNITY_EDITOR
+        VRMenuObject.transform.LookAt(cameraMainTransform);
 #endif
 
     }
