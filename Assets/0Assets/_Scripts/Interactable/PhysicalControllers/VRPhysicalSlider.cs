@@ -13,6 +13,7 @@ using UnityEngine.Events;
 
 public class VRPhysicalSlider : SpecialInteractable
 {
+    [Header("Physical Slider settings"), Space(5)]
     public FloatEvent onChangeValue;
 
     [Header("General options")]
@@ -37,7 +38,6 @@ public class VRPhysicalSlider : SpecialInteractable
     [Tooltip("Activate if need to rotate the object and put the movement value in negative.")]
     public bool InvertAxis;
     private bool isXRInteraction;
-    private Rigidbody _rb;
     private Transform collisionObjectTransform;
     private float moveValueDivisor = 1;
 
@@ -50,7 +50,6 @@ public class VRPhysicalSlider : SpecialInteractable
         //InitLimits();
         limits = new Vector2(transform.localPosition.z, -transform.localPosition.z);
         absLimit = Math.Abs(limits.x);
-        _rb = this.gameObject.GetComponent<Rigidbody>();
     }
 
     new void Update()

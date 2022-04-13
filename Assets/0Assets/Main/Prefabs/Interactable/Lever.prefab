@@ -58,7 +58,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 6
+  m_Constraints: 12
   m_CollisionDetection: 0
 --- !u!65 &1732062721024571803
 BoxCollider:
@@ -81,10 +81,10 @@ HingeJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2277489780821048065}
   m_ConnectedBody: {fileID: 3408810858823610223}
-  m_Anchor: {x: 0, y: 0, z: 0}
+  m_Anchor: {x: 0, y: -0.03, z: 0}
   m_Axis: {x: 90, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: -0.92900467, z: 0.053436924}
+  m_ConnectedAnchor: {x: -0.000000019815168, y: -1.1874596, z: 0.092269264}
   m_UseSpring: 0
   m_Spring:
     spring: 0
@@ -97,8 +97,8 @@ HingeJoint:
     freeSpin: 0
   m_UseLimits: 1
   m_Limits:
-    min: -96.413185
-    max: -24.762732
+    min: -10.273835
+    max: 56.53306
     bounciness: 0
     bounceMinVelocity: 0.2
     contactDistance: 0
@@ -120,11 +120,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 486cf34aa7db6314d8faabb76ccfb8a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowTranslation: 1
-  Reference: {fileID: 0}
   HaveBreakInteraction: 1
+  Reference: {fileID: 0}
   AuthomaticUpdate: 0
   maxDistance: 0.7
+  allowTranslation: 1
+  allowPermanentClick: 1
   OnCollider: {fileID: 1211851207622470882}
   OffCollider: {fileID: 6119199525200207737}
   TriggerCollider: {fileID: 1622953266263628697}
@@ -132,7 +133,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: PlayMusic
+        m_MethodName: ActivateIndustrialController
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -146,7 +147,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: StopMusic
+        m_MethodName: DisactivateIndustrialController
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -278,7 +279,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3f973b94214d2aa40a5c870b4ee4533d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3f973b94214d2aa40a5c870b4ee4533d,
         type: 3}
@@ -288,7 +289,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3f973b94214d2aa40a5c870b4ee4533d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.045
+      value: 0.063
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3f973b94214d2aa40a5c870b4ee4533d,
         type: 3}

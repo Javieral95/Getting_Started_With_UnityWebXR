@@ -221,11 +221,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83fbe3fd91dae684ca9243e10da8cd2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowTranslation: 0
-  Reference: {fileID: 0}
   HaveBreakInteraction: 1
+  Reference: {fileID: 0}
   AuthomaticUpdate: 0
   maxDistance: 0
+  allowTranslation: 0
+  allowPermanentClick: 0
   onChangeValue:
     m_PersistentCalls:
       m_Calls: []

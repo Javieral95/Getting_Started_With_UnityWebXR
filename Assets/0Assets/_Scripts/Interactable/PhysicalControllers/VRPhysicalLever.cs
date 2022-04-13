@@ -10,7 +10,7 @@ using UnityEngine.Events;
 
 public class VRPhysicalLever : SpecialInteractable
 {
-    [Header("Lever colliders")]
+    [Header("Physical Lever settings"), Space(5)]
     [Tooltip("When the TriggerCollider collision with OnCollider will call OnActivate event.")]
     public Collider OnCollider;
     [Tooltip("When the TriggerCollider collision with OffCollider will call OnDisactivate event.")]

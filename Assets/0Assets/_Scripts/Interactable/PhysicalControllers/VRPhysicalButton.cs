@@ -11,16 +11,15 @@ using UnityEngine.Events;
 
 public class VRPhysicalButton : SpecialInteractable
 {
+    [Header("Physical Button settings"), Space(5)]
     public UnityEvent onPressed, onReleased;    
 
     private bool _isPressed = false;
-    private Rigidbody _rb;
 
     // Start is called before the first frame update
     new void Start()
     {
         base.Start();
-        _rb = GetComponent<Rigidbody>();
     }
 
     private void FixedUpdate()

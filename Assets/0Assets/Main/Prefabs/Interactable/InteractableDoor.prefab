@@ -86,11 +86,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb2e4116837ced43acd2487575b4f5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowTranslation: 0
+  HaveBreakInteraction: 0
   Reference: {fileID: 0}
-  HaveBreakInteraction: 1
   AuthomaticUpdate: 0
   maxDistance: 0
+  allowTranslation: 0
+  allowPermanentClick: 0
   FollowAlways: 1
   Target: {fileID: 4571170904732948084}
 --- !u!23 &3337119331750898006
@@ -203,11 +204,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb2e4116837ced43acd2487575b4f5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowTranslation: 0
-  Reference: {fileID: 0}
   HaveBreakInteraction: 1
-  AuthomaticUpdate: 1
-  maxDistance: 1
+  Reference: {fileID: 2699217504623151910}
+  AuthomaticUpdate: 0
+  maxDistance: 2
+  allowTranslation: 1
+  allowPermanentClick: 1
   FollowAlways: 0
   Target: {fileID: 2699217504623151910}
 --- !u!23 &7301674423402062358
@@ -481,11 +483,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb2e4116837ced43acd2487575b4f5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowTranslation: 0
-  Reference: {fileID: 0}
   HaveBreakInteraction: 1
-  AuthomaticUpdate: 1
-  maxDistance: 1
+  Reference: {fileID: 4242044457070042110}
+  AuthomaticUpdate: 0
+  maxDistance: 2
+  allowTranslation: 1
+  allowPermanentClick: 1
   FollowAlways: 0
   Target: {fileID: 4242044457070042110}
 --- !u!23 &6142408489623540343
@@ -626,11 +629,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb2e4116837ced43acd2487575b4f5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowTranslation: 0
+  HaveBreakInteraction: 0
   Reference: {fileID: 0}
-  HaveBreakInteraction: 1
   AuthomaticUpdate: 0
   maxDistance: 0
+  allowTranslation: 0
+  allowPermanentClick: 0
   FollowAlways: 1
   Target: {fileID: 4242044455718392230}
 --- !u!23 &512259526767057539

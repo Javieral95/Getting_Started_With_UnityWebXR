@@ -588,16 +588,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f87b1af9614ec94cb5c126d32effef0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowTranslation: 0
-  Reference: {fileID: 0}
   HaveBreakInteraction: 1
+  Reference: {fileID: 0}
   AuthomaticUpdate: 0
   maxDistance: 1.2
+  allowTranslation: 0
+  allowPermanentClick: 1
+  onChangeValue:
+    m_PersistentCalls:
+      m_Calls: []
   DisplayScreenText: {fileID: 699439003}
   Sensitivity: 2
   IsVerticalSlider: 0
-  GlobalXRMoveAxis: 4
-  InvertAxis: 0
+  GlobalXRMoveAxis: 1
+  InvertAxis: 1
 --- !u!54 &882022339638817444
 Rigidbody:
   m_ObjectHideFlags: 0

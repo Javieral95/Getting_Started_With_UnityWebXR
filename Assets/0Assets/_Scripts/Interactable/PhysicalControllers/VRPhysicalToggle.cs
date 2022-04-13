@@ -10,6 +10,7 @@ using UnityEngine.Events;
 
 public class VRPhysicalToggle : SpecialInteractable
 {
+    [Header("Physical Toggle settings"), Space(5)]
     public BoolEvent onChangeValue;
 
     public GameObject OnObject;

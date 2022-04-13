@@ -8,6 +8,7 @@ using UnityEngine.Events;
 
 public class VRPhysicalPotentiometer : SpecialInteractable
 {
+    [Header("Physical Potentiometer settings"), Space(5)]
     public FloatEvent onChangeValue;
 
     [Header("General options")]
@@ -25,7 +26,6 @@ public class VRPhysicalPotentiometer : SpecialInteractable
 
     private Vector3 initEulerAngles; //Init Rotation
     private Vector2 limits;
-    private Rigidbody _rb;
     private bool clicking;
 
     private bool changed;
@@ -51,7 +51,6 @@ public class VRPhysicalPotentiometer : SpecialInteractable
         base.Start();
         initEulerAngles = this.transform.localEulerAngles;
         limits = new Vector2(MinGrades, MaxGrades);
-        _rb = this.gameObject.GetComponent<Rigidbody>();
     }
 
     new void Update()

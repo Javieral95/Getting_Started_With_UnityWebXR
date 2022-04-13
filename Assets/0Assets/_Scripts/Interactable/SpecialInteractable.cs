@@ -14,27 +14,28 @@ using UnityEngine;
 public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
 {
     [Header("Break Interaction options")]
-    [Tooltip("If the interaction with the object must break when the user it moves away of it, put this property to True. ")]
+    [Tooltip("If the interaction with the object must break when the user it moves away of it, put this property to True. "), ConditionalHide("allowPermanentClick")]
     public bool HaveBreakInteraction;
 
-    [Tooltip("If Reference is null, the reference to calculate the distance will be the object's init position."), ConditionalHide("HaveBreakInteraction")]
+    [Tooltip("If Reference is null, the reference to calculate the distance will be the object's init position."), ConditionalHide("HaveBreakInteraction", true, ConditionalSourceField2 = "allowPermanentClick")]
     public Transform Reference;
 
-    [Tooltip("If the scripts detects than need to break the interaction, will break that. Otherwise, need to break calling ResetPosition function"), ConditionalHide("HaveBreakInteraction")]
+    [Tooltip("If the scripts detects than need to break the interaction, will break that. Otherwise, need to manually check in child scripts (calling 'CheckNeedToBreak()' function) to break it and calling ResetPosition function"), ConditionalHide("HaveBreakInteraction", true, ConditionalSourceField2 = "allowPermanentClick")]
     public bool AuthomaticUpdate;
 
-    [SerializeField, ConditionalHide("HaveBreakInteraction"), Range(0, 10)]
+    [SerializeField, ConditionalHide("HaveBreakInteraction", true, ConditionalSourceField2 = "allowPermanentClick"), Range(0, 10)]
     private float maxDistance = 0f;
 
-    [SerializeField, Tooltip("Set to True if the user will be able to take it and move with his hands")]
+    [SerializeField, Header("Other settings"), Tooltip("Set to True if the user will be able to take it and move with his hands"), Space(5), ConditionalHide("allowPermanentClick")]
     private bool allowTranslation;
-
+    [SerializeField, Tooltip("If is set to false with set Break Interaction to true with max distance = 0. Disactivate with elements like toggles.")]
+    private bool allowPermanentClick = true;
 
     private bool _useObjectAsReference = false;
     private bool _needTobreak = false;
 
     private Transform _transform;
-    private Rigidbody _rb;
+    protected Rigidbody _rb;
     private Vector3 initPosition;
     private Quaternion initRotation;
 
@@ -50,6 +51,14 @@ public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
         initRotation = _transform.rotation;
 
         if (Reference != null) _useObjectAsReference = true; //Avoid Errors
+
+        //If Only allow one click
+        if (!allowPermanentClick)
+        {
+            HaveBreakInteraction = true;
+            maxDistance = 0;
+            allowTranslation = false;
+        }
     }
 
     public virtual void Update()

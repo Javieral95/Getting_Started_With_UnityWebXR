@@ -9,17 +9,16 @@ using UnityEngine;
 
 public class VRPhysicalGrabbableDoor : SpecialInteractable
 {
-    public bool FollowAlways = true; //TO-DO: Change position after drop object (or follow always if dont grab it)
+    [Header("Physical Grabbable Door settings"), Space(5), Tooltip("If it set to true this object will Follow always the reference object (using physics), otherwhise only follow when the user don't grab it.")]
+    public bool FollowAlways = true;
     public Transform Target;
 
     private bool isGrabbed = false;
-    private Rigidbody _rb;
 
     // Start is called before the first frame update
     new void Start()
     {
         base.Start();
-        _rb = GetComponent<Rigidbody>();
     }
 
     new void Update()
