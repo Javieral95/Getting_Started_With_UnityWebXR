@@ -14,22 +14,27 @@ using UnityEngine;
 public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
 {
     [Header("Break Interaction options")]
-    [SerializeField, Tooltip("Set to True if the user will be able to take it and move with his hands")]
-    private bool allowTranslation;
-    [Tooltip("If Reference is null, the reference to calculate the distance will be the object's init position.")]
-    public Transform Reference;
-
     [Tooltip("If the interaction with the object must break when the user it moves away of it, put this property to True. ")]
     public bool HaveBreakInteraction;
-    [Tooltip("If the scripts detects than need to break the interaction, will break that. Otherwise, need to break calling ResetPosition function")]
+
+    [Tooltip("If Reference is null, the reference to calculate the distance will be the object's init position."), ConditionalHide("HaveBreakInteraction")]
+    public Transform Reference;
+
+    [Tooltip("If the scripts detects than need to break the interaction, will break that. Otherwise, need to break calling ResetPosition function"), ConditionalHide("HaveBreakInteraction")]
     public bool AuthomaticUpdate;
 
-    [SerializeField, Range(0, 10)]
+    [SerializeField, ConditionalHide("HaveBreakInteraction"), Range(0, 10)]
     private float maxDistance = 0f;
+
+    [SerializeField, Tooltip("Set to True if the user will be able to take it and move with his hands")]
+    private bool allowTranslation;
+
+
     private bool _useObjectAsReference = false;
     private bool _needTobreak = false;
 
     private Transform _transform;
+    private Rigidbody _rb;
     private Vector3 initPosition;
     private Quaternion initRotation;
 
@@ -40,6 +45,7 @@ public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
     public virtual void Start()
     {
         _transform = GetComponent<Transform>();
+        _rb = GetComponent<Rigidbody>();
         initPosition = _transform.position;
         initRotation = _transform.rotation;
 
@@ -94,6 +100,9 @@ public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
         }
 
         _needTobreak = false;
+        //Cancel forces
+        _rb.velocity = Vector3.zero;
+        _rb.angularVelocity = Vector3.zero;
     }
 
     public bool CheckNeedToBreak()

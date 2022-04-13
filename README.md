@@ -257,6 +257,10 @@ Hay varios **errores** o mejoras pendientes:
 
 * **Javier Álvarez de la Fuente** - *Investigación inicial* para Trabajo Fin de Máster y Fundación CTIC - [JavierAl95](https://github.com/javieral95)
 * **Roberto Abad Jiménez** - *VR Teleport* - [Cronorobs](https://github.com/cronorobs)
+* Creditos:
+  * [De-Panther](https://github.com/De-Panther) - *Original Unity WebXR Exporter*
+  * [Jocyf](https://github.com/Jocyf/WebXR-Exporter-Advanced) - *Original Unity WebXR Controllers*
+  * [Brechtos](http://www.brechtos.com/hiding-or-disabling-inspector-properties-using-propertydrawers-within-unity-5/) - *Conditional Hide Attribute*
 
 
 ## Licencia

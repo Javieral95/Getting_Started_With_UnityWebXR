@@ -1746,7 +1746,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1.955, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &165585585
@@ -8735,7 +8735,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 6.624386, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1114040582
@@ -15265,6 +15265,71 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2665752822123035979, guid: b638bd42e496da2499861dc45f8f54b9,
         type: 3}
+      propertyPath: foo
+      value: 'gdfgdgfd
+
+        gdfgdf
+
+        gfdgfdgf
+
+        dgfdgfd
+
+        gfdgfdg
+
+        fdgfdgfd
+
+        gfdgfd
+
+        gfdgdg
+
+        fdgfdg
+
+        fdgfdg
+
+        dfgfdg
+
+        fdgfdg
+
+        fdgfdg
+
+        fdgfdg
+
+        fdgfdgfd
+
+        gfdgfd
+
+        gfdgfdg
+
+        fdgfdg
+
+        fdgfdg
+
+        fdgfdg
+
+        fdgfdg
+
+        fdgfdg
+
+        dfg
+
+        fd
+
+        gfd
+
+        g
+
+        fd
+
+        gfd
+
+        gdf
+
+        gfd
+
+        gfdgfdgfdgfdgfdgdfgdfgdfg'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2665752822123035979, guid: b638bd42e496da2499861dc45f8f54b9,
+        type: 3}
       propertyPath: maxDistance
       value: 0.7
       objectReference: {fileID: 0}
@@ -15680,7 +15745,7 @@ PrefabInstance:
     - target: {fileID: 4242044455718392231, guid: 2e3d6dffe0bfe574db12e26ccf6feed0,
         type: 3}
       propertyPath: AuthomaticUpdate
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4242044455718392231, guid: 2e3d6dffe0bfe574db12e26ccf6feed0,
         type: 3}
@@ -15730,7 +15795,7 @@ PrefabInstance:
     - target: {fileID: 4599540314204751710, guid: 2e3d6dffe0bfe574db12e26ccf6feed0,
         type: 3}
       propertyPath: AuthomaticUpdate
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4599540314204751710, guid: 2e3d6dffe0bfe574db12e26ccf6feed0,
         type: 3}
