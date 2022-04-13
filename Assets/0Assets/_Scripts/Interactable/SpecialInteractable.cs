@@ -14,19 +14,24 @@ using UnityEngine;
 public abstract class SpecialInteractable : MonoBehaviour, ISpecialInteractable
 {
     [Header("Break Interaction options")]
-    [Tooltip("If the interaction with the object must break when the user it moves away of it, put this property to True. "), ConditionalHide("allowPermanentClick")]
+    [ConditionalHide("allowPermanentClick")]
+    [Tooltip("If the interaction with the object must break when the user it moves away of it, put this property to True. ")]
     public bool HaveBreakInteraction;
 
-    [Tooltip("If Reference is null, the reference to calculate the distance will be the object's init position."), ConditionalHide("HaveBreakInteraction", true, ConditionalSourceField2 = "allowPermanentClick")]
+    [ConditionalHide("HaveBreakInteraction", true, ConditionalSourceField2 = "allowPermanentClick")]
+    [Tooltip("If Reference is null, the reference to calculate the distance will be the object's init position.")]
     public Transform Reference;
 
-    [Tooltip("If the scripts detects than need to break the interaction, will break that. Otherwise, need to manually check in child scripts (calling 'CheckNeedToBreak()' function) to break it and calling ResetPosition function"), ConditionalHide("HaveBreakInteraction", true, ConditionalSourceField2 = "allowPermanentClick")]
+    [ConditionalHide("HaveBreakInteraction", true, ConditionalSourceField2 = "allowPermanentClick")]
+    [Tooltip("If the scripts detects than need to break the interaction, will break that. Otherwise, need to manually check in child scripts (calling 'CheckNeedToBreak()' function) to break it and calling ResetPosition function")]
     public bool AuthomaticUpdate;
 
-    [SerializeField, ConditionalHide("HaveBreakInteraction", true, ConditionalSourceField2 = "allowPermanentClick"), Range(0, 10)]
+    [ConditionalHide("HaveBreakInteraction", true, ConditionalSourceField2 = "allowPermanentClick")]
+    [SerializeField,  Range(0, 10)]
     private float maxDistance = 0f;
 
-    [SerializeField, Header("Other settings"), Tooltip("Set to True if the user will be able to take it and move with his hands"), Space(5), ConditionalHide("allowPermanentClick")]
+    [ConditionalHide("allowPermanentClick")]
+    [SerializeField, Header("Other settings"), Tooltip("Set to True if the user will be able to take it and move with his hands"), Space(5)]
     private bool allowTranslation;
     [SerializeField, Tooltip("If is set to false with set Break Interaction to true with max distance = 0. Disactivate with elements like toggles.")]
     private bool allowPermanentClick = true;

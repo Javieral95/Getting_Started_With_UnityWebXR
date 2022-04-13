@@ -7,7 +7,6 @@ public class IndustrialControllerBehaviour : MonoBehaviour
     private Rigidbody IndustrialController_rb;
     private Animator _animator;
     private string ANIMATOR_BOOL = "isActivate";
-    private bool isActive;
 
     // Start is called before the first frame update
     void Start()
@@ -19,7 +18,6 @@ public class IndustrialControllerBehaviour : MonoBehaviour
     {
         //this.gameObject.SetActive(true);
         _animator.SetBool(ANIMATOR_BOOL, true);
-        isActive = true;
     }
 
     public void DisactivateIndustrialController()
@@ -33,6 +31,5 @@ public class IndustrialControllerBehaviour : MonoBehaviour
     {
         yield return new WaitForSeconds(seconds);
         this.gameObject.SetActive(false);
-        isActive = false;
     }
 }
