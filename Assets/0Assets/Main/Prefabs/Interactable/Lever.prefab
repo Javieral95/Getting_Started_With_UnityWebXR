@@ -84,7 +84,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: -0.03, z: 0}
   m_Axis: {x: 90, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.000000019815168, y: -1.1874596, z: 0.092269264}
+  m_ConnectedAnchor: {x: 0, y: -1.1874596, z: 0.092268355}
   m_UseSpring: 0
   m_Spring:
     spring: 0
@@ -264,6 +264,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.009999997
   m_Center: {x: -0.000000003259629, y: -0.0000000051222733, z: -0.000000007450581}
+--- !u!114 &2018554083183425130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7099598325369280966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44a3a578a1a120f4fbdfb1bb5a1548aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Color: {r: 0, g: 1, b: 0.98842716, a: 0}
 --- !u!1001 &1394476729298749008
 PrefabInstance:
   m_ObjectHideFlags: 0

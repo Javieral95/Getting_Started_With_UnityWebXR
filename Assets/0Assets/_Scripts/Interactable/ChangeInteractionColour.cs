@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/***********************************************************************
+ ************ Change object colour when the user select it *************
+ **** https://github.com/Javieral95/Getting_Started_With_UnityWebXR ****
+ **********************************************************************/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

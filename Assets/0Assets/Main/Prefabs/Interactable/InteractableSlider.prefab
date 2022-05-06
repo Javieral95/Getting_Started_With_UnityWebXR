@@ -495,6 +495,7 @@ GameObject:
   - component: {fileID: 6869362001435487693}
   - component: {fileID: 3312089636224397953}
   - component: {fileID: 882022339638817444}
+  - component: {fileID: 2409036070221376492}
   m_Layer: 0
   m_Name: Controller
   m_TagString: InteractableNotMovable
@@ -618,6 +619,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &2409036070221376492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3212116946896977830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44a3a578a1a120f4fbdfb1bb5a1548aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Color: {r: 0.0047169924, g: 1, b: 0.97776985, a: 0}
 --- !u!1 &3654780990267289362
 GameObject:
   m_ObjectHideFlags: 0

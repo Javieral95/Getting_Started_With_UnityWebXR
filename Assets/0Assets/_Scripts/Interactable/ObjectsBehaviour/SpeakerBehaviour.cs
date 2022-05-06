@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/***********************************************************************
+ ****** Play music and apply a force to speakers (like vibration) ******
+ **** https://github.com/Javieral95/Getting_Started_With_UnityWebXR ****
+ **********************************************************************/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
