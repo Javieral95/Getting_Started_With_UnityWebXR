@@ -77,13 +77,18 @@ public class InteractableTextPanel : SpecialInteractable
 
     private IEnumerator DisactiveTextPanel()
     {
-        string animationName = Animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
-        if (animationName == "ObjectTextPanel@Disappear")
+        AnimatorClipInfo[] currentAnimation = Animator.GetCurrentAnimatorClipInfo(0);
+        if (currentAnimation.Length > 0)
         {
-            yield return new WaitForSeconds(secondsBeforeDissapearPanel);
+            string animationName = Animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+            if (animationName != "ObjectTextPanel@Idle")
+            {
+                yield return new WaitForSeconds(secondsBeforeDissapearPanel);
+            }
+
+            panelIsActive = false;
+            canvasObject.SetActive(panelIsActive);
         }
-        panelIsActive = false;
-        canvasObject.SetActive(panelIsActive);
         yield break;
     }
 }

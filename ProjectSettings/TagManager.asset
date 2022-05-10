@@ -25,7 +25,7 @@ TagManager:
   - CannotTeleport
   - AvoidScenearioCollision
   - Player
-  - 
+  - Interactable
   - 
   - 
   - 

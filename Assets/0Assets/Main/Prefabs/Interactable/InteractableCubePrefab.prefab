@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5422690589096580031}
   - component: {fileID: 5422690589096580029}
   - component: {fileID: 5422690589096580028}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: InteractableCubePrefab
   m_TagString: Interactable
   m_Icon: {fileID: 0}
