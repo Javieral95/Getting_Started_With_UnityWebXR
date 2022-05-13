@@ -14,15 +14,24 @@ public class ScreenVideoBehaviour : MonoBehaviour
     public VideoPlayer VideoSource;
 
     public AudioSource AudioSource;
-    [SerializeField]
-    private bool HaveSound;
+    [SerializeField] private bool HaveSound;
 
     private bool isPlaying;
+    private string videoUrl;
+    private string DEFAULT_VIDEO_FILE_NAME = "video1.mp4";
 
     private void Start()
     {
         if (AudioSource == null) HaveSound = false;
-        if (VideoSource == null) Debug.LogWarning("You didn't select a Video Source!!!");
+        if (VideoSource == null)
+            Debug.LogWarning("You didn't select a Video Source!!!");
+        else if (VideoSource.clip == null)
+        {
+            Debug.LogWarning("Didnt select a video, will config to use the default video");
+            VideoSource.url = System.IO.Path.Combine(Application.streamingAssetsPath, DEFAULT_VIDEO_FILE_NAME);
+        }
+        else
+            VideoSource.url = VideoSource.clip.originalPath;
     }
 
     //Public event
@@ -41,7 +50,7 @@ public class ScreenVideoBehaviour : MonoBehaviour
         if (isChecked)
             VideoSource.Play();
         else
-            VideoSource.Stop();        
+            VideoSource.Stop();
     }
 
     private void PlayAudio(bool isChecked)

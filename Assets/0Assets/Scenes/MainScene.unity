@@ -1582,7 +1582,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1.955, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &165585585
@@ -4093,7 +4093,7 @@ Transform:
   - {fileID: 1864866233}
   - {fileID: 75515541}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &587398731
 PrefabInstance:
@@ -8706,7 +8706,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 6.624386, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1114040582
@@ -15352,6 +15352,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Screen
       objectReference: {fileID: 0}
+    - target: {fileID: 1487036066274174444, guid: 671be510a95d40d4aaa2d712f7ebc636,
+        type: 3}
+      propertyPath: m_VideoClip
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3757125768804230395, guid: 671be510a95d40d4aaa2d712f7ebc636,
         type: 3}
       propertyPath: MaxDistance
@@ -15541,7 +15546,7 @@ PrefabInstance:
     - target: {fileID: 8624648153994421020, guid: 671be510a95d40d4aaa2d712f7ebc636,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8624648153994421020, guid: 671be510a95d40d4aaa2d712f7ebc636,
         type: 3}
@@ -15551,7 +15556,7 @@ PrefabInstance:
     - target: {fileID: 8624648153994421020, guid: 671be510a95d40d4aaa2d712f7ebc636,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.978
+      value: 2.9780002
       objectReference: {fileID: 0}
     - target: {fileID: 8624648153994421020, guid: 671be510a95d40d4aaa2d712f7ebc636,
         type: 3}
