@@ -223,7 +223,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a8dfa23fd8a944e87b7a876f192007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StepsAudioClips: []
+  StepsAudioClips:
+  - {fileID: 8300000, guid: f27f2e49cb92e45469707447029d34bf, type: 3}
+  - {fileID: 8300000, guid: 2be1db2f95d8f1a4791a303d87dc1f58, type: 3}
   isMoving: 0
   onlyRightLeftSounds: 0
   _speedModifier: 1

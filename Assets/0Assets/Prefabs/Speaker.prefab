@@ -108,7 +108,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: -1}
   m_Axis: {x: -1, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -8.044439, y: 2.1313, z: -8.994135}
+  m_ConnectedAnchor: {x: -0.06879564, y: 1.017, z: 0.12923527}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 1
@@ -300,7 +300,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -8.343633, y: 1.3633, z: -8.994135}
+  m_ConnectedAnchor: {x: -0.06879564, y: 0.24899998, z: 0.42842793}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 1
@@ -425,17 +425,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2658121094885488110}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9eca9075777bf23439a2b740f199e1ff, type: 3}
+  m_Script: {fileID: 11500000, guid: f429c96ea4fdedc4486d81250c7a8815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AudioSource: {fileID: 7036178624089630889}
-  Speakers:
-  - {fileID: 2858971775079120625}
-  - {fileID: 6899151273863072877}
-  - {fileID: 969909863042296392}
-  speakersVibrationForce: 2
-  vibrationSecondsDelay: 0.8
-  vibrationSecondsIncrease: 0.5
+  AudioSource: {fileID: 0}
+  Speakers: []
+  speakersVibrationForce: 0.1
+  vibrationSecondsDelay: 0.5
+  vibrationSecondsIncrease: 1
 --- !u!1 &4194431862141168143
 GameObject:
   m_ObjectHideFlags: 0
@@ -781,7 +778,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -8.343633, y: 0.3463, z: -8.994135}
+  m_ConnectedAnchor: {x: -0.06879564, y: -0.768, z: 0.42842793}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 1
