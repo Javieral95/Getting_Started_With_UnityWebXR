@@ -50,6 +50,7 @@ public class VRPhysicalLever : SpecialInteractable
     private void ActivateLever()
     {
         Debug.Log("ACTIVATE");
+        PlaySound();
         onActivate.Invoke();
         _is_activate = true;
     }
@@ -57,6 +58,7 @@ public class VRPhysicalLever : SpecialInteractable
     private void DisactivateLever()
     {
         Debug.Log("DISACTIVATE");
+        PlaySound();
         onDisactivate.Invoke();
         _is_activate = false;
     }

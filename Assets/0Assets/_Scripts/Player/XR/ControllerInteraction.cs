@@ -117,7 +117,8 @@ public class ControllerInteraction : MonoBehaviour
     {
         // Take object
         if (currentRigidBody != null) Drop(currentRigidBody);
-        currentRigidBody = GetNearestRigidBody();
+        currentRigidBody = Utils.GetNearestObject(_transform, contactRigidBodies);
+
         if (!currentRigidBody) { return; }
 
         // Special Interactable
@@ -139,6 +140,9 @@ public class ControllerInteraction : MonoBehaviour
     {
         Debug.Log("You are grabbing an object!!");
 
+        // Special Interactable
+        specialInteractable?.Grab(true);
+
         if (specialInteractable == null || specialInteractable.CanMoveIt())
         {
             currentRigidBody.MovePosition(_transform.position);
@@ -154,8 +158,7 @@ public class ControllerInteraction : MonoBehaviour
             isGrabbing = true;
         }
 
-        // Special Interactable
-        specialInteractable?.Grab(true);
+
     }
 
     /// <summary>
@@ -189,41 +192,20 @@ public class ControllerInteraction : MonoBehaviour
     /// <param name="currentRigidBody"></param>
     private void Throw(Rigidbody currentRigidBody)
     {
+        specialInteractable?.Throw(true);
         if (currentRigidBody != null && isGrabbing && !IsInteractableNotMovable(currentRigidBody.gameObject))
         {
             Debug.Log("You are throwing an object!!");
-            currentRigidBody.AddForce(this.gameObject.transform.forward * throwForce, ForceMode.Impulse);
-
-            attachJoint.connectedBody = null;
-            currentRigidBody = null;
-            isGrabbing = false;
-        }
-        else
-            specialInteractable?.Throw(true);
-    }
-
-    /// <summary>
-    /// Of all the rigidbodies saved in contactRigidBodies list, take and return the nearest to player.
-    /// </summary>
-    /// <returns></returns>
-    private Rigidbody GetNearestRigidBody()
-    {
-        Rigidbody nearestRigidBody = null;
-        float minDistance = float.MaxValue;
-        float distance;
-
-        foreach (Rigidbody contactBody in contactRigidBodies)
-        {
-            distance = (contactBody.transform.position - _transform.position).sqrMagnitude;
-
-            if (distance < minDistance && contactBody.gameObject.activeInHierarchy)
+            if (specialInteractable == null || specialInteractable.CanThrowIt())
             {
-                minDistance = distance;
-                nearestRigidBody = contactBody;
+                currentRigidBody.AddForce(this.gameObject.transform.forward * throwForce, ForceMode.Impulse);
+                attachJoint.connectedBody = null;
+                currentRigidBody = null;
+                isGrabbing = false;
             }
         }
 
-        return nearestRigidBody;
+
     }
 
     private void CheckSpecialObject()
@@ -248,7 +230,7 @@ public class ControllerInteraction : MonoBehaviour
     /// <returns></returns>
     private bool IsInteractableObject(GameObject other)
     {
-        return other.CompareTag(GameManager.INTERACTABLE_TAG);
+        return other.CompareTag(Constants.INTERACTABLE_TAG);
     }
 
     /// <summary>
@@ -258,7 +240,7 @@ public class ControllerInteraction : MonoBehaviour
     /// <returns></returns>
     private bool IsInteractableNotMovable(GameObject other)
     {
-        return other.CompareTag(GameManager.INTERACTABLE_NOT_MOVABLE_TAG);
+        return other.CompareTag(Constants.INTERACTABLE_NOT_MOVABLE_TAG);
     }
 
     /// <summary>

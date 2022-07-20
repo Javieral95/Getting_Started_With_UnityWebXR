@@ -29,7 +29,7 @@ public class WebXRInputManager : MonoBehaviour
     private float triggerAxis = 0;
     private float gripAxis = 0;
 
-    [Space (10)]
+    [Space(10)]
     public bool showDebug = false;
 
     private WebXRController controller;
@@ -43,7 +43,7 @@ public class WebXRInputManager : MonoBehaviour
     public bool IsStickEnabled() { return stick.x != 0 || stick.y != 0; }
 
     public bool IsTriggerButtonInactive() { return triggerStatus == XRButtonStatus.None; }
-    public bool IsTriggerButtonDown() { return triggerStatus == XRButtonStatus.ButtonDown ; }
+    public bool IsTriggerButtonDown() { return triggerStatus == XRButtonStatus.ButtonDown; }
     public bool IsTriggerDown() { return triggerStatus == XRButtonStatus.isDown; }
     public bool IsTriggerButtonUp() { return triggerStatus == XRButtonStatus.ButtonUp; }
     public float GetTriggerAxis() { return triggerAxis; }
@@ -54,8 +54,8 @@ public class WebXRInputManager : MonoBehaviour
     public bool IsGripButtonUp() { return gripStatus == XRButtonStatus.ButtonUp; }
     public float GetGripAxis() { return gripAxis; }
 
-    public bool Is_A_ButtonPressed() {  return aStatus == XRButtonStatus.ButtonDown;  }
-    public bool Is_B_ButtonPressed() { return bStatus == XRButtonStatus.ButtonDown; ; }   
+    public bool Is_A_ButtonPressed() { return aStatus == XRButtonStatus.ButtonDown; }
+    public bool Is_B_ButtonPressed() { return bStatus == XRButtonStatus.ButtonDown; ; }
 
     public bool Is_A_ButtonUp() { return aStatus == XRButtonStatus.ButtonUp; }
     public bool Is_B_ButtonUp() { return bStatus == XRButtonStatus.ButtonUp; ; }

@@ -12,7 +12,7 @@ using UnityEngine.Events;
 public class VRPhysicalButton : SpecialInteractable
 {
     [Header("Physical Button settings"), Space(5)]
-    public UnityEvent onPressed, onReleased;    
+    public UnityEvent onPressed, onReleased;
 
     private bool _isPressed = false;
 
@@ -26,13 +26,14 @@ public class VRPhysicalButton : SpecialInteractable
     {
         if (_isPressed)
             AddForceToButton();
+
     }
 
     #region Events
     //XR Interaction
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player"))
+        if (other.CompareTag(Constants.HANDS_TAG) || other.CompareTag(Constants.INTERACTABLE_TAG))
             PressButton();
     }
 
@@ -55,6 +56,8 @@ public class VRPhysicalButton : SpecialInteractable
         if (!_isPressed)
         {
             _isPressed = true;
+            AddForceToButton();
+            PlaySound();
             onPressed.Invoke();
             Debug.Log("Button Pressed");
         }

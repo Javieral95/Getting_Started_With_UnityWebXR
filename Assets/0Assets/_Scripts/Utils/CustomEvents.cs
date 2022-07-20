@@ -1,4 +1,6 @@
-﻿using UnityEngine.Events;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Events;
 
 [System.Serializable]
 public class IntEvent : UnityEvent<int> { }
@@ -12,3 +14,8 @@ public class BoolEvent : UnityEvent<bool> { }
 [System.Serializable]
 public class StringEvent : UnityEvent<string> { }
 
+[System.Serializable]
+public class GameObjectEvent : UnityEvent<GameObject> { }
+
+[System.Serializable]
+public class AudioClipEvent : UnityEvent<AudioClip> { }

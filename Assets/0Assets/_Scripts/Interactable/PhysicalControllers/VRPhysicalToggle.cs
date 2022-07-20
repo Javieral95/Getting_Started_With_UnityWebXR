@@ -33,18 +33,28 @@ public class VRPhysicalToggle : SpecialInteractable
         base.Start();
     }
 
+    // Status Functions
     public bool ChangeStatus()
     {
-        UpdateStatus(!Value);
-        Value = !Value;
-        return Value;
+        if (this.CanInteract)
+        {
+            UpdateStatus(!Value);
+            PlaySound();
+            Value = !Value;
+            return Value;
+        }
+        return false;
     }
 
     public bool ChangeStatus(bool newValue = false)
     {
-        UpdateStatus(newValue);
-        Value = newValue;
-        return newValue;
+        if (this.CanInteract)
+        {
+            UpdateStatus(newValue);
+            Value = newValue;
+            return newValue;
+        }
+        return false;
     }
 
     private void UpdateStatus(bool newValue)
@@ -54,6 +64,12 @@ public class VRPhysicalToggle : SpecialInteractable
         OffObject.SetActive(!newValue);
         if (newValue != Value)
             onChangeValue.Invoke(newValue);
+    }
+
+    // Disable
+    public void ChangeActive(bool isActive=true)
+    {
+        this.CanInteract = isActive;
     }
 
     // Spetial Interactable Functions

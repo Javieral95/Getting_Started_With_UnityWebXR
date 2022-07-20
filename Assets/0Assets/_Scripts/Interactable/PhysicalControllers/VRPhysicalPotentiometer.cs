@@ -10,6 +10,7 @@ public class VRPhysicalPotentiometer : SpecialInteractable
 {
     [Header("Physical Potentiometer settings"), Space(5)]
     public FloatEvent onChangeValue;
+    public float InitValue = 0f;
 
     [Header("General options")]
     public TextMeshProUGUI DisplayScreenText;
@@ -20,6 +21,8 @@ public class VRPhysicalPotentiometer : SpecialInteractable
 
     public float MinGrades = 0;
     public float MaxGrades = 350;
+
+
 
     [Header("Non XR options")]
     public float sensitivity;
@@ -44,6 +47,7 @@ public class VRPhysicalPotentiometer : SpecialInteractable
 
     //Value
     public float value { get; private set; }
+    public float RealValue { get { return (value / MaxGrades) * 100; } }
 
     //Unity Functions
     new void Start()
@@ -51,6 +55,15 @@ public class VRPhysicalPotentiometer : SpecialInteractable
         base.Start();
         initEulerAngles = this.transform.localEulerAngles;
         limits = new Vector2(MinGrades, MaxGrades);
+
+        if (InitValue != 0)
+        {
+            value = (InitValue / 100) * MaxGrades;
+            onChangeValue.Invoke(RealValue);
+            DisplayScreenText.text = GetScreenValue();
+            transform.localEulerAngles = GetRotationEularAngles(value);
+        }
+        
     }
 
     new void Update()
@@ -71,14 +84,14 @@ public class VRPhysicalPotentiometer : SpecialInteractable
                 DisplayScreenText.text = GetScreenValue();
 
             //Call Event
-            onChangeValue?.Invoke(value);
+            onChangeValue?.Invoke(RealValue);
         }
     }
 
     //Public Functions
     public string GetScreenValue()
     {
-        string ret = String.Format("{0:0.00}", ((value / MaxGrades) * 100));
+        string ret = String.Format("{0:0.00}", (RealValue));
         return $"{ret}%";
     }
 

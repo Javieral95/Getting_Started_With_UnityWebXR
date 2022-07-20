@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -73,11 +74,13 @@ public class GameManager : MonoBehaviour
 
     public bool IsGameStopped { get; private set; }
 
-    public const string INTERACTABLE_TAG = "Interactable";    
+    public const string INTERACTABLE_TAG = "Interactable";
     public const string INTERACTABLE_NOT_MOVABLE_TAG = "InteractableNotMovable";
     #endregion
-    
+
     private int StartPointIndex = 0;
+    private InteractableTextPanel openedTextPanel;
+    private AudioSource playingAudioSource;
 
     //If a script will be using the singleton in its awake method, make sure the manager is first to execute with the Script Execution Order project settings
     void Awake()
@@ -88,14 +91,19 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         StartPointIndex = SceneArguments.StartPointIndex;
-        
+
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         cameraMainTransform = Player.cameraMainTransform;
         cameraLeftTransform = Player.cameraLeftTransform;
-        
+
         StartPoint = StartPointsList[StartPointIndex].transform;
-        
+
         PlayerCharacterController = Player.GetComponent<CharacterController>();
+        openedTextPanel = null;
+
+#if UNITY_WEBGL
+        AudioListener.volume = 1;
+#endif
         MovePlayerToStartPoint();
     }
     public void FixedUpdate()
@@ -119,28 +127,54 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
+    #region Instantiate Functions
     /// <summary>
-    /// This functions is called when the user press the RED BUTTON. Instantiate and throw a new Interactable ball.
+    /// This functions is called to instantiate and throw a new object instance.
     /// </summary>
-    public void InstantiateNewObject(GameObject objectToInstantiate, Vector3 position, Quaternion rotation, float impulseForce)
+    public GameObject InstantiateNewObject(GameObject objectToInstantiate, Vector3 position, Quaternion rotation, float impulseForce)
     {
-        GameObject newBall = Instantiate(objectToInstantiate, position, rotation);
-        Rigidbody newBallrb = newBall.GetComponent<Rigidbody>();
+        GameObject newObject = Instantiate(objectToInstantiate, position, rotation);
+        Rigidbody newObject_rb = newObject.GetComponent<Rigidbody>();
 
-        if (newBallrb != null)
-            newBallrb.AddForce(Vector3.back * impulseForce, ForceMode.Impulse);
+        if (newObject_rb != null)        
+            newObject_rb.AddForce(rotation.eulerAngles * impulseForce, ForceMode.Impulse);
+
+        return newObject;
     }
-    public void InstantiateNewObject(GameObject objectToInstantiate, Vector3 position, Quaternion rotation)
+    public GameObject InstantiateNewObject(GameObject objectToInstantiate, Vector3 position, Quaternion rotation)
     {
-        Instantiate(objectToInstantiate, position, rotation);
+        return Instantiate(objectToInstantiate, position, rotation);
     }
+    public GameObject InstantiateNewObject(GameObject objectToInstantiate, Transform transform)
+    {
+        return Instantiate(objectToInstantiate, transform.position, transform.rotation);
+    }
+    public GameObject InstantiateNewObject(GameObject objectToInstantiate, Transform transform, float impulseForce)
+    {
+        GameObject newObject = Instantiate(objectToInstantiate, transform.position, transform.rotation);
+        Rigidbody newObject_rb = newObject.GetComponent<Rigidbody>();
 
-    private void MovePlayerToStartPoint(int startPointIndex=0)
+        if (newObject_rb != null)
+            newObject_rb.AddForce(transform.forward * impulseForce, ForceMode.Impulse);
+
+        return newObject;
+    }
+    #endregion
+
+    private void MovePlayerToStartPoint(int startPointIndex = 0)
     {
         ChangeCharacterControllerStatus(false);
-        Player.transform.position = StartPoint.position;
-        Player.transform.rotation = StartPoint.rotation;
+
+        //Player.enabled = false;
+        Player.gameObject.transform.position = StartPoint.position;
+
+        Player.gameObject.transform.rotation = StartPoint.rotation;
+        Player.cameraMainTransform.rotation = StartPoint.rotation;
+        if(Player.IsXREnabled)
+            Player.cameraLeftTransform.rotation = StartPoint.rotation;
+
         Player.SetOriginalRotation(StartPoint);
+        //Player.enabled = true;
         ChangeCharacterControllerStatus(true);
     }
 
@@ -171,13 +205,48 @@ public class GameManager : MonoBehaviour
     /// This function load a new scene using its build index
     /// </summary>
     /// <param name="sceneBuildIndex"></param>
-    public void LoadScene(Scene sceneBuildIndex, int startPointIndex=0)
+    public void LoadScene(Scene sceneBuildIndex, int startPointIndex = 0)
     {
         SceneArguments.StartPointIndex = startPointIndex;
         SceneManager.LoadScene(sceneBuildIndex.handle, LoadSceneMode.Single);
     }
+
+    /// <summary>
+    /// Ensure to have only one Interactable Text Panel open
+    /// </summary>
+    /// <param name="panel"></param>
+    public void OpenTextPanel(InteractableTextPanel panel)
+    {
+        if (openedTextPanel != null) openedTextPanel.ChangeTextPanelStatus();
+        openedTextPanel = panel;
+    }
+    public void CloseTextPanel()
+    {
+        openedTextPanel = null;
+    }
+
+    /// <summary>
+    /// Ensure to have only one AudioSource playing
+    /// </summary>
+    /// <param name="audioSource"></param>
+    public void PlayAudioSource(AudioSource audioSource)
+    {
+        if (playingAudioSource != null) playingAudioSource.Stop();
+        playingAudioSource = audioSource;
+        playingAudioSource.Play();
+    }
+    public void StopAudioSource()
+    {
+        playingAudioSource?.Stop();
+        playingAudioSource = null;
+    }
 }
 
-public static class SceneArguments {
+
+/// <summary>
+/// Arguments o pass as parameter when the user change the scene
+/// </summary>
+public static class SceneArguments
+{
     public static int StartPointIndex { get; set; }
 }

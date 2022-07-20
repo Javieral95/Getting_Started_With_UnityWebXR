@@ -22,10 +22,13 @@ public class PlayerController : MonoBehaviour
     private static NonXRInteraction _nonXR_interactor;
     public Image nonXRImage;
 
-    [Header("XR Status (Only Unity Editor)")]
-    [SerializeField, Tooltip("Enable/disable rotation and movement control using VR hardware. For use in Unity editor only (Authomatic set to true when dettect hardware).")]
+    [Header("XR Status (Only Unity Editor or Windows, not WebXR)")]
+    [SerializeField, Tooltip("Enable/disable rotation and movement control using VR hardware. For use in Unity editor only or windows (Authomatic set to true when detect hardware).")]
     private bool isXREnabled;
     public bool IsXREnabled { get { return isXREnabled; } }
+
+    [SerializeField, Tooltip("Allow change XR status using a keyboard key")]
+    private bool AllowChangeXRKeyboard;
 
     [Header("XR Movement")]
     [Tooltip("Enable/disable rotation control using VR hardware's sticks (Non Up down, only LR).")]
@@ -41,6 +44,9 @@ public class PlayerController : MonoBehaviour
 
     [Tooltip("Straffe Speed. Grades for Tick rotation.")]
     public float rotationAngle = 15f;
+
+    [SerializeField, Tooltip("Sensitivity for stick camera rotation (without tick)")]
+    private float XRCameraSensitivity = 1;
 
     [Header("WebXR objects")]
     public WebXRInputManager inputManagerLeftHand;
@@ -68,6 +74,10 @@ public class PlayerController : MonoBehaviour
     [Header("NonXR settings")]
     [Tooltip("Mouse sensitivity"), Range(1, 5)]
     public float mouseSensitivity = 1f;
+
+    [Header("Other settings")]
+    public FootStepSound footStepSound;
+    private bool haveFootSound;
 
     [Header("Debug Texts")]
     public Text stickText;
@@ -124,6 +134,8 @@ public class PlayerController : MonoBehaviour
         controller = GetComponent<CharacterController>();
         xrTeleporterController = GetComponent<XRTeleporterController>();
 
+        //Other
+        if (footStepSound != null) haveFootSound = true;
         //Preview
         myTransform = transform;
         originalRotation = transform.localRotation;
@@ -145,6 +157,11 @@ public class PlayerController : MonoBehaviour
             MoveXR();
         else
             MoveNonXR();
+
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
+        if (AllowChangeXRKeyboard && Input.GetKeyDown(KeyCode.F2))        
+            ChangeXRStatus(!isXREnabled);        
+#endif
 
         //Only in Unity editor:
         if (XRMoveEnabledPrev != isXREnabled)
@@ -278,7 +295,7 @@ public class PlayerController : MonoBehaviour
 
     private void PlainXRRotation()
     {
-        rotationX += inputManagerRightHand.stick.x /* * mouseSensitivity */;
+        rotationX += inputManagerRightHand.stick.x * XRCameraSensitivity;
         rotationX = ClampAngle(rotationX, minimumX, maximumX);
         Quaternion xQuaternion = Quaternion.AngleAxis(rotationX, Vector3.up);
 
@@ -295,10 +312,10 @@ public class PlayerController : MonoBehaviour
         MoveCharacterController(dir);
 
         // Rotation
-        rotationX += Input.GetAxis("Mouse X") * (mouseSensitivity * 30) * (Time.deltaTime);
+        rotationX += Input.GetAxis("Mouse X") * (mouseSensitivity * 15) * (Time.deltaTime);
         rotationX = ClampAngle(rotationX, minimumX, maximumX);
 
-        rotationY += Input.GetAxis("Mouse Y") * (mouseSensitivity * 30) * (Time.deltaTime);
+        rotationY += Input.GetAxis("Mouse Y") * (mouseSensitivity * 15) * (Time.deltaTime);
         rotationY = ClampAngle(rotationY, minimumY, maximumY);
 
         Quaternion xQuaternion = Quaternion.AngleAxis(rotationX, Vector3.up);
@@ -397,6 +414,9 @@ public class PlayerController : MonoBehaviour
             //Jump With B Button or with Jump button (if dont use XR)
             if ((isXREnabled && inputManagerRightHand.Is_B_ButtonPressed()) || (!isXREnabled && Input.GetButton("Jump")))
                 moveDirection.y = jumpSpeed;
+
+            if (haveFootSound)
+                footStepSound.isMoving = ((moveDirection.x != 0 || moveDirection.z != 0) && (moveDirection.y == 0));
         }
 
         // Apply gravity
@@ -418,11 +438,14 @@ public class PlayerController : MonoBehaviour
 
     public void SetOriginalRotation(Transform inputTransform)
     {
-        this.positionPrev = inputTransform.position;
+        //this.positionPrev = inputTransform.position;
         this.originalRotation = inputTransform.localRotation;
     }
 
-
+    public float GetSpeed()
+    {
+        return speed;
+    }
     #endregion
 
     #endregion

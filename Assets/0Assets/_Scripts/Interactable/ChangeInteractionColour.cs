@@ -25,12 +25,12 @@ public class ChangeInteractionColour : MonoBehaviour
     // Trigger Events
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("PlayerHands"))
+        if (other.CompareTag(Constants.HANDS_TAG))
             SetSelectedColor();
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("PlayerHands"))
+        if (other.CompareTag(Constants.HANDS_TAG))
             SetDefaultColor();
     }
 
@@ -40,11 +40,11 @@ public class ChangeInteractionColour : MonoBehaviour
     }
 
     // Auxiliar Functions
-    private void SetDefaultColor()
+    public void SetDefaultColor()
     {
         _mat.color = initColor;
     }
-    private void SetSelectedColor()
+    public void SetSelectedColor()
     {
         _mat.color = Color;
     }

@@ -59,7 +59,7 @@ public class NonXRInteraction : MonoBehaviour
             if (NonXR_selectedObject_rb != null)
             { //Ñapa, revisar proximo dia
                 CancelForces();
-                DropObject();
+                DropObject(false);
 
             }
         }
@@ -84,7 +84,7 @@ public class NonXRInteraction : MonoBehaviour
             if (hit.collider != null)
             {
                 var tmpGameObject = hit.collider.gameObject;
-                if (tmpGameObject.CompareTag(GameManager.INTERACTABLE_TAG) || tmpGameObject.CompareTag(GameManager.INTERACTABLE_NOT_MOVABLE_TAG))
+                if (tmpGameObject.CompareTag(Constants.INTERACTABLE_TAG) || tmpGameObject.CompareTag(Constants.INTERACTABLE_NOT_MOVABLE_TAG))
                 {
                     //Grab
                     Debug.Log("You select: " + hit.collider.gameObject.name);
@@ -99,6 +99,7 @@ public class NonXRInteraction : MonoBehaviour
 
         }
 
+        if (specialInteractable != null && specialInteractable.IsDestroyed()) specialInteractable = null;
         //Move Grabbed object
         MoveObject();
 
@@ -112,7 +113,6 @@ public class NonXRInteraction : MonoBehaviour
         if (NonXR_isDragging && Input.GetMouseButtonDown(1) && NonXR_selectedObject_rb != null)
         {
             ThrowObject(NonXR_selectedObject_rb);
-            DropObject();
         }
     }
 
@@ -136,7 +136,7 @@ public class NonXRInteraction : MonoBehaviour
     {
         if (NonXR_selectedObject == null) return;
 
-        bool isNotMovable = NonXR_selectedObject.CompareTag(GameManager.INTERACTABLE_NOT_MOVABLE_TAG);
+        bool isNotMovable = NonXR_selectedObject.CompareTag(Constants.INTERACTABLE_NOT_MOVABLE_TAG);
 
         if (NonXR_isDragging)
         {
@@ -157,19 +157,22 @@ public class NonXRInteraction : MonoBehaviour
 
     private void ThrowObject(Rigidbody object_rb)
     {
-        if (!NonXR_selectedObject.gameObject.CompareTag(GameManager.INTERACTABLE_NOT_MOVABLE_TAG))
-            object_rb.AddForce(myCamera.transform.forward * NonXR_throwForce, ForceMode.Impulse);
-
         specialInteractable?.Throw();
+        if (!NonXR_selectedObject.gameObject.CompareTag(Constants.INTERACTABLE_NOT_MOVABLE_TAG) && (specialInteractable == null || specialInteractable.CanThrowIt()))
+        {
+            object_rb.AddForce(myCamera.transform.forward * NonXR_throwForce, ForceMode.Impulse);
+            DropObject();
+        }
+
     }
 
-    private void DropObject()
+    private void DropObject(bool applyForceAfterDrop = true)
     {
         //Throw object
         mousePos = GetMousePosition(NonXR_selectedObject);
         var x_force = Input.GetAxis("Mouse X");
         var y_force = Input.GetAxis("Mouse Y");
-        if (NonXR_selectedObject_rb != null && !NonXR_selectedObject.CompareTag(GameManager.INTERACTABLE_NOT_MOVABLE_TAG) && (x_force != 0 || y_force != 0))
+        if (NonXR_selectedObject_rb != null && applyForceAfterDrop && !NonXR_selectedObject.CompareTag(Constants.INTERACTABLE_NOT_MOVABLE_TAG) && (x_force != 0 || y_force != 0))
         {
             var force = new Vector3(mousePos.x * x_force, mousePos.y * y_force, (-mousePos.z / 5));
             NonXR_selectedObject_rb.AddForce(force, ForceMode.Impulse);

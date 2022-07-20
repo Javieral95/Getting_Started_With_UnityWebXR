@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3551589472572711278
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 711533023622014519, guid: a4e364f4a080f6b43a24aec0ac7f3139,
+        type: 3}
+      propertyPath: Url
+      value: http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4
+      objectReference: {fileID: 0}
+    - target: {fileID: 711533023622014519, guid: a4e364f4a080f6b43a24aec0ac7f3139,
+        type: 3}
+      propertyPath: DescriptionText
+      value: Big Buck Bunny (Blender Foundation).
+      objectReference: {fileID: 0}
+    - target: {fileID: 4591061171744368642, guid: a4e364f4a080f6b43a24aec0ac7f3139,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769048532418405337, guid: a4e364f4a080f6b43a24aec0ac7f3139,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769048532418405337, guid: a4e364f4a080f6b43a24aec0ac7f3139,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769048532418405337, guid: a4e364f4a080f6b43a24aec0ac7f3139,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769048532418405337, guid: a4e364f4a080f6b43a24aec0ac7f3139,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769048532418405337, guid: a4e364f4a080f6b43a24aec0ac7f3139,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769048532418405337, guid: a4e364f4a080f6b43a24aec0ac7f3139,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769048532418405337, guid: a4e364f4a080f6b43a24aec0ac7f3139,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769048532418405337, guid: a4e364f4a080f6b43a24aec0ac7f3139,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769048532418405337, guid: a4e364f4a080f6b43a24aec0ac7f3139,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769048532418405337, guid: a4e364f4a080f6b43a24aec0ac7f3139,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769048532418405337, guid: a4e364f4a080f6b43a24aec0ac7f3139,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5288564016406722915, guid: a4e364f4a080f6b43a24aec0ac7f3139,
+        type: 3}
+      propertyPath: m_Name
+      value: iBigBuckBunny_VideoTapeVariant
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936936745466222774, guid: a4e364f4a080f6b43a24aec0ac7f3139,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: -1366610194240588680, guid: 52c4610cf7930b749abaf4fcdf9d7937,
+        type: 3}
+    - target: {fileID: 8466991368662330492, guid: a4e364f4a080f6b43a24aec0ac7f3139,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 8913716188779467696, guid: 52c4610cf7930b749abaf4fcdf9d7937,
+        type: 3}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a4e364f4a080f6b43a24aec0ac7f3139, type: 3}

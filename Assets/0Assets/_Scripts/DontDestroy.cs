@@ -1,12 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-// Object.DontDestroyOnLoad example.
-//
-// This script example manages the playing audio. The GameObject with the
-// "music" tag is the BackgroundMusic GameObject. The AudioSource has the
-// audio attached to the AudioClip.
+// Dont Destroy the object when a new scene is loaded.
 
 public class DontDestroy : MonoBehaviour
 {

@@ -5,10 +5,12 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -25,7 +27,7 @@ public class MenuBehaviour : MonoBehaviour
     [Header("Settings")]
     [Tooltip("The scene where the user will teleport after press Start Menu")]
     public Scene FirstScene;
-    
+
     [SerializeField, Range(0.1f, 5f), Tooltip("Distance between VR Menu and hand")]
     private readonly float VRMenuDistance = 0.3f;
 
@@ -52,6 +54,9 @@ public class MenuBehaviour : MonoBehaviour
     private Transform cameraMainTransform;
     private Transform cameraLeftTransform;
 
+    [Header("Other Settings")]
+    public string ResumeButtonText = "Resume";
+
     public bool IsAppStarted { get; private set; }
     public bool IsMenuOpened { get; private set; }
 
@@ -62,7 +67,7 @@ public class MenuBehaviour : MonoBehaviour
     {
         gameManager = FindObjectOfType<GameManager>();
         gameManager.StopApp();
-        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        Player = GameObject.FindGameObjectWithTag(Constants.PLAYER_TAG).GetComponent<PlayerController>();
         cameraMainTransform = Player.cameraMainTransform;
         cameraLeftTransform = Player.cameraLeftTransform;
 
@@ -143,7 +148,7 @@ public class MenuBehaviour : MonoBehaviour
     {
         gameManager.ResumeApp();
         gameManager.LoadScene(FirstScene, 0);
-        startButton.GetComponentInChildren<Text>().text = "Resume";
+        startButton.GetComponentInChildren<Text>().text = ResumeButtonText;
 
         MenuCanvas.gameObject.SetActive(false);
         AllowMouse(false);
@@ -209,8 +214,7 @@ public class MenuBehaviour : MonoBehaviour
         VRMenuObject.transform.position = (HandController.transform.position) + (VRMenuDistance * HandController.transform.right); ;
 #if UNITY_WEBGL
         VRMenuObject.transform.LookAt(cameraLeftTransform);
-#endif
-#if UNITY_EDITOR
+#else
         VRMenuObject.transform.LookAt(cameraMainTransform);
 #endif
 
